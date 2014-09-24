@@ -19,4 +19,12 @@ public class JiveURIUtilTest {
         URI actual = JiveURIUtil.createURI(new URL("http://jivesoftware.com"), "/path", options);
         assertEquals(new URI("http://jivesoftware.com/path?fields=foo%2Cbar&count=2"), actual);
     }
+
+    @Test
+    public void testWhenUrlHasNoQueryParamsButIsFullyFormedThenQuestionMarkIsNotAppended() throws Exception {
+        JiveCoreCountRequestOptions options = new JiveCoreCountRequestOptions();
+        String url = "http://jivesoftware.com/?q=whatever";
+        URI actual = JiveURIUtil.createURI(new URL(url), "", options);
+        assertEquals(new URI(url), actual);
+    }
 }

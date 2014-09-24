@@ -40,7 +40,12 @@ public class JiveURIUtil {
         }
 
         String queryParams = URLEncodedUtils.format(pairs, "UTF-8");
-        String query = queryParams == null ? "" : "?" + queryParams;
+        String query;
+        if ((queryParams == null) || (queryParams.length() == 0)) {
+            query = "";
+        } else {
+            query = "?" + queryParams;
+        }
         URI uri = createURI(baseURL, path + query);
         return uri;
     }
