@@ -1,0 +1,5 @@
+[gerrit]  
+host=gerrit.eng.jiveland.com  
+port=22  
+project=jive-android-core-sdk
+defaultbranch=develop

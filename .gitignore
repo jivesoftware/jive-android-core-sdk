@@ -1,0 +1,15 @@
+gen
+aa-gen
+aa-gen-test
+bin
+out
+out-test
+reports
+local.properties
+.DS_Store
+target
+node_modules
+*.log
+jenkins-build-changes.xml
+.idea/uiDesigner.xml
+*.swp

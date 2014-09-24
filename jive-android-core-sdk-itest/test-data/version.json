@@ -1,0 +1,20 @@
+throw 'allowIllegalResourceCall is false.';
+{
+"jiveVersion" : "8.0.0.0 8c3.1",
+"jiveCoreVersions" : [ {
+"version" : 2,
+"revision" : 3,
+"uri" : "/api/core/v2",
+"documentation" : "https://developers.jivesoftware.com/api/v2/rest"
+}, {
+"version" : 3,
+"revision" : 8,
+"uri" : "/api/core/v3",
+"documentation" : "https://developers.jivesoftware.com/api/v3/rest"
+} ],
+"instanceURL" : "https://hopback.eng.jiveland.com",
+"jiveEdition" : {
+"product" : "cloud",
+"tier" : 999
+}
+}

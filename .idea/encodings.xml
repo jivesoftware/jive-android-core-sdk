@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-core-entity" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-core-entity-matcher" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-core-sdk" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-core-sdk-itest" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-httpclient-matcher" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-android-httpclient-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jive-matcher" charset="UTF-8" />
+  </component>
+</project>
+

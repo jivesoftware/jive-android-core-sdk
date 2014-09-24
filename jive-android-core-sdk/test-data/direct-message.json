@@ -1,0 +1,346 @@
+{
+    "id" : "1093",
+    "resources" : {
+      "read" : {
+        "allowed" : [ "DELETE", "POST" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/dms/1093/read"
+      },
+      "images" : {
+        "allowed" : [ "GET" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/dms/1093/images"
+      },
+      "self" : {
+        "allowed" : [ "DELETE", "GET" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/dms/1093"
+      },
+      "html" : {
+        "allowed" : [ "GET" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/collaboration/1093"
+      },
+      "participants" : {
+        "allowed" : [ "POST" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/dms/1093/participants"
+      },
+      "comments" : {
+        "allowed" : [ "GET", "POST" ],
+        "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/dms/1093/comments"
+      }
+    },
+    "followerCount" : 1,
+    "published" : "2014-03-13T15:08:00.838+0000",
+    "tags" : [ ],
+    "updated" : "2014-03-13T15:08:00.838+0000",
+    "highlightBody" : "This is a <em class=\"jive-hilite\">real</em> DM",
+    "highlightSubject" : "This is a <em class=\"jive-hilite\">real</em> DM",
+    "iconCss" : "jive-icon-med jive-icon-direct-message",
+    "parentPlace" : {
+      "id" : "2012",
+      "html" : "http://apresian-z800.jiveland.com:8080/people/heath",
+      "name" : "Heath Borders",
+      "type" : "person",
+      "uri" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012"
+    },
+    "contentID" : "1188",
+    "author" : {
+      "id" : "2012",
+      "resources" : {
+        "trendingPlaces" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@trendingPlaces"
+        },
+        "trendingContent" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@trendingContent"
+        },
+        "reports" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@reports"
+        },
+        "manager" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@manager"
+        },
+        "securityGroups" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/securityGroups"
+        },
+        "recognition" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@recognition"
+        },
+        "self" : {
+          "allowed" : [ "PUT", "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012"
+        },
+        "tasks" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/tasks"
+        },
+        "avatar" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/avatar?a=1049"
+        },
+        "colleagues" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@colleagues"
+        },
+        "extprops" : {
+          "allowed" : [ "DELETE", "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/extprops"
+        },
+        "followers" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@followers"
+        },
+        "following" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@following"
+        },
+        "social" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/@social"
+        },
+        "images" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/images"
+        },
+        "streams" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/streams"
+        },
+        "html" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/people/heath"
+        },
+        "followingIn" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/followingIn"
+        },
+        "activity" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012/activities"
+        },
+        "members" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/members/people/2012"
+        }
+      },
+      "displayName" : "Heath Borders",
+      "emails" : [ {
+        "jive_label" : "Email",
+        "primary" : true,
+        "type" : "work",
+        "value" : "heath@fake.org"
+      } ],
+      "jive" : {
+        "level" : {
+          "imageURI" : "http://apresian-z800.jiveland.com:8080/api/core/v3/images/status/statusicon-48.gif",
+          "name" : "Wayfarer",
+          "points" : 63
+        },
+        "username" : "heath"
+      },
+      "name" : {
+        "familyName" : "Borders",
+        "formatted" : "Heath Borders",
+        "givenName" : "Heath"
+      },
+      "type" : "person"
+    },
+    "content" : {
+      "text" : "<body><!-- [DocumentBodyStart:718eacbe-9a31-43ac-bbaf-d5c749aaabd5] --><div class=\"jive-rendered-content\"><span>This is a real DM</span></div><!-- [DocumentBodyEnd:718eacbe-9a31-43ac-bbaf-d5c749aaabd5] --></body>",
+      "editable" : false,
+      "type" : "text/html"
+    },
+    "parent" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012",
+    "replyCount" : 1,
+    "status" : "published",
+    "subject" : "This is a real DM",
+    "viewCount" : 1,
+    "visibleToExternalContributors" : false,
+    "participants" : [ {
+      "id" : "2003",
+      "resources" : {
+        "trendingPlaces" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@trendingPlaces"
+        },
+        "trendingContent" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@trendingContent"
+        },
+        "reports" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@reports"
+        },
+        "manager" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@manager"
+        },
+        "recognition" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@recognition"
+        },
+        "self" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003"
+        },
+        "avatar" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/avatar?a=1048"
+        },
+        "blog" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/places/1033"
+        },
+        "colleagues" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@colleagues"
+        },
+        "followers" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@followers"
+        },
+        "following" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@following"
+        },
+        "social" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/@social"
+        },
+        "images" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/images"
+        },
+        "html" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/people/dmitry"
+        },
+        "followingIn" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/followingIn"
+        },
+        "activity" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2003/activities"
+        },
+        "members" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/members/people/2003"
+        }
+      },
+      "displayName" : "Dmitry Apresian",
+      "emails" : [ {
+        "jive_label" : "Email",
+        "primary" : true,
+        "type" : "work",
+        "value" : "dmitry@fake.org"
+      } ],
+      "jive" : {
+        "level" : {
+          "imageURI" : "http://apresian-z800.jiveland.com:8080/api/core/v3/images/status/statusicon-49.gif",
+          "name" : "Adventurer",
+          "points" : 408
+        },
+        "username" : "dmitry"
+      },
+      "name" : {
+        "familyName" : "Apresian",
+        "formatted" : "Dmitry Apresian",
+        "givenName" : "Dmitry"
+      },
+      "type" : "person"
+    }, {
+      "id" : "2015",
+      "resources" : {
+        "trendingPlaces" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@trendingPlaces"
+        },
+        "trendingContent" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@trendingContent"
+        },
+        "reports" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@reports"
+        },
+        "manager" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@manager"
+        },
+        "recognition" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@recognition"
+        },
+        "self" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015"
+        },
+        "avatar" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/avatar?a=1024"
+        },
+        "colleagues" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@colleagues"
+        },
+        "followers" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@followers"
+        },
+        "following" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@following"
+        },
+        "social" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/@social"
+        },
+        "images" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/images"
+        },
+        "html" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/people/ben"
+        },
+        "followingIn" : {
+          "allowed" : [ "GET", "POST" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/followingIn"
+        },
+        "activity" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/people/2015/activities"
+        },
+        "members" : {
+          "allowed" : [ "GET" ],
+          "ref" : "http://apresian-z800.jiveland.com:8080/api/core/v3/members/people/2015"
+        }
+      },
+      "displayName" : "Ben Oberkfell",
+      "emails" : [ {
+        "jive_label" : "Email",
+        "primary" : true,
+        "type" : "work",
+        "value" : "ben.oberkfell@jivesoftware.com"
+      } ],
+      "jive" : {
+        "level" : {
+          "imageURI" : "http://apresian-z800.jiveland.com:8080/api/core/v3/images/status/statusicon-48.gif",
+          "name" : "Wayfarer",
+          "points" : 49
+        },
+        "username" : "ben"
+      },
+      "name" : {
+        "familyName" : "Oberkfell",
+        "formatted" : "Ben Oberkfell",
+        "givenName" : "Ben"
+      },
+      "type" : "person"
+    } ],
+    "typeActual" : "dm",
+    "type" : "dm"
+}

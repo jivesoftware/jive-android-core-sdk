@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-entity/jive-android-core-entity.iml" filepath="$PROJECT_DIR$/jive-android-core-entity/jive-android-core-entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-entity-matcher/jive-android-core-entity-matcher.iml" filepath="$PROJECT_DIR$/jive-android-core-entity-matcher/jive-android-core-entity-matcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk-itest/jive-android-core-sdk-itest.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk-itest/jive-android-core-sdk-itest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk-parent.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-httpclient-matcher/jive-android-httpclient-matcher.iml" filepath="$PROJECT_DIR$/jive-android-httpclient-matcher/jive-android-httpclient-matcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-httpclient-util/jive-android-httpclient-util.iml" filepath="$PROJECT_DIR$/jive-android-httpclient-util/jive-android-httpclient-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-matcher/jive-matcher.iml" filepath="$PROJECT_DIR$/jive-matcher/jive-matcher.iml" />
+    </modules>
+  </component>
+</project>
+
