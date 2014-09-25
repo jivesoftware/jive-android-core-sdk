@@ -10,6 +10,9 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 public class JiveURIUtilTest {
+    private static final String EXPECTED_COMPLETE_ROOT_URL = "http://jivesoftware.com/api/coreV3/someEndpoint/";
+    private static final String EXPECTED_COMPLETE_NONROOT_URL = "http://jivesoftware.com/NonRootContext/api/coreV3/someEndpoint/";
+
     @Test
     public void testCreateURIWithOptions() throws Exception {
         JiveCoreCountRequestOptions options = new JiveCoreCountRequestOptions();
@@ -26,5 +29,60 @@ public class JiveURIUtilTest {
         String url = "http://jivesoftware.com/?q=whatever";
         URI actual = JiveURIUtil.createURI(new URL(url), "", options);
         assertEquals(new URI(url), actual);
+    }
+
+    @Test
+    public void testWhenBaseUrlHasNoTrailingSlash() throws Exception {
+        String urlStr = "http://jivesoftware.com";
+        String subPath = "api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_ROOT_URL, actual.toString());
+    }
+
+    @Test
+    public void testWhenBaseUrlHasTrailingSlash() throws Exception {
+        String urlStr = "http://jivesoftware.com/";
+        String subPath = "api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_ROOT_URL, actual.toString());
+    }
+
+    @Test
+    public void testWhenBaseUrlHasPath() throws Exception {
+        String urlStr = "http://jivesoftware.com/NonRootContext/";
+        String subPath = "api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_NONROOT_URL, actual.toString());
+    }
+
+
+    @Test
+    public void testWhenBaseUrlHasPathWithNoTrailingSlashAndSubpathIsAbsolute() throws Exception {
+        String urlStr = "http://jivesoftware.com/NonRootContext";
+        String subPath = "/api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_NONROOT_URL, actual.toString());
+    }
+
+    @Test
+    public void testWhenBaseUrlHasPathWithNoTrailingSlashAndSubpathIsRelative() throws Exception {
+        String urlStr = "http://jivesoftware.com/NonRootContext";
+        String subPath = "api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_NONROOT_URL, actual.toString());
+    }
+
+    @Test
+    public void testWhenBaseUrlHasPathAndSubpathIsAbsolute() throws Exception {
+        String urlStr = "http://jivesoftware.com/NonRootContext/";
+        String subPath = "/api/coreV3/someEndpoint/";
+        URL baseURL = new URL(urlStr);
+        URI actual = JiveURIUtil.createURI(baseURL, subPath);
+        assertEquals(EXPECTED_COMPLETE_NONROOT_URL, actual.toString());
     }
 }

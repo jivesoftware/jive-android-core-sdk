@@ -18,6 +18,12 @@ public class JiveURIUtil {
     @Nonnull
     public static URI createURI(@Nonnull URL baseURL, @Nonnull String pathAndQuery) {
         try {
+            if (!baseURL.getPath().equals("") && !baseURL.getPath().endsWith("/")) {
+                baseURL = new URL(baseURL.toExternalForm() + "/");
+            }
+            if (pathAndQuery.length() > 1 && pathAndQuery.startsWith("/")) {
+                pathAndQuery = pathAndQuery.substring(1);
+            }
             URL url = new URL(baseURL, pathAndQuery);
             try {
                 URI uri = url.toURI();
