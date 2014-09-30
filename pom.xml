@@ -130,23 +130,6 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>1.8</version>
                 </plugin>
-                <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>3.8.2-jumbo</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <dex>
-                            <forceJumbo>true</forceJumbo>
-                        </dex>
-                        <sdk>
-                            <platform>19</platform>
-                        </sdk>
-                        <zipalign>
-                            <verbose>true</verbose>
-                        </zipalign>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
