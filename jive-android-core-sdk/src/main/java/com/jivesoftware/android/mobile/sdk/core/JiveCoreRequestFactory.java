@@ -258,4 +258,12 @@ public class JiveCoreRequestFactory {
         createPlaceHttpPost.setEntity(JsonEntity.from(placeEntity));
         return createPlaceHttpPost;
     }
+
+    @Nonnull
+    public HttpPost completeMission(@Nonnull String mission) {
+        String path = "api/core/mobile/v1/quest/" + mission;
+        URI uri = JiveURIUtil.createURI(baseURL, path);
+        HttpPost completeMissionHttpPost = new HttpPost(uri);
+        return completeMissionHttpPost;
+    }
 }

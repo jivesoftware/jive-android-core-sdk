@@ -368,6 +368,12 @@ public class JiveCore {
     }
 
     @Nonnull
+    public JiveCoreCallable<Void> completeMission(String mission) {
+        HttpPost completeMissionHttpPost = jiveCoreRequestFactory.completeMission(mission);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(completeMissionHttpPost);
+    }
+
+    @Nonnull
     public <T> JiveCoreCallable<T> createCallable(HttpRequestBase httpRequestBase, HttpResponseParserFactory<T> httpResponseParserFactory) {
         return jiveCoreGenericCallableFactory.createGenericCallable(httpRequestBase, httpResponseParserFactory);
     }

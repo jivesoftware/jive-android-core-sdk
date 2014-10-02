@@ -25,7 +25,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,15 +45,11 @@ import static org.hamcrest.core.AllOf.allOf;
  * Created by mark.schisler on 8/19/14.
  */
 public class JiveCoreRequestFactoryTest {
-
-    @Nonnull
-    private final String baseUrl = "http://jiveland.com";
-
     private JiveCoreRequestFactory testObject;
 
     @Before
     public void setUp() throws MalformedURLException {
-        testObject = new JiveCoreRequestFactory(new URL(baseUrl));
+        testObject = new JiveCoreRequestFactory(new URL("http://jiveland.com"));
     }
 
     @Test
@@ -86,9 +81,9 @@ public class JiveCoreRequestFactoryTest {
         options.setCount(25);
         options.setSearchTerms(Arrays.asList("heath", "borders"));
 
-        HttpGet get = testObject.searchPeople(options);
+        HttpGet searchPeopleHttpGet = testObject.searchPeople(options);
 
-        assertThat(get, requestUrl("http://jiveland.com/api/core/v3/search/people?count=25&filter=search%28heath%2Cborders%29"));
+        assertThat(searchPeopleHttpGet, requestUrl("http://jiveland.com/api/core/v3/search/people?count=25&filter=search%28heath%2Cborders%29"));
     }
 
 
@@ -98,16 +93,16 @@ public class JiveCoreRequestFactoryTest {
         options.setCount(25);
         options.setSearchTerms(Arrays.asList("sales", "marketing"));
 
-        HttpGet get = testObject.searchPlaces(options);
+        HttpGet searchPlacesHttpGet = testObject.searchPlaces(options);
 
-        assertThat(get, requestUrl("http://jiveland.com/api/core/v3/search/places?count=25&filter=search%28sales%2Cmarketing%29"));
+        assertThat(searchPlacesHttpGet, requestUrl("http://jiveland.com/api/core/v3/search/places?count=25&filter=search%28sales%2Cmarketing%29"));
     }
 
     @Test
     public void fetchMetadataObject() {
-        HttpGet get = testObject.fetchMetadataObject("profile", "en");
+        HttpGet fetchMetadataObjectHttpGet = testObject.fetchMetadataObject("profile", "en");
 
-        assertThat(get, allOf(
+        assertThat(fetchMetadataObjectHttpGet, allOf(
                 requestUrl("http://jiveland.com/api/core/v3/metadata/objects/profile"),
                 requestHeaders(contains(header("Accept-Language", "en")))));
     }
@@ -125,7 +120,7 @@ public class JiveCoreRequestFactoryTest {
         files.add(new FileBody(new File("test-data/test1.txt"), "text/plain"));
         files.add(new FileBody(new File("test-data/test2.txt"), "text/foo"));
 
-        HttpPost post = testObject.createContent("/url", entity, files);
+        HttpPost createContentHttpPost = testObject.createContent("/url", entity, files);
 
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         multipartEntity.addPart("json", new JsonBody(
@@ -143,7 +138,7 @@ public class JiveCoreRequestFactoryTest {
         multipartEntity.addPart("file1", new FileBody(new File("test-data/test1.txt"), "text/plain"));
         multipartEntity.addPart("file2", new FileBody(new File("test-data/test2.txt"), "text/foo"));
 
-        assertThat(post, allOf(
+        assertThat(createContentHttpPost, allOf(
                 requestUrl("http://jiveland.com/url"),
                 requestEntity(multipartEntity)));
     }
@@ -158,9 +153,9 @@ public class JiveCoreRequestFactoryTest {
         entity.type = "comment";
 
         List<FileBody> fileBodies = new ArrayList<FileBody>();
-        HttpPost post = testObject.createContent("/url", entity, fileBodies);
+        HttpPost createContentHttpPost = testObject.createContent("/url", entity, fileBodies);
 
-        assertThat(post, allOf(
+        assertThat(createContentHttpPost, allOf(
                 requestUrl("http://jiveland.com/url"),
                 requestEntity(new JsonEntity(
                         // @formatter:off
@@ -202,9 +197,9 @@ public class JiveCoreRequestFactoryTest {
         batchRequestEntity3.key = ("entity3");
         batchRequestEntity3.request = (endpointRequestEntity3);
 
-        HttpPost post = testObject.executeBatchOperation(new BatchRequestEntity[]{batchRequestEntity1, batchRequestEntity2, batchRequestEntity3});
+        HttpPost executeBatchOperationHttpPost = testObject.executeBatchOperation(new BatchRequestEntity[]{batchRequestEntity1, batchRequestEntity2, batchRequestEntity3});
 
-        assertThat(post, allOf(
+        assertThat(executeBatchOperationHttpPost, allOf(
                 requestUrl("http://jiveland.com/api/core/v3/executeBatch"),
                 requestEntity(new JsonEntity(
                         // @formatter:off
@@ -241,22 +236,22 @@ public class JiveCoreRequestFactoryTest {
         File imageFile = new File("test-data/test-1px-red.png");
         FileBody fileBody = new FileBody(imageFile, encoding);
 
-        HttpPost post = testObject.uploadImage(fileBody);
+        HttpPost uploadImageHttpPost = testObject.uploadImage(fileBody);
 
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         multipartEntity.addPart("image", new FileBody(imageFile, encoding));
 
-        assertThat(post, allOf(
+        assertThat(uploadImageHttpPost, allOf(
                 requestUrl("http://jiveland.com/api/core/v3/images"),
                 requestEntity(multipartEntity)));
     }
 
     @Test
     public void fetchMetadataProperties() {
-        HttpGet get = testObject.fetchMetadataProperties();
+        HttpGet fetchMetadataPropertiesHttpGet = testObject.fetchMetadataProperties();
 
-        assertThat(get, allOf(
-                requestUrl(baseUrl + JiveCoreConstants.CORE_API_V3_PREFIX + "/metadata/properties"),
+        assertThat(fetchMetadataPropertiesHttpGet, allOf(
+                requestUrl("http://jiveland.com/api/core/v3/metadata/properties"),
                 HttpMatchers.requestMethod("GET")));
     }
 
@@ -266,9 +261,9 @@ public class JiveCoreRequestFactoryTest {
         JiveCoreContentRequestOptions contentRequestOptions = new JiveCoreContentRequestOptions();
         contentRequestOptions.setCount(25);
 
-        HttpGet get = testObject.fetchContents(contentRequestOptions);
+        HttpGet fetchContentsHttpGet = testObject.fetchContents(contentRequestOptions);
 
-        assertThat(get, requestUrl("http://jiveland.com/api/core/v3/contents?count=25"));
+        assertThat(fetchContentsHttpGet, requestUrl("http://jiveland.com/api/core/v3/contents?count=25"));
     }
 
     @Test
@@ -294,9 +289,9 @@ public class JiveCoreRequestFactoryTest {
         JiveCoreCountRequestOptions countRequestOptions = new JiveCoreCountRequestOptions();
         countRequestOptions.setCount(25);
 
-        HttpGet get = testObject.fetchMembersByPerson("9999", countRequestOptions);
+        HttpGet fetchMembersByPersonHttpGet = testObject.fetchMembersByPerson("9999", countRequestOptions);
 
-        assertThat(get, allOf(requestUrl("http://jiveland.com/api/core/v3/members/people/9999?count=25")));
+        assertThat(fetchMembersByPersonHttpGet, allOf(requestUrl("http://jiveland.com/api/core/v3/members/people/9999?count=25")));
     }
 
     @Test
@@ -304,9 +299,9 @@ public class JiveCoreRequestFactoryTest {
         JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
         options.setFields(Arrays.asList("type"));
 
-        HttpGet get = testObject.fetchContent("/url", options);
+        HttpGet fetchContentHttpGet = testObject.fetchContent("/url", options);
 
-        assertThat(get, allOf(requestUrl("http://jiveland.com/url?fields=type")));
+        assertThat(fetchContentHttpGet, allOf(requestUrl("http://jiveland.com/url?fields=type")));
     }
 
     @Test
@@ -314,21 +309,21 @@ public class JiveCoreRequestFactoryTest {
         JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
         options.setStartIndex(1);
 
-        HttpGet get = testObject.fetchReplies("/url", options);
+        HttpGet fetchRepliesHttpGet = testObject.fetchReplies("/url", options);
 
-        assertThat(get, allOf(requestUrl("http://jiveland.com/url?startIndex=1")));
+        assertThat(fetchRepliesHttpGet, allOf(requestUrl("http://jiveland.com/url?startIndex=1")));
     }
 
     @Test
     public void registerForPush() throws IOException {
-        HttpPost post = testObject.registerForPush("foo", "bar");
+        HttpPost registerForPushHttpPost = testObject.registerForPush("foo", "bar");
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("deviceID", "bar"));
         bodyNameValuePairs.add(new BasicNameValuePair("deviceToken", "foo"));
         bodyNameValuePairs.add(new BasicNameValuePair("deviceType", "4"));
         bodyNameValuePairs.add(new BasicNameValuePair("activated", "true"));
-        assertThat(post, allOf(
+        assertThat(registerForPushHttpPost, allOf(
                 requestUrl("http://jiveland.com/api/core/mobile/v1/pushNotification/register"),
                 requestEntity(JiveEntityUtil.createForm(bodyNameValuePairs))));
     }
@@ -343,5 +338,12 @@ public class JiveCoreRequestFactoryTest {
         assertThat(post, allOf(
                 requestUrl("http://jiveland.com/api/core/mobile/v1/pushNotification/unregister"),
                 requestEntity(JiveEntityUtil.createForm(bodyNameValuePairs))));
+    }
+
+    @Test
+    public void completeMission() throws IOException {
+        HttpPost completeMissionHttpPost = testObject.completeMission("FOO");
+
+        assertThat(completeMissionHttpPost, requestUrl("http://jiveland.com/api/core/mobile/v1/quest/FOO"));
     }
 }
