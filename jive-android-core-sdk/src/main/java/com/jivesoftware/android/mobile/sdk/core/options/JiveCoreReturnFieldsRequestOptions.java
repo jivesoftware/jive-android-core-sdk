@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class JiveCoreReturnFieldsRequestOptions {
+public class JiveCoreReturnFieldsRequestOptions implements JiveCoreRequestOptions {
     private List<String> fields;
 
     public void setFields(List<String> fields) {

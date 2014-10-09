@@ -3,9 +3,9 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreInboxOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchContentRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPeopleRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPlacesRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchResponseEntity;
@@ -208,7 +208,7 @@ public class JiveCore {
     }
 
     @Nonnull
-    public JiveCoreCallable<PlaceListEntity> searchPlaces(JiveCoreSearchPlacesRequestOptions options) {
+    public JiveCoreCallable<PlaceListEntity> searchPlaces(JiveCoreRequestOptions options) {
         HttpGet searchPlacesHttpGet = jiveCoreRequestFactory.searchPlaces(options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPlacesHttpGet, PlaceListEntity.class);
     }
@@ -232,6 +232,18 @@ public class JiveCore {
     }
 
     @Nonnull
+    public JiveCoreCallable<PlaceListEntity> fetchPlaces(JiveCoreRequestOptions options) {
+        HttpGet fetchContentsHttpGet = jiveCoreRequestFactory.fetchPlaces(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentsHttpGet, PlaceListEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<PlaceListEntity> fetchPlaces(String pathAndQuery) {
+        HttpGet fetchContentsHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentsHttpGet, PlaceListEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<PlaceEntity> createPlace(PlaceEntity placeEntity) {
         HttpPost createPlaceHttpPost = jiveCoreRequestFactory.createPlace(placeEntity);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(createPlaceHttpPost, PlaceEntity.class);
@@ -244,7 +256,7 @@ public class JiveCore {
     }
 
     @Nonnull
-    public JiveCoreCallable<MemberListEntity> fetchMembersByPerson(String personID, JiveCoreCountRequestOptions options) {
+    public JiveCoreCallable<MemberListEntity> fetchMembersByPerson(String personID, JiveCoreRequestOptions options) {
         HttpGet fetchMembersByPersonHttpGet = jiveCoreRequestFactory.fetchMembersByPerson(personID, options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMembersByPersonHttpGet, MemberListEntity.class);
     }

@@ -69,6 +69,10 @@ public class JiveCoreSortedRequestOptions extends JiveCorePagedRequestOptions {
         Order(String sortName) {
             this.sortName = sortName;
         }
+
+        public String getSortName() {
+            return sortName;
+        }
     }
 
     private Order order;

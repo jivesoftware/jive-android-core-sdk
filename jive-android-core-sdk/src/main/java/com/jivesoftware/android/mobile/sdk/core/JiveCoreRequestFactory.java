@@ -4,9 +4,9 @@ import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreInboxOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchContentRequestOptions;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPeopleRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPlacesRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
@@ -102,19 +102,26 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchPlaces(@Nonnull JiveCoreRequestOptions options) {
+        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACES_ROOT, options);
+        return new HttpGet(uri);
+    }
+
+
+    @Nonnull
     public HttpGet searchPeople(@Nonnull JiveCoreSearchPeopleRequestOptions options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PEOPLE, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet searchPlaces(@Nonnull JiveCoreSearchPlacesRequestOptions options) {
+    public HttpGet searchPlaces(@Nonnull JiveCoreRequestOptions options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PLACES, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet fetchMembersByPerson(@Nonnull String personID, @Nonnull JiveCoreCountRequestOptions options) {
+    public HttpGet fetchMembersByPerson(@Nonnull String personID, @Nonnull JiveCoreRequestOptions options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PERSON_MEMBERSHIPS_ROOT + "/" + personID, options);
         return new HttpGet(uri);
     }
