@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.http;
 
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.entity.StringEntity;
 
 import javax.annotation.Nonnull;
@@ -14,8 +14,8 @@ public class JsonEntity extends StringEntity {
     }
 
     @Nonnull
-    public static JsonEntity from(@Nullable Object src) {
-        String json = new JiveGson().toJson(src);
+    public static JsonEntity from(@Nonnull JiveJson jiveJson, @Nullable Object src) {
+        String json = jiveJson.toJson(src);
 
         JsonEntity jsonEntity;
         try {

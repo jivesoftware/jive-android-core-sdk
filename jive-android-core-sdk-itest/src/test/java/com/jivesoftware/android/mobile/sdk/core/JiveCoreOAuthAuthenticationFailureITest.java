@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreLoginRequiredException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.After;
@@ -25,6 +26,7 @@ public class JiveCoreOAuthAuthenticationFailureITest extends TestEndpoint {
 
     private DefaultHttpClient jiveCoreDefaultHttpClient;
     private JiveCore jiveCore;
+    private JiveJson jiveJson = new JiveJson();
 
     @Before
     public void setup() throws Exception {
@@ -32,10 +34,10 @@ public class JiveCoreOAuthAuthenticationFailureITest extends TestEndpoint {
         testTokenEntityRefresher = new TestTokenEntityRefresher();
 
         jiveCoreUnauthenticatedDefaultHttpClient = new DefaultHttpClient();
-        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClient);
+        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClient, jiveJson);
 
         jiveCoreDefaultHttpClient = new DefaultHttpClient();
-        jiveCore = new JiveCore(TEST_URL, jiveCoreDefaultHttpClient, testTokenEntityStore, testTokenEntityRefresher);
+        jiveCore = new JiveCore(TEST_URL, jiveCoreDefaultHttpClient, testTokenEntityStore, testTokenEntityRefresher, jiveJson);
     }
 
     @After

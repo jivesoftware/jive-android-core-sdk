@@ -1,10 +1,14 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.*;
+
+@JsonSerialize(include= Inclusion.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityObjectEntity {
     public String id;
     public String displayName;

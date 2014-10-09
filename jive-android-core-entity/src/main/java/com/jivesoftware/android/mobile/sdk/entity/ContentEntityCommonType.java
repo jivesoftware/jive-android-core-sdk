@@ -1,10 +1,17 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum ContentEntityCommonType {
     DIRECT_MESSAGE("dm"),
     DISCUSSION("discussion"),

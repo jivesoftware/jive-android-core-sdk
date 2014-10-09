@@ -1,20 +1,24 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TokenEntity {
-    @SerializedName("access_token")
+    @JsonProperty("access_token")
     public String accessToken;
 
-    @SerializedName("refresh_token")
+    @JsonProperty("refresh_token")
     public String refreshToken;
 
-    @SerializedName("token_type")
+    @JsonProperty("token_type")
     public String tokenType;
 
-    @SerializedName("expires_in")
+    @JsonProperty("expires_in")
     public int expiresIn;
 }

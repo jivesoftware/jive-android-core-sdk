@@ -1,8 +1,8 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
-import com.jivesoftware.android.mobile.sdk.parser.JiveGsonHttpResponseParser;
+import com.jivesoftware.android.mobile.sdk.parser.JiveJsonHttpResponseParser;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -10,27 +10,27 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class JiveCoreGsonCallableFactory {
+public class JiveCoreJiveJsonCallableFactory {
     @Nonnull
     private final HttpClient httpClient;
     @Nonnull
-    private final JiveGson jiveGson;
+    private final JiveJson jiveJson;
     @Nonnull
     private final JiveCoreExceptionFactory jiveCoreExceptionFactory;
 
-    public JiveCoreGsonCallableFactory(
+    public JiveCoreJiveJsonCallableFactory(
             HttpClient httpClient,
-            JiveGson jiveGson,
+            JiveJson jiveJson,
             JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this.httpClient = httpClient;
-        this.jiveGson = jiveGson;
+        this.jiveJson = jiveJson;
         this.jiveCoreExceptionFactory = jiveCoreExceptionFactory;
     }
 
     @Nonnull
     public <E> JiveCoreCallable<E> createGsonCallable(HttpRequestBase httpRequestBase, Class<E> gsonObjectClass) {
         httpRequestBase.setHeader("Accept-Encoding", "gzip");
-        JiveGsonHttpResponseParser<E> parser = new JiveGsonHttpResponseParser<E>(jiveCoreExceptionFactory, jiveGson, gsonObjectClass);
+        JiveJsonHttpResponseParser<E> parser = new JiveJsonHttpResponseParser<E>(jiveCoreExceptionFactory, jiveJson, gsonObjectClass);
         JiveCoreCallable<E> callable = new JiveCoreCallable<E>(httpRequestBase, httpClient, parser);
         return callable;
     }

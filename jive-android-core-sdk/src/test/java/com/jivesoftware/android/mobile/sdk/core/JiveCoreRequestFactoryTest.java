@@ -14,6 +14,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EndpointRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.RequestMethod;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -45,11 +46,12 @@ import static org.hamcrest.core.AllOf.allOf;
  * Created by mark.schisler on 8/19/14.
  */
 public class JiveCoreRequestFactoryTest {
+    private JiveJson json = new JiveJson();
     private JiveCoreRequestFactory testObject;
 
     @Before
     public void setUp() throws MalformedURLException {
-        testObject = new JiveCoreRequestFactory(new URL("http://jiveland.com"));
+        testObject = new JiveCoreRequestFactory(new URL("http://jiveland.com"), json);
     }
 
     @Test
@@ -126,12 +128,12 @@ public class JiveCoreRequestFactoryTest {
         multipartEntity.addPart("json", new JsonBody(
                 // @formatter:off
                 "{" +
+                        "\"type\":\"comment\"," +
                         "\"content\":{" +
                             "\"type\":\"text/plain\"," +
                             "\"text\":\"Some text\"" +
                         "}," +
-                        "\"subject\":\"Some subject\"," +
-                        "\"type\":\"comment\"" +
+                        "\"subject\":\"Some subject\"" +
                  "}"
                 // @formatter:on
         ));
@@ -160,12 +162,12 @@ public class JiveCoreRequestFactoryTest {
                 requestEntity(new JsonEntity(
                         // @formatter:off
                         "{" +
+                                "\"type\":\"comment\"," +
                                 "\"content\":{" +
                                     "\"type\":\"text/plain\"," +
                                     "\"text\":\"Some text\"" +
                                 "}," +
-                                "\"subject\":\"Some subject\"," +
-                                "\"type\":\"comment\"" +
+                                "\"subject\":\"Some subject\"" +
                          "}"
                         // @formatter:on
                 ))));

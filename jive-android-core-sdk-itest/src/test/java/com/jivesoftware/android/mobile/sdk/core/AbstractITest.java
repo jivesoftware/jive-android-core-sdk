@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jayway.awaitility.Awaitility;
 import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +24,8 @@ public class AbstractITest extends TestEndpoint {
         Awaitility.setDefaultPollInterval(POLL_INTERVAL_AMOUNT, POLL_INTERVAL_TIME_UNIT);
         Awaitility.setDefaultTimeout(TIMEOUT_AMOUNT, TIMEOUT_TIME_UNIT);
     }
+
+    protected JiveJson jiveJson = new JiveJson();
 
     protected DefaultHttpClient jiveCoreUnauthenticatedDefaultHttpClientAdmin;
     protected JiveCoreUnauthenticated jiveCoreUnauthenticatedAdmin;
@@ -54,31 +57,31 @@ public class AbstractITest extends TestEndpoint {
     @Before
     public void setup() throws Exception {
         jiveCoreUnauthenticatedDefaultHttpClientAdmin = new DefaultHttpClient();
-        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientAdmin);
+        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientAdmin, jiveJson);
 
         testTokenEntityStoreAdmin = new TestTokenEntityStore(jiveCoreUnauthenticatedAdmin, ADMIN.username, ADMIN.password);
         testTokenEntityRefresherAdmin = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientAdmin = new DefaultHttpClient();
-        jiveCoreAdmin = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientAdmin, testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin);
+        jiveCoreAdmin = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientAdmin, testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser2 = new DefaultHttpClient();
-        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser2);
+        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser2, jiveJson);
 
         testTokenEntityStoreUser2 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser2, USER2.username, USER2.password);
         testTokenEntityRefresherUser2 = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientUser2 = new DefaultHttpClient();
-        jiveCoreUser2 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser2, testTokenEntityStoreUser2, testTokenEntityRefresherUser2);
+        jiveCoreUser2 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser2, testTokenEntityStoreUser2, testTokenEntityRefresherUser2, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser3 = new DefaultHttpClient();
-        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser3);
+        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser3, jiveJson);
 
         testTokenEntityStoreUser3 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser3, USER3.username, USER3.password);
         testTokenEntityRefresherUser3 = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientUser3 = new DefaultHttpClient();
-        jiveCoreUser3 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser3, testTokenEntityStoreUser3, testTokenEntityRefresherUser3);
+        jiveCoreUser3 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser3, testTokenEntityStoreUser3, testTokenEntityRefresherUser3, jiveJson);
     }
 
     @After

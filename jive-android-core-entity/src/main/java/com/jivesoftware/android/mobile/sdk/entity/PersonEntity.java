@@ -1,9 +1,16 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonEntity extends JiveObjectEntity {
     public String displayName;
     public NameEntity name;
@@ -13,7 +20,7 @@ public class PersonEntity extends JiveObjectEntity {
     public String status;
     public String location;
 
-    @SerializedName("jive")
+    @JsonProperty("jive")
     public JiveExtensionEntity jiveExtension;
 
     public List<EmailEntity> emails;
@@ -24,12 +31,16 @@ public class PersonEntity extends JiveObjectEntity {
 
     public List<PhotoEntity> photos;
 
+    @JsonSerialize(include= NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class NameEntity {
         public String familyName;
         public String givenName;
         public String formatted;
     }
 
+    @JsonSerialize(include= NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class JiveExtensionEntity {
         public String userName;
         public Boolean external;
@@ -47,6 +58,8 @@ public class PersonEntity extends JiveObjectEntity {
         public static class JiveProfileEntryEntity extends GenericEntity<String> { }
     }
 
+    @JsonSerialize(include= NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class JiveLevelEntity {
         public String name;
         public Integer points;

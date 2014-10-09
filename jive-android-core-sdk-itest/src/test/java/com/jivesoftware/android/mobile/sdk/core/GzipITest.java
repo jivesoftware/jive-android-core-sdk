@@ -6,7 +6,7 @@ import com.google.common.io.LineProcessor;
 import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.EmptyHttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.InputStreamHttpResponseParser;
@@ -56,9 +56,11 @@ public class GzipITest extends TestEndpoint {
     private ExecutorService serverSocketExecutorService;
     private URL baseURL;
     private DefaultHttpClient httpClient;
+    private JiveJson jiveJson;
 
     @Before
     public void setup() throws Exception {
+        jiveJson = new JiveJson();
         IOException lastIOException = null;
         for (int i = 0; i < 10; i++) {
             // opening and closing the same server socket quickly leads to weird IOExceptions
@@ -102,7 +104,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreUnauthenticatedIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
         JiveCoreCallable<VersionEntity> fetchVersionCallable = jiveCoreUnauthenticated.fetchVersion();
         VersionEntity versionEntity = fetchVersionCallable.call();
         assertNotNull(versionEntity);
@@ -116,7 +118,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "direct-message.json"));
 
-        JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(baseURL), httpClient, new JiveGson());
+        JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(baseURL, jiveJson), httpClient, jiveJson);
         JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreContentRequestOptions());
         ContentEntity contentEntity = fetchContentCallable.call();
         assertNotNull(contentEntity);
@@ -133,7 +135,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
         JiveCoreCallable<InputStream> inputStreamCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<InputStream>() {
             @Nonnull
             @Override
@@ -169,7 +171,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
         JiveCoreCallable<Void> emptyCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<Void>() {
             @Nonnull
             @Override

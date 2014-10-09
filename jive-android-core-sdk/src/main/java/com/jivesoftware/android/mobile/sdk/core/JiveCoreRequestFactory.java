@@ -13,7 +13,7 @@ import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.util.JiveURIUtil;
@@ -38,12 +38,12 @@ public class JiveCoreRequestFactory {
     @Nonnull
     private final URL baseURL;
     @Nonnull
-    private final JiveGson jiveGson;
+    private final JiveJson jiveJson;
 
 
-    public JiveCoreRequestFactory(@Nonnull URL baseURL) {
+    public JiveCoreRequestFactory(@Nonnull URL baseURL, @Nonnull JiveJson jiveJson) {
         this.baseURL = baseURL;
-        this.jiveGson = new JiveGson();
+        this.jiveJson = jiveJson;
     }
 
     @Nonnull
@@ -67,7 +67,7 @@ public class JiveCoreRequestFactory {
     public HttpPost executeBatchOperation(@Nonnull BatchRequestEntity[] requestEntities) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreConstants.CORE_API_V3_PREFIX + "/executeBatch");
         HttpPost post = new HttpPost(uri);
-        post.setEntity(JsonEntity.from(requestEntities));
+        post.setEntity(JsonEntity.from(jiveJson, requestEntities));
         return post;
     }
 
@@ -123,7 +123,7 @@ public class JiveCoreRequestFactory {
     public HttpPost createMembership(@Nonnull String placeID, @Nonnull NewMemberEntity newMemberEntity) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACE_MEMBERSHIPS_ROOT + "/" + placeID);
         HttpPost joinPlacePost = new HttpPost(uri);
-        joinPlacePost.setEntity(JsonEntity.from(newMemberEntity));
+        joinPlacePost.setEntity(JsonEntity.from(jiveJson, newMemberEntity));
         return joinPlacePost;
     }
 
@@ -162,10 +162,10 @@ public class JiveCoreRequestFactory {
     private HttpEntity createHttpEntity(@Nonnull Object entity, @Nonnull List<FileBody> fileBodies) {
         HttpEntity httpEntity;
         if (fileBodies.isEmpty()) {
-            httpEntity = JsonEntity.from(entity);
+            httpEntity = JsonEntity.from(jiveJson, entity);
         } else {
             MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-            String json = jiveGson.toJson(entity);
+            String json = jiveJson.toJson(entity);
             multipartEntity.addPart("json", JsonBody.create(json));
 
             int fileNumber = 1;
@@ -239,9 +239,9 @@ public class JiveCoreRequestFactory {
         if (streamEntities.size() > 0) {
             StreamEntity[] entities = new StreamEntity[streamEntities.size()];
             streamEntities.toArray(entities);
-            post.setEntity(JsonEntity.from(entities));
+            post.setEntity(JsonEntity.from(jiveJson, entities));
         } else {
-            post.setEntity(JsonEntity.from(Collections.emptyList()));
+            post.setEntity(JsonEntity.from(jiveJson, Collections.emptyList()));
         }
         return post;
     }
@@ -255,7 +255,7 @@ public class JiveCoreRequestFactory {
     public HttpPost createPlace(@Nonnull PlaceEntity placeEntity) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACES_ROOT);
         HttpPost createPlaceHttpPost = new HttpPost(uri);
-        createPlaceHttpPost.setEntity(JsonEntity.from(placeEntity));
+        createPlaceHttpPost.setEntity(JsonEntity.from(jiveJson, placeEntity));
         return createPlaceHttpPost;
     }
 

@@ -1,4 +1,4 @@
-package com.jivesoftware.android.mobile.sdk.gson;
+package com.jivesoftware.android.mobile.sdk.json;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

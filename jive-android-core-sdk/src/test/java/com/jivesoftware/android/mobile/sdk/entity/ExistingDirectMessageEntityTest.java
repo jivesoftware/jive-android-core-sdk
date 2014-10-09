@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.util.collections.Sets;
@@ -22,8 +22,8 @@ public class ExistingDirectMessageEntityTest {
 
     @Before
     public void setUp() throws Exception {
-        JiveGson jiveGson = new JiveGson();
-        testObject = jiveGson.fromJson(new FileInputStream("test-data/direct-message.json"), ContentEntity.class);
+        JiveJson jiveJson = new JiveJson();
+        testObject = jiveJson.fromJson(new FileInputStream("test-data/direct-message.json"), ContentEntity.class);
     }
 
     @Test

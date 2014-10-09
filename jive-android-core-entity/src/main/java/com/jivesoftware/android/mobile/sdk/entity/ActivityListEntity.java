@@ -1,8 +1,12 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.*;
+
+@JsonSerialize(include= Inclusion.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityListEntity extends ListEntity<ActivityEntity> {
     public Integer unread;
 }

@@ -1,10 +1,22 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CodeErrorEntity implements ErrorEntity {
     private Integer code;
     private String message;
 
-    public CodeErrorEntity(Integer code, String message) {
+    public CodeErrorEntity() {}
+
+    @JsonCreator
+    public CodeErrorEntity(@JsonProperty("code") Integer code, @JsonProperty("message") String message) {
         this.code = code;
         this.message = message;
     }

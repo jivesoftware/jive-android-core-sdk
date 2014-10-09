@@ -1,12 +1,16 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.*;
+
+@JsonSerialize(include= Inclusion.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityEntity {
     public ActivityObjectEntity actor;
     public ActivityObjectEntity object;
@@ -20,9 +24,11 @@ public class ActivityEntity {
     public Date published;
     public Date updated;
 
-    @SerializedName("jive")
+    @JsonProperty("jive")
     public JiveExtensionEntity jiveExtension;
 
+    @JsonSerialize(include= Inclusion.NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class JiveExtensionEntity {
         public String collection;
         public Date collectionUpdated;

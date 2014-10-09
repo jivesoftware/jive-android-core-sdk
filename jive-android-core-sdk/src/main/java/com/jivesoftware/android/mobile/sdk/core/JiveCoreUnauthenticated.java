@@ -4,7 +4,7 @@ import com.jivesoftware.android.mobile.sdk.entity.MetadataPropertyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.SessionGrantEntity;
 import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -39,7 +39,7 @@ public class JiveCoreUnauthenticated {
     @Nonnull
     private final JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory;
     @Nonnull
-    private final JiveCoreGsonCallableFactory jiveCoreGsonCallableFactory;
+    private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
     @Nonnull
     private final JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory;
     @Nonnull
@@ -47,40 +47,41 @@ public class JiveCoreUnauthenticated {
 
     public JiveCoreUnauthenticated(
             URL baseURL,
-            HttpClient httpClient) {
-        this(new JiveCoreUnauthenticatedRequestFactory(baseURL), httpClient, new JiveGson());
+            HttpClient httpClient,
+            JiveJson jiveJson) {
+        this(new JiveCoreUnauthenticatedRequestFactory(baseURL), httpClient, jiveJson);
     }
 
     public JiveCoreUnauthenticated(
             JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory,
             HttpClient httpClient,
-            JiveGson jiveGson) {
+            JiveJson jiveJson) {
         this(
                 jiveCoreUnauthenticatedRequestFactory,
                 httpClient,
-                jiveGson,
-                new JiveCoreExceptionFactory(jiveGson));
+                jiveJson,
+                new JiveCoreExceptionFactory(jiveJson));
     }
 
     public JiveCoreUnauthenticated(
             JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory,
             HttpClient httpClient,
-            JiveGson jiveGson,
+            JiveJson jiveJson,
             JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this(
                 jiveCoreUnauthenticatedRequestFactory,
-                new JiveCoreGsonCallableFactory(httpClient, jiveGson, jiveCoreExceptionFactory),
+                new JiveCoreJiveJsonCallableFactory(httpClient, jiveJson, jiveCoreExceptionFactory),
                 new JiveCoreEmptyCallableFactory(httpClient, jiveCoreExceptionFactory),
                 new JiveCoreGenericCallableFactory(httpClient, jiveCoreExceptionFactory));
     }
 
     public JiveCoreUnauthenticated(
             JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory,
-            JiveCoreGsonCallableFactory jiveCoreGsonCallableFactory,
+            JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory,
             JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory,
             JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory) {
         this.jiveCoreUnauthenticatedRequestFactory = jiveCoreUnauthenticatedRequestFactory;
-        this.jiveCoreGsonCallableFactory = jiveCoreGsonCallableFactory;
+        this.jiveCoreJiveJsonCallableFactory = jiveCoreJiveJsonCallableFactory;
         this.jiveCoreEmptyCallableFactory = jiveCoreEmptyCallableFactory;
         this.jiveCoreGenericCallableFactory = jiveCoreGenericCallableFactory;
     }
@@ -88,13 +89,13 @@ public class JiveCoreUnauthenticated {
     @Nonnull
     public JiveCoreCallable<TokenEntity> authorizeDevice(String username, String password) {
         HttpPost authorizeDeviceHttpPost = jiveCoreUnauthenticatedRequestFactory.authorizeDevice(username, password);
-        return jiveCoreGsonCallableFactory.createGsonCallable(authorizeDeviceHttpPost, TokenEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(authorizeDeviceHttpPost, TokenEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<TokenEntity> authorizeDeviceFromSession() {
         HttpPost authorizeDeviceFromSessionHttpPost = jiveCoreUnauthenticatedRequestFactory.authorizeDeviceFromSession();
-        return jiveCoreGsonCallableFactory.createGsonCallable(authorizeDeviceFromSessionHttpPost, TokenEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(authorizeDeviceFromSessionHttpPost, TokenEntity.class);
     }
 
     @Nonnull
@@ -106,25 +107,25 @@ public class JiveCoreUnauthenticated {
     @Nonnull
     public JiveCoreCallable<VersionEntity> fetchVersion() {
         HttpGet fetchVersionHttpGet = jiveCoreUnauthenticatedRequestFactory.fetchVersion();
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchVersionHttpGet, VersionEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchVersionHttpGet, VersionEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<MetadataPropertyEntity[]> fetchPublicMetadataProperties() {
         HttpGet fetchPublicMetadataPropertiesHttpGet = jiveCoreUnauthenticatedRequestFactory.fetchPublicMetadataProperties();
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchPublicMetadataPropertiesHttpGet, MetadataPropertyEntity[].class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchPublicMetadataPropertiesHttpGet, MetadataPropertyEntity[].class);
     }
 
     @Nonnull
     public JiveCoreCallable<TokenEntity> refreshToken(String refreshToken) {
         HttpPost refreshTokenHttpPost = jiveCoreUnauthenticatedRequestFactory.refreshToken(refreshToken);
-        return jiveCoreGsonCallableFactory.createGsonCallable(refreshTokenHttpPost, TokenEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(refreshTokenHttpPost, TokenEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<SessionGrantEntity> fetchSessionGrant() {
         HttpGet fetchSessionGrantHttpGet = jiveCoreUnauthenticatedRequestFactory.isSessionOAuthGrantAllowed();
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchSessionGrantHttpGet, SessionGrantEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchSessionGrantHttpGet, SessionGrantEntity.class);
     }
 
     @Nonnull

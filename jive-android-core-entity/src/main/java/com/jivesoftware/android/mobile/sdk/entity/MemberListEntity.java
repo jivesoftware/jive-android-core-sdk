@@ -1,7 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-/**
- * Created by mark.schisler on 8/18/14.
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberListEntity extends ListEntity<MemberEntity> {
 }

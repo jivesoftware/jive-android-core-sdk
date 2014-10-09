@@ -1,7 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-/**
- * Created by jay.balcher on 4/11/14.
- */
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.*;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AddressEntity extends GenericTypedEntity<AddressValueEntity> {
 }

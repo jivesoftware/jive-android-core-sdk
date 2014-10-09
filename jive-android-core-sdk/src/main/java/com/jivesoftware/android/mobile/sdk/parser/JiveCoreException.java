@@ -1,7 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
 import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.HttpResponse;
 
 import javax.annotation.Nonnull;
@@ -40,7 +40,7 @@ public class JiveCoreException extends IOException {
         if (errorEntity == null) {
             return "no error entity";
         } else {
-            String errorEntityString = new JiveGson().toJson(errorEntity);
+            String errorEntityString = new JiveJson().toJson(errorEntity);
             return errorEntityString;
         }
     }

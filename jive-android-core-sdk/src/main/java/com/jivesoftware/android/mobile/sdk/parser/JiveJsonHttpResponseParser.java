@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -9,19 +9,19 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class JiveGsonHttpResponseParser<E> extends InputStreamClosingHttpResponseParser<E> {
+public class JiveJsonHttpResponseParser<E> extends InputStreamClosingHttpResponseParser<E> {
     @Nonnull
-    private final JiveGson jiveGson;
+    private final JiveJson jiveJson;
     @Nonnull
     private final Class<E> entityClass;
 
-    public JiveGsonHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory, @Nonnull Class<E> entityClass) {
-        this(jiveCoreExceptionFactory, new JiveGson(), entityClass);
+    public JiveJsonHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory, @Nonnull Class<E> entityClass) {
+        this(jiveCoreExceptionFactory, new JiveJson(), entityClass);
     }
 
-    public JiveGsonHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory, @Nonnull JiveGson jiveGson, @Nonnull Class<E> entityClass) {
+    public JiveJsonHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory, @Nonnull JiveJson jiveJson, @Nonnull Class<E> entityClass) {
         super(jiveCoreExceptionFactory);
-        this.jiveGson = jiveGson;
+        this.jiveJson = jiveJson;
         this.entityClass = entityClass;
     }
 
@@ -32,7 +32,7 @@ public class JiveGsonHttpResponseParser<E> extends InputStreamClosingHttpRespons
             int statusCode,
             @Nonnull HttpEntity httpEntity,
             @Nonnull InputStream contentInputStream) throws IOException {
-        E entity = jiveGson.fromJson(contentInputStream, entityClass);
+        E entity = jiveJson.fromJson(contentInputStream, entityClass);
         return entity;
     }
 }

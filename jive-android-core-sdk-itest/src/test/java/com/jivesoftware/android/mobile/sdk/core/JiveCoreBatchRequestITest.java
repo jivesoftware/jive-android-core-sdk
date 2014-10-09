@@ -6,7 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.BatchResponseEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EndpointRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.RequestMethod;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
@@ -46,12 +46,12 @@ public class JiveCoreBatchRequestITest extends AbstractITest {
     }
 
     private PropertyMatcher<String, BatchResponseEntity> batchResponseEntityDataAsPersonHasDisplayName(String displayName) {
-        final JiveGson jiveGson = new JiveGson();
+        final JiveJson jiveJson = new JiveJson();
         return new PropertyMatcher<String, BatchResponseEntity>("displayName", displayName) {
             @Nullable
             @Override
             protected String getPropertyValue(@Nonnull BatchResponseEntity item) throws Exception {
-                PersonEntity personEntity = jiveGson.fromJsonElement(item.data, PersonEntity.class);
+                PersonEntity personEntity = jiveJson.fromJsonElement(item.data, PersonEntity.class);
                 return personEntity.displayName;
             }
         };

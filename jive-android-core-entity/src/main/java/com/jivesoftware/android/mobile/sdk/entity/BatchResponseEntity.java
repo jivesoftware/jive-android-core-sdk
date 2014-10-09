@@ -1,12 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.JsonElement;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BatchResponseEntity {
     public String id;
     public int status;
-    public JsonElement data;
+    public JsonNode data;
 }

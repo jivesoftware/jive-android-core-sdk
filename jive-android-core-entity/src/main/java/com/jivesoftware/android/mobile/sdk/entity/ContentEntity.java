@@ -1,11 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by mark.schisler on 8/14/14.
- */
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ContentEntity extends JiveObjectEntity {
     // keep this alphabetized
     /** For discussion */

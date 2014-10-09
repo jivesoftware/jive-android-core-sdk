@@ -2,8 +2,8 @@ package com.jivesoftware.android.mobile.sdk.parser;
 
 import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
 import com.jivesoftware.android.mobile.sdk.entity.SimpleErrorEntity;
-import com.jivesoftware.android.mobile.sdk.gson.InvalidJsonException;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.InvalidJsonException;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -15,10 +15,10 @@ import java.io.IOException;
 
 public class JiveCoreExceptionFactory {
     @Nonnull
-    private final JiveGson jiveGson;
+    private final JiveJson jiveJson;
 
-    public JiveCoreExceptionFactory(@Nonnull JiveGson jiveGson) {
-        this.jiveGson = jiveGson;
+    public JiveCoreExceptionFactory(@Nonnull JiveJson jiveJson) {
+        this.jiveJson = jiveJson;
     }
 
     @Nonnull
@@ -26,7 +26,7 @@ public class JiveCoreExceptionFactory {
         ErrorEntity errorEntity;
         JiveCoreException errorEntityParseException;
         try {
-            errorEntity = jiveGson.fromJson(new ByteArrayInputStream(contentBodyBytes), ErrorEntity.class);
+            errorEntity = jiveJson.fromJson(new ByteArrayInputStream(contentBodyBytes), ErrorEntity.class);
             if (errorEntity == null) {
                 errorEntityParseException = new JiveCoreUnknownException("Parsed a null ErrorEntity", httpResponse, statusCode, httpEntity, contentBodyBytes);
             } else {

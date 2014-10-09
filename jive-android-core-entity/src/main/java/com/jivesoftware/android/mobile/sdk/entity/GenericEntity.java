@@ -1,19 +1,25 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GenericEntity<V> {
     public V value;
 
-    @SerializedName("jive_label")
+    @JsonProperty("jive_label")
     public String label;
 
-    @SerializedName("jive_displayOrder")
+    @JsonProperty("jive_displayOrder")
     public Integer displayOrder;
 
-    @SerializedName("jive_summaryDisplayOrder")
+    @JsonProperty("jive_summaryDisplayOrder")
     public Integer summaryDisplayOrder;
 
-    @SerializedName("jive_showSummaryLabel")
+    @JsonProperty("jive_showSummaryLabel")
     public Boolean showSummaryLabel;
 }

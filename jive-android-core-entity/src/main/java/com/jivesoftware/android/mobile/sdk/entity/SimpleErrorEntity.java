@@ -1,14 +1,24 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.google.gson.annotations.SerializedName;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleErrorEntity implements ErrorEntity {
     private String error;
 
-    @SerializedName("error_description")
     private String description;
 
-    public SimpleErrorEntity(String error, String description) {
+    public SimpleErrorEntity() {}
+
+    @JsonCreator
+    public SimpleErrorEntity(@JsonProperty("error") String error, @JsonProperty("error_description") String description) {
         this.error = error;
         this.description = description;
     }

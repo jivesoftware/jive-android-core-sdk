@@ -26,7 +26,7 @@ import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamListEntity;
-import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreHttpClientAuthUtils;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import org.apache.http.client.HttpClient;
@@ -68,7 +68,7 @@ public class JiveCore {
     @Nonnull
     private final JiveCoreRequestFactory jiveCoreRequestFactory;
     @Nonnull
-    private final JiveCoreGsonCallableFactory jiveCoreGsonCallableFactory;
+    private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
     @Nonnull
     private final JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory;
     @Nonnull
@@ -80,25 +80,26 @@ public class JiveCore {
             URL baseURL,
             AbstractHttpClient httpClient,
             JiveCoreTokenEntityStore tokenEntityStore,
-            JiveCoreTokenEntityRefresher tokenEntityRefresher) {
-        this(new JiveCoreRequestFactory(baseURL), JiveCoreHttpClientAuthUtils.initHttpClientAuth(httpClient, tokenEntityStore, tokenEntityRefresher), new JiveGson());
+            JiveCoreTokenEntityRefresher tokenEntityRefresher,
+            JiveJson jiveJson) {
+        this(new JiveCoreRequestFactory(baseURL, jiveJson), JiveCoreHttpClientAuthUtils.initHttpClientAuth(httpClient, tokenEntityStore, tokenEntityRefresher), jiveJson);
     }
 
     public JiveCore(
             JiveCoreRequestFactory jiveCoreRequestFactory,
             HttpClient httpClient,
-            JiveGson jiveGson) {
-        this(jiveCoreRequestFactory, httpClient, jiveGson, new JiveCoreExceptionFactory(jiveGson));
+            JiveJson jiveJson) {
+        this(jiveCoreRequestFactory, httpClient, jiveJson, new JiveCoreExceptionFactory(jiveJson));
     }
 
     public JiveCore(
             JiveCoreRequestFactory jiveCoreRequestFactory,
             HttpClient httpClient,
-            JiveGson jiveGson,
+            JiveJson jiveJson,
             JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this(
                 jiveCoreRequestFactory,
-                new JiveCoreGsonCallableFactory(httpClient, jiveGson, jiveCoreExceptionFactory),
+                new JiveCoreJiveJsonCallableFactory(httpClient, jiveJson, jiveCoreExceptionFactory),
                 new JiveCoreEmptyCallableFactory(httpClient, jiveCoreExceptionFactory),
                 new JiveCoreInputStreamCallableFactory(httpClient, jiveCoreExceptionFactory),
                 new JiveCoreGenericCallableFactory(httpClient, jiveCoreExceptionFactory));
@@ -106,12 +107,12 @@ public class JiveCore {
 
     public JiveCore(
             JiveCoreRequestFactory jiveCoreRequestFactory,
-            JiveCoreGsonCallableFactory jiveCoreGsonCallableFactory,
+            JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory,
             JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory,
             JiveCoreInputStreamCallableFactory jiveCoreInputStreamCallableFactory,
             JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory) {
         this.jiveCoreRequestFactory = jiveCoreRequestFactory;
-        this.jiveCoreGsonCallableFactory = jiveCoreGsonCallableFactory;
+        this.jiveCoreJiveJsonCallableFactory = jiveCoreJiveJsonCallableFactory;
         this.jiveCoreEmptyCallableFactory = jiveCoreEmptyCallableFactory;
         this.jiveCoreInputStreamCallableFactory = jiveCoreInputStreamCallableFactory;
         this.jiveCoreGenericCallableFactory = jiveCoreGenericCallableFactory;
@@ -120,31 +121,31 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<MetadataPropertyEntity[]> fetchMetadataProperties() {
         HttpGet get = jiveCoreRequestFactory.fetchMetadataProperties();
-        return jiveCoreGsonCallableFactory.createGsonCallable(get, MetadataPropertyEntity[].class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(get, MetadataPropertyEntity[].class);
     }
 
     @Nonnull
     public JiveCoreCallable<PersonEntity> fetchMePerson() {
         HttpGet fetchMePersonHttpGet = jiveCoreRequestFactory.fetchMePerson();
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchMePersonHttpGet, PersonEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMePersonHttpGet, PersonEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<StreamListEntity> fetchStreams(String streamsPathAndQuery) {
         HttpGet fetchStreamsHttpGet = jiveCoreRequestFactory.createHttpGet(streamsPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchStreamsHttpGet, StreamListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchStreamsHttpGet, StreamListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchActivities(String requestPathAndQuery) {
         HttpGet fetchActivitiesHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchActivitiesHttpGet, ActivityListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchActivitiesHttpGet, ActivityListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchInbox(JiveCoreInboxOptions options) {
         HttpGet fetchInboxHttpGet = jiveCoreRequestFactory.fetchInbox(options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchInboxHttpGet, ActivityListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchInboxHttpGet, ActivityListEntity.class);
     }
 
     @Nonnull
@@ -167,73 +168,73 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<BatchResponseEntity[]> executeBatchOperation(BatchRequestEntity[] requestEntities) {
         HttpPost executeBatchOperationHttpPost = jiveCoreRequestFactory.executeBatchOperation(requestEntities);
-        return jiveCoreGsonCallableFactory.createGsonCallable(executeBatchOperationHttpPost, BatchResponseEntity[].class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(executeBatchOperationHttpPost, BatchResponseEntity[].class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentListEntity> searchContents(String requestPathAndQuery) {
         HttpGet searchContentsHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchContentsHttpGet, ContentListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchContentsHttpGet, ContentListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentListEntity> fetchContents(JiveCoreContentRequestOptions options) {
         HttpGet fetchContentsHttpGet = jiveCoreRequestFactory.fetchContents(options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchContentsHttpGet, ContentListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentsHttpGet, ContentListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentListEntity> fetchContents(String pathAndQuery) {
         HttpGet fetchContentsHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchContentsHttpGet, ContentListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentsHttpGet, ContentListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentListEntity> searchContents(JiveCoreSearchContentRequestOptions options) {
         HttpGet searchContentsHttpGet = jiveCoreRequestFactory.searchContents(options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchContentsHttpGet, ContentListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchContentsHttpGet, ContentListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PersonListEntity> searchPeople(String requestPathAndQuery) {
         HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PersonListEntity> searchPeople(JiveCoreSearchPeopleRequestOptions options) {
         HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.searchPeople(options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PlaceListEntity> searchPlaces(JiveCoreSearchPlacesRequestOptions options) {
         HttpGet searchPlacesHttpGet = jiveCoreRequestFactory.searchPlaces(options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchPlacesHttpGet, PlaceListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPlacesHttpGet, PlaceListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PlaceListEntity> searchPlaces(String requestPathAndQuery) {
         HttpGet searchPlacesHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(searchPlacesHttpGet, PlaceListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPlacesHttpGet, PlaceListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PersonEntity> fetchPerson(String personPathAndQuery) {
         HttpGet fetchPersonHttpGet = jiveCoreRequestFactory.createHttpGet(personPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchPersonHttpGet, PersonEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchPersonHttpGet, PersonEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PlaceEntity> fetchPlace(String placePathAndQuery) {
         HttpGet fetchPlaceHttpGet = jiveCoreRequestFactory.createHttpGet(placePathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchPlaceHttpGet, PlaceEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchPlaceHttpGet, PlaceEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<PlaceEntity> createPlace(PlaceEntity placeEntity) {
         HttpPost createPlaceHttpPost = jiveCoreRequestFactory.createPlace(placeEntity);
-        return jiveCoreGsonCallableFactory.createGsonCallable(createPlaceHttpPost, PlaceEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createPlaceHttpPost, PlaceEntity.class);
     }
 
     @Nonnull
@@ -245,25 +246,25 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<MemberListEntity> fetchMembersByPerson(String personID, JiveCoreCountRequestOptions options) {
         HttpGet fetchMembersByPersonHttpGet = jiveCoreRequestFactory.fetchMembersByPerson(personID, options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchMembersByPersonHttpGet, MemberListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMembersByPersonHttpGet, MemberListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<MemberListEntity> fetchMembersByPlace(String placeID, JiveCoreCountRequestOptions options) {
         HttpGet fetchMembersByPlaceHttpGet = jiveCoreRequestFactory.fetchMembersByPlace(placeID, options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchMembersByPlaceHttpGet, MemberListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMembersByPlaceHttpGet, MemberListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<MemberListEntity> fetchMembers(String pathAndQuery) {
         HttpGet fetchMembersHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchMembersHttpGet, MemberListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMembersHttpGet, MemberListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<MemberEntity> createMember(String placeID, NewMemberEntity newMemberEntity) {
         HttpPost createMembershipHttpPost = jiveCoreRequestFactory.createMembership(placeID, newMemberEntity);
-        return jiveCoreGsonCallableFactory.createGsonCallable(createMembershipHttpPost, MemberEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createMembershipHttpPost, MemberEntity.class);
     }
 
     @Nonnull
@@ -275,7 +276,7 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<MetadataObjectEntity> fetchMetadataObject(String metadataObjectName, String locale) {
         HttpGet fetchMetadataObjectHttpGet = jiveCoreRequestFactory.fetchMetadataObject(metadataObjectName, locale);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchMetadataObjectHttpGet, MetadataObjectEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMetadataObjectHttpGet, MetadataObjectEntity.class);
     }
 
     @Nonnull
@@ -310,37 +311,37 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<ContentEntity> createContent(String pathAndQuery, ContentEntity contentEntity, List<FileBody> fileBodies) {
         HttpPost createContentHttpPost = jiveCoreRequestFactory.createContent(pathAndQuery, contentEntity, fileBodies);
-        return jiveCoreGsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentEntity> fetchContent(String pathAndQuery, JiveCoreContentRequestOptions options) {
         HttpGet fetchContentHttpGet = jiveCoreRequestFactory.fetchContent(pathAndQuery, options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchContentHttpGet, ContentEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentHttpGet, ContentEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentEntity> updateContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
         HttpPut updateContentHttpPut = jiveCoreRequestFactory.updateContent(contentEntity, fileBodies);
-        return jiveCoreGsonCallableFactory.createGsonCallable(updateContentHttpPut, ContentEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateContentHttpPut, ContentEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ContentListEntity> fetchReplies(String pathAndQuery, JiveCoreContentRequestOptions options) {
         HttpGet fetchRepliesHttpGet = jiveCoreRequestFactory.fetchReplies(pathAndQuery, options);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchRepliesHttpGet, ContentListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchRepliesHttpGet, ContentListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ImageListEntity> fetchImages(String pathAndQuery) {
        HttpGet fetchImagesHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
-       return jiveCoreGsonCallableFactory.createGsonCallable(fetchImagesHttpGet, ImageListEntity.class);
+       return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchImagesHttpGet, ImageListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<ImageEntity> uploadImage(FileBody imageFileBody) {
         HttpPost uploadImageHttpPost = jiveCoreRequestFactory.uploadImage(imageFileBody);
-        return jiveCoreGsonCallableFactory.createGsonCallable(uploadImageHttpPost, ImageEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(uploadImageHttpPost, ImageEntity.class);
     }
 
     @Nonnull
@@ -352,19 +353,19 @@ public class JiveCore {
     @Nonnull
     public JiveCoreCallable<StreamListEntity> updateFollowingInEntitiesForObject(JiveObjectEntity objectEntity, List<StreamEntity> activityListEntity) {
         HttpPost updateFollowingInHttpPost = jiveCoreRequestFactory.updateFollowingIn(objectEntity, activityListEntity);
-        return jiveCoreGsonCallableFactory.createGsonCallable(updateFollowingInHttpPost, StreamListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateFollowingInHttpPost, StreamListEntity.class);
     }
 
     @Nonnull
     public JiveCoreCallable<StreamListEntity> updateFollowingInEntitiesForUrl(String url, List<StreamEntity> streamEntities) {
         HttpPost updateFollowingInHttpPost = jiveCoreRequestFactory.updateFollowingIn(url, streamEntities);
-        return jiveCoreGsonCallableFactory.createGsonCallable(updateFollowingInHttpPost, StreamListEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateFollowingInHttpPost, StreamListEntity.class);
     }
 
     @Nonnull
     public <E extends ListEntity> JiveCoreCallable<E> fetchList(String requestPathAndQuery, Class<E> listEntityClass) {
         HttpGet fetchListHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreGsonCallableFactory.createGsonCallable(fetchListHttpGet, listEntityClass);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchListHttpGet, listEntityClass);
     }
 
     @Nonnull

@@ -1,14 +1,28 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
+
+@JsonSerialize(include= NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ObjectErrorEntity implements ErrorEntity {
     private MessageEntity error;
 
-    public ObjectErrorEntity(String message, int status) {
-        error = new MessageEntity(message, status);
-    }
-
     public ObjectErrorEntity(String message, String code, int status) {
         error = new MessageEntity(message, code, status);
+    }
+
+    @JsonCreator
+    public ObjectErrorEntity(Map<String,Object> props) {
+        HashMap<String, Object> error  = (HashMap<String, Object>) props.get("error");
+        this.error = new MessageEntity((String)error.get("message"), (String)error.get("code"),(Integer)error.get("status"));
     }
 
     @Override
@@ -50,17 +64,15 @@ public class ObjectErrorEntity implements ErrorEntity {
                 '}';
     }
 
+    @JsonSerialize(include= NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private class MessageEntity {
-        private String message;
-        private String code;
-        private int status;
+        public String message;
+        public String code;
+        public int status;
 
-        private MessageEntity(String message, int status) {
-            this.message = message;
-            this.status = status;
-        }
-
-        private MessageEntity(String message, String code, int status) {
+        @JsonCreator
+        public MessageEntity(@JsonProperty("message") String message, @JsonProperty("code") String code, @JsonProperty("status") int status) {
             this.message = message;
             this.code = code;
             this.status = status;
