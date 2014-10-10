@@ -1,34 +1,24 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
+import com.jivesoftware.android.mobile.sdk.FakeHttpServer;
 import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import com.jivesoftware.android.mobile.sdk.parser.PlainInputStreamHttpResponseParser;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class JiveCoreCallableTest {
@@ -153,82 +143,11 @@ public class JiveCoreCallableTest {
 
     @Test
     public void abortDuringHttpClientExecuteThrowsCancellationException() throws Exception {
-        @ParametersAreNonnullByDefault
-        class TestContext {
-            final int TIMEOUT_MILLIS = 5000;
-
-            final CopyOnWriteArraySet<Throwable> throwables = new CopyOnWriteArraySet<Throwable>();
-            final CountDownLatch shouldStopCountDownLatch = new CountDownLatch(1);
-            final CountDownLatch stoppedCountDownLatch = new CountDownLatch(1);
-
-            volatile int serverPort = 65535;
-            volatile ServerSocket serverSocket;
-            volatile HttpGet httpGet;
-
-            private void createServerSocket() {
-                while (serverPort > 1024) {
-                    try {
-                        serverSocket = new ServerSocket(serverPort);
-                        break;
-                    } catch (IOException e) {
-                        serverPort--;
-                    }
-                }
-
-                if (serverSocket == null) {
-                    fail("Couldn't create ServerSocket");
-                }
-            }
-
-            private void createHttpGet() {
-                httpGet = new HttpGet("http://localhost:" + serverPort);
-                HttpParams httpGetHttpParams = new BasicHttpParams();
-                HttpConnectionParams.setConnectionTimeout(httpGetHttpParams, TIMEOUT_MILLIS);
-                httpGet.setParams(httpGetHttpParams);
-            }
-
-            public void startServerThreadAndAbortHttpGetWhenClientConnects() {
-                createServerSocket();
-                createHttpGet();
-
-                Thread serverThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Socket socket = serverSocket.accept();
-                            httpGet.abort();
-                            shouldStopCountDownLatch.await(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-                            try {
-                                socket.close();
-                            } catch (IOException e) {
-                                // ignore
-                            }
-                            try {
-                                serverSocket.close();
-                            } catch (IOException e) {
-                                // ignore
-                            }
-                        } catch (Exception e) {
-                            throwables.add(e);
-                        }
-                        stoppedCountDownLatch.countDown();
-                    }
-                });
-                serverThread.setDaemon(true);
-                serverThread.start();
-            }
-
-            public void stopServerThread() throws InterruptedException {
-                shouldStopCountDownLatch.countDown();
-                assertTrue(stoppedCountDownLatch.await(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS));
-            }
-        }
-
-        final TestContext testContext = new TestContext();
-        testContext.startServerThreadAndAbortHttpGetWhenClientConnects();
+        FakeHttpServer fakeHttpServer = new FakeHttpServer();
+        HttpGet httpGet = fakeHttpServer.startServerThreadAndAbortHttpGetWhenClientConnects();
 
         JiveCoreCallable<InputStream> testObject = new JiveCoreCallable<InputStream>(
-                testContext.httpGet,
+                httpGet,
                 defaultHttpClient,
                 new PlainInputStreamHttpResponseParser(new JiveCoreExceptionFactory(new JiveGson())));
         try {
@@ -237,8 +156,8 @@ public class JiveCoreCallableTest {
             // success!
         }
 
-        testContext.stopServerThread();
+        fakeHttpServer.stopServerThread();
 
-        assertEquals(Collections.<Throwable>emptySet(), testContext.throwables);
+        assertEquals(Collections.<Throwable>emptySet(), fakeHttpServer.throwables);
     }
 }

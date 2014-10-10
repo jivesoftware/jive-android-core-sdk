@@ -1,7 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
+import javax.annotation.Nonnull;
+import java.io.Serializable;
+
 public class ObjectErrorEntity implements ErrorEntity {
-    private MessageEntity error;
+    @Nonnull
+    private final MessageEntity error;
 
     public ObjectErrorEntity(String message, int status) {
         error = new MessageEntity(message, status);
@@ -13,34 +17,34 @@ public class ObjectErrorEntity implements ErrorEntity {
 
     @Override
     public String getDescription() {
-        return error == null ? "" : error.message;
+        return error.message;
     }
 
     @Override
     public Integer getErrorCode() {
-        return error == null ? -1 : error.status;
+        return error.status;
     }
 
     @Override
     public String getAPIErrorCode() {
-        return error == null ? null : error.code;
+        return error.code;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
 
         ObjectErrorEntity that = (ObjectErrorEntity) o;
 
-        if (error != null ? !error.equals(that.error) : that.error != null) return false;
+        if (!error.equals(that.error)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return error != null ? error.hashCode() : 0;
+        return error.hashCode();
     }
 
     @Override
@@ -50,7 +54,7 @@ public class ObjectErrorEntity implements ErrorEntity {
                 '}';
     }
 
-    private class MessageEntity {
+    private class MessageEntity implements Serializable {
         private String message;
         private String code;
         private int status;
@@ -69,7 +73,7 @@ public class ObjectErrorEntity implements ErrorEntity {
         @Override
         public boolean equals(Object o) {
             if ( this == o ) return true;
-            if ( o == null || getClass() != o.getClass() ) return false;
+            if ( o == null || ((Object)this).getClass() != o.getClass() ) return false;
 
             MessageEntity that = (MessageEntity) o;
 

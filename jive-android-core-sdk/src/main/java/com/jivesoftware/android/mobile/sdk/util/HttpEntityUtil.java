@@ -1,9 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
+import com.jivesoftware.android.mobile.sdk.httpclient.SerializableHeader;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,5 +37,25 @@ public class HttpEntityUtil {
             }
         }
         return contentInputStream;
+    }
+
+    @Nullable
+    public static SerializableHeader getContentTypeSerializableHeader(HttpEntity httpEntity) {
+        Header contentTypeHeader = httpEntity.getContentType();
+        if (contentTypeHeader == null) {
+            return null;
+        } else {
+            return new SerializableHeader(contentTypeHeader);
+        }
+    }
+
+    @Nullable
+    public static SerializableHeader getContentEncodingSerializableHeader(HttpEntity httpEntity) {
+        Header contentEncodingHeader = httpEntity.getContentEncoding();
+        if (contentEncodingHeader == null) {
+            return null;
+        } else {
+            return new SerializableHeader(contentEncodingHeader);
+        }
     }
 }

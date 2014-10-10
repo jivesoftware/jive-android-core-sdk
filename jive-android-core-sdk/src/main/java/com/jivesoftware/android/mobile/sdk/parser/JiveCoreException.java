@@ -2,37 +2,46 @@ package com.jivesoftware.android.mobile.sdk.parser;
 
 import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
 import com.jivesoftware.android.mobile.sdk.gson.JiveGson;
+import com.jivesoftware.android.mobile.sdk.httpclient.SerializableHeader;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class JiveCoreException extends IOException {
-    @Nonnull
-    public final HttpResponse httpResponse;
     /**
      * -1 if unknown
      */
     public final int statusCode;
 
+    @Nonnull
+    public final List<SerializableHeader> headers;
 
-    public JiveCoreException(@Nullable String message, @Nonnull HttpResponse httpResponse, int statusCode) {
-        this(message, null, httpResponse, statusCode);
+
+    public JiveCoreException(@Nullable String message, HttpResponse httpResponse) {
+        this(message, null, httpResponse);
     }
 
-    public JiveCoreException(@Nullable String message, @Nullable Throwable cause, @Nonnull HttpResponse httpResponse, int statusCode) {
+    public JiveCoreException(@Nullable String message, @Nullable Throwable cause, HttpResponse httpResponse) {
         super(message, cause);
-        this.httpResponse = httpResponse;
-        this.statusCode = statusCode;
+        this.statusCode = getStatusCode(httpResponse);
+        this.headers = getSerializableHeaders(httpResponse);
     }
 
-    protected JiveCoreException(@Nullable ErrorEntity errorEntity, @Nonnull HttpResponse httpResponse, int statusCode) {
-        this(nullableErrorEntityToString(errorEntity), null, httpResponse, statusCode);
+    protected JiveCoreException(@Nullable ErrorEntity errorEntity, HttpResponse httpResponse) {
+        this(nullableErrorEntityToString(errorEntity), null, httpResponse);
     }
 
-    protected JiveCoreException(@Nullable ErrorEntity errorEntity, @Nullable Throwable cause, @Nonnull HttpResponse httpResponse, int statusCode) {
-        this(nullableErrorEntityToString(errorEntity), cause, httpResponse, statusCode);
+    protected JiveCoreException(@Nullable ErrorEntity errorEntity, @Nullable Throwable cause, HttpResponse httpResponse) {
+        this(nullableErrorEntityToString(errorEntity), cause, httpResponse);
     }
 
     @Nonnull
@@ -44,4 +53,30 @@ public class JiveCoreException extends IOException {
             return errorEntityString;
         }
     }
+
+    private static int getStatusCode(HttpResponse httpResponse) {
+        StatusLine statusLine = httpResponse.getStatusLine();
+        if (statusLine == null) {
+            return -1;
+        } else {
+            int statusCode = statusLine.getStatusCode();
+            return statusCode;
+        }
+    }
+
+    @Nonnull
+    private static List<SerializableHeader> getSerializableHeaders(HttpResponse httpResponse) {
+        Header[] unserializableHeaders = httpResponse.getAllHeaders();
+        if (unserializableHeaders == null) {
+            return Collections.emptyList();
+        } else {
+            List<SerializableHeader> serializableHeaders = new ArrayList<SerializableHeader>(unserializableHeaders.length);
+            for (Header unserializableHeader : unserializableHeaders) {
+                SerializableHeader serializableHeader = new SerializableHeader(unserializableHeader);
+                serializableHeaders.add(serializableHeader);
+            }
+            return serializableHeaders;
+        }
+    }
+
 }
