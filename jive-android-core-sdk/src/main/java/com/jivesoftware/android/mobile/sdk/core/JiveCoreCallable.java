@@ -1,9 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
+import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.HttpHostConnectException;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -36,7 +38,12 @@ public class JiveCoreCallable<T> implements Callable<T> {
         if (calledAtomicBoolean.compareAndSet(false, true)) {
             HttpResponse httpResponse;
             try {
-                httpResponse = httpClient.execute(httpRequestBase);
+                try {
+                    httpResponse = httpClient.execute(httpRequestBase);
+                } catch (HttpHostConnectException httpHostConnectException) {
+                    // https://code.google.com/p/android/issues/detail?id=55371
+                    throw new SerializableHttpHostConnectException(httpHostConnectException);
+                }
             } catch (IOException e) {
                 // HttpClient throws an IOException if HttpRequestBase is aborted during execution
                 if (httpRequestBase.isAborted()) {
