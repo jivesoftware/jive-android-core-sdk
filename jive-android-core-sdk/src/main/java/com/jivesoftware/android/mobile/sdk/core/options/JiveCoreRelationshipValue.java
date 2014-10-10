@@ -1,15 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.core.options;
 
 /**
- * Identifier interface for the consumption of relationship data.
+ * Tagging interface for relationship type instances.
  */
 public interface JiveCoreRelationshipValue {
 
     /**
-     * Get the relationship type identifier.
+     * Get the relationship name.
      *
-     * @return relationship type
+     * @return name
      */
-    String name();
+    String toString();
 
 }

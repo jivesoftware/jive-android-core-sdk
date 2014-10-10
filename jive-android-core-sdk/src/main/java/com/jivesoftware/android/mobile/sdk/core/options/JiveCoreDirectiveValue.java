@@ -1,12 +1,12 @@
 package com.jivesoftware.android.mobile.sdk.core.options;
 
 /**
- * Tagging interface for sort type instances.
+ * Tagging interface for directive instances.
  */
-public interface JiveCoreSortValue {
+public interface JiveCoreDirectiveValue {
 
     /**
-     * Get the sort name.
+     * Get the directive name.
      *
      * @return name
      */

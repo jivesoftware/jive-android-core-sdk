@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchContentRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentListEntity;
@@ -28,8 +28,8 @@ public class JiveCoreSearchContentITest extends AbstractDelayedRestITest {
         await().until(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                JiveCoreSearchContentRequestOptions searchContentRequestOptions = new JiveCoreSearchContentRequestOptions();
-                searchContentRequestOptions.setSearchTerms(Arrays.asList(uuid));
+                JiveCoreRequestOptions searchContentRequestOptions = new JiveCoreRequestOptions();
+                searchContentRequestOptions.setSearchTermFilter(Arrays.asList(uuid));
                 JiveCoreCallable<ContentListEntity> searchContentCallable = jiveCoreUser2.searchContents(searchContentRequestOptions);
                 ContentListEntity contentListEntity = searchContentCallable.call();
                 for (ContentEntity contentEntity : contentListEntity.list) {
@@ -61,9 +61,9 @@ public class JiveCoreSearchContentITest extends AbstractDelayedRestITest {
         await().until(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                JiveCoreSearchContentRequestOptions searchContentRequestOptions = new JiveCoreSearchContentRequestOptions();
+                JiveCoreRequestOptions searchContentRequestOptions = new JiveCoreRequestOptions();
                 searchContentRequestOptions.setCount(1);
-                searchContentRequestOptions.setSearchTerms(Arrays.asList(uuid));
+                searchContentRequestOptions.setSearchTermFilter(Arrays.asList(uuid));
                 JiveCoreCallable<ContentListEntity> searchContent1Callable = jiveCoreUser2.searchContents(searchContentRequestOptions);
                 ContentListEntity contentListEntity = searchContent1Callable.call();
                 for (ContentEntity contentEntity : contentListEntity.list) {

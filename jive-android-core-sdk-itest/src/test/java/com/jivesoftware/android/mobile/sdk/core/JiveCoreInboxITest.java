@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreInboxOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityObjectEntity;
@@ -118,9 +118,9 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         await().until(new Callable<List<List<ActivityEntity>>>() {
                           @Override
                           public List<List<ActivityEntity>> call() throws Exception {
-                              JiveCoreInboxOptions options = new JiveCoreInboxOptions();
+                              JiveCoreRequestOptions options = new JiveCoreRequestOptions();
                               options.setCount(1);
-                              options.setUnread(true);
+                              options.setUnreadFilter(true);
                               // don't try collapsing because the collapse option doesn't propagate: JIVE-48153
 
                               ActivityListEntity unreadInboxActivityListEntity1 = jiveCoreAdmin.fetchInbox(options).call();
@@ -154,7 +154,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         return new Callable<ActivityEntity>() {
             @Override
             public ActivityEntity call() throws IOException {
-                JiveCoreCallable<ActivityListEntity> fetchInboxCallable = jiveCore.fetchInbox(new JiveCoreInboxOptions());
+                JiveCoreCallable<ActivityListEntity> fetchInboxCallable = jiveCore.fetchInbox(new JiveCoreRequestOptions());
                 ActivityListEntity inboxActivityListEntity = fetchInboxCallable.call();
                 for (ActivityEntity inboxActivityEntity : inboxActivityListEntity.list) {
                     ActivityObjectEntity inboxActivityObjectEntity = inboxActivityEntity.object;

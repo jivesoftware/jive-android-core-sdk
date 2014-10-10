@@ -3,20 +3,17 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreInboxOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchContentRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPeopleRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPlacesRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreDirective;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EndpointRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.RequestMethod;
-import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -32,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.header;
@@ -56,13 +54,17 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void fetchInbox() {
-        JiveCoreInboxOptions options = new JiveCoreInboxOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setCount(1);
-        options.setUnread(true);
-        options.setAuthorPathAndQuery("/the/author");
-        options.setTypes(ImmutableList.of("typeUUUU", "typeTTTT"));
-        options.setDirectives(ImmutableList.of("prime(www)", "subprime(vvvv)"));
-        options.setCollapseSkipCollectionIds(ImmutableList.of("zzz", "yyy"));
+        options.setUnreadFilter(true);
+        options.setAuthorFilter(Collections.singletonList("/the/author"));
+        options.setTypeFilter(ImmutableList.of(
+                JiveCorePlaceType.fromString("typeUUUU"),
+                JiveCorePlaceType.fromString("typeTTTT")));
+        options.setDirectives(ImmutableList.of(
+                JiveCoreDirective.fromString("prime(www)"),
+                JiveCoreDirective.fromString("subprime(vvvv)")));
+        options.setCollapseSkipCollectionIdsDirective(ImmutableList.of("zzz", "yyy"));
         options.setOldestUnread(true);
 
         HttpGet fetchInboxHttpGet = testObject.fetchInbox(options);
@@ -70,18 +72,20 @@ public class JiveCoreRequestFactoryTest {
         assertThat(fetchInboxHttpGet, requestUrl(
                 "http://jiveland.com/api/core/v3/inbox?" +
                         "count=1&" +
+                        "oldestUnread=true&" +
                         "filter=unread&" +
                         "filter=author%28%2Fthe%2Fauthor%29&" +
                         "filter=type%28typeUUUU%2CtypeTTTT%29&" +
-                        "directive=prime%28www%29%2Csubprime%28vvvv%29%2CcollapseSkip%28zzz%2Cyyy%29&" +
-                        "oldestUnread=true"));
+                        "directive=prime%28www%29&" +
+                        "directive=subprime%28vvvv%29&" +
+                        "directive=collapseSkip%28zzz%2Cyyy%29"));
     }
 
     @Test
     public void searchPeople() {
-        JiveCoreSearchPeopleRequestOptions options = new JiveCoreSearchPeopleRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setCount(25);
-        options.setSearchTerms(Arrays.asList("heath", "borders"));
+        options.setSearchTermFilter(Arrays.asList("heath", "borders"));
 
         HttpGet searchPeopleHttpGet = testObject.searchPeople(options);
 
@@ -91,9 +95,9 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void searchPlaces() {
-        JiveCoreSearchPlacesRequestOptions options = new JiveCoreSearchPlacesRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setCount(25);
-        options.setSearchTerms(Arrays.asList("sales", "marketing"));
+        options.setSearchTermFilter(Arrays.asList("sales", "marketing"));
 
         HttpGet searchPlacesHttpGet = testObject.searchPlaces(options);
 
@@ -260,7 +264,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void fetchContents() {
-        JiveCoreContentRequestOptions contentRequestOptions = new JiveCoreContentRequestOptions();
+        JiveCoreRequestOptions contentRequestOptions = new JiveCoreRequestOptions();
         contentRequestOptions.setCount(25);
 
         HttpGet fetchContentsHttpGet = testObject.fetchContents(contentRequestOptions);
@@ -270,7 +274,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void searchContents() {
-        JiveCoreSearchContentRequestOptions searchContentRequestOptions = new JiveCoreSearchContentRequestOptions();
+        JiveCoreRequestOptions searchContentRequestOptions = new JiveCoreRequestOptions();
         searchContentRequestOptions.setCount(25);
 
         HttpGet searchContentWithOptionsHttpGet = testObject.searchContents(searchContentRequestOptions);
@@ -288,7 +292,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void fetchMembersByPerson() {
-        JiveCoreCountRequestOptions countRequestOptions = new JiveCoreCountRequestOptions();
+        JiveCoreRequestOptions countRequestOptions = new JiveCoreRequestOptions();
         countRequestOptions.setCount(25);
 
         HttpGet fetchMembersByPersonHttpGet = testObject.fetchMembersByPerson("9999", countRequestOptions);
@@ -298,7 +302,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void fetchContent() {
-        JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setFields(Arrays.asList("type"));
 
         HttpGet fetchContentHttpGet = testObject.fetchContent("/url", options);
@@ -308,7 +312,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void fetchReplies() {
-        JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setStartIndex(1);
 
         HttpGet fetchRepliesHttpGet = testObject.fetchReplies("/url", options);

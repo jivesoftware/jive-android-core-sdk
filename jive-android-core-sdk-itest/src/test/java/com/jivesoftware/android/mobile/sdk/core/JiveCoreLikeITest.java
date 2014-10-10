@@ -1,7 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.base.Preconditions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EntityUtils;
@@ -57,7 +57,7 @@ public class JiveCoreLikeITest extends AbstractITest {
     @Test
     public void contentLike() throws IOException {
         jiveCoreUser2.likeContent(contentLikeRef).call();
-        contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreContentRequestOptions()).call();
+        contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreRequestOptions()).call();
         assertThat(contentEntity, contentLikeCount(1));
     }
 
@@ -65,7 +65,7 @@ public class JiveCoreLikeITest extends AbstractITest {
     public void contentUnlike() throws IOException {
         jiveCoreUser2.likeContent(contentLikeRef).call();
         jiveCoreUser2.unlikeContent(contentLikeRef).call();
-        contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreContentRequestOptions()).call();
+        contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreRequestOptions()).call();
         assertThat(contentEntity, contentLikeCount(0));
     }
 

@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.MemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MemberListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
@@ -34,7 +34,7 @@ public class JiveCorePlaceITest extends AbstractITest {
 
         PlaceEntity createdPlaceEntity = jiveCoreUser2.createPlace(creatingPlaceEntity).call();
 
-        MemberListEntity createdPlaceMemberListEntity = jiveCoreUser2.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity createdPlaceMemberListEntity = jiveCoreUser2.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreRequestOptions()).call();
         //IntelliJ wrongly things <MemberEntity> is redundant
         assertThat(createdPlaceMemberListEntity, listEntities(Matchers.<MemberEntity>contains(
                 allOf(

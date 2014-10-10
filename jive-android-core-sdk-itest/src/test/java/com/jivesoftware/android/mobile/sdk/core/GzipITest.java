@@ -3,7 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.LineProcessor;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
@@ -119,7 +119,7 @@ public class GzipITest extends TestEndpoint {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "direct-message.json"));
 
         JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(baseURL, jiveJson), httpClient, jiveJson);
-        JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreContentRequestOptions());
+        JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreRequestOptions());
         ContentEntity contentEntity = fetchContentCallable.call();
         assertNotNull(contentEntity);
 

@@ -33,6 +33,11 @@
                 <artifactId>jive-android-core-sdk</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.jivesoftware.android.mobile</groupId>
+                <artifactId>jive-android-core-sdk-matcher</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
@@ -144,6 +149,7 @@
         <module>jive-android-core-entity</module>
         <module>jive-android-core-entity-matcher</module>
         <module>jive-android-core-sdk</module>
+        <module>jive-android-core-sdk-matcher</module>
         <module>jive-android-httpclient-matcher</module>
         <module>jive-android-httpclient-util</module>
         <module>jive-matcher</module>

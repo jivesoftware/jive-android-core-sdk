@@ -1,21 +1,16 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreInboxOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchContentRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPeopleRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreQueryParameterProvider;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
-import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
+import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.util.JiveURIUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpDelete;
@@ -59,7 +54,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet fetchInbox(@Nonnull JiveCoreInboxOptions options) {
+    public HttpGet fetchInbox(@Nonnull JiveCoreQueryParameterProvider options) {
         URI inboxURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.INBOX, options);
         return new HttpGet(inboxURI);
     }
@@ -90,38 +85,38 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet searchContents(@Nonnull JiveCoreSearchContentRequestOptions options) {
+    public HttpGet searchContents(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_CONTENT, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet fetchContents(@Nonnull JiveCoreContentRequestOptions options) {
+    public HttpGet fetchContents(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.CONTENT_ROOT, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet fetchPlaces(@Nonnull JiveCoreRequestOptions options) {
+    public HttpGet fetchPlaces(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACES_ROOT, options);
         return new HttpGet(uri);
     }
 
 
     @Nonnull
-    public HttpGet searchPeople(@Nonnull JiveCoreSearchPeopleRequestOptions options) {
+    public HttpGet searchPeople(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PEOPLE, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet searchPlaces(@Nonnull JiveCoreRequestOptions options) {
+    public HttpGet searchPlaces(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PLACES, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet fetchMembersByPerson(@Nonnull String personID, @Nonnull JiveCoreRequestOptions options) {
+    public HttpGet fetchMembersByPerson(@Nonnull String personID, @Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PERSON_MEMBERSHIPS_ROOT + "/" + personID, options);
         return new HttpGet(uri);
     }
@@ -135,7 +130,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet fetchMembersByPlace(@Nonnull String placeID, @Nonnull JiveCoreCountRequestOptions options) {
+    public HttpGet fetchMembersByPlace(@Nonnull String placeID, @Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACE_MEMBERSHIPS_ROOT + "/" + placeID, options);
         return new HttpGet(uri);
     }
@@ -186,13 +181,13 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet fetchContent(@Nonnull String pathAndQuery, @Nonnull JiveCoreContentRequestOptions options) {
+    public HttpGet fetchContent(@Nonnull String pathAndQuery, @Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
-    public HttpGet fetchReplies(@Nonnull String pathAndQuery, @Nonnull JiveCoreContentRequestOptions options) {
+    public HttpGet fetchReplies(@Nonnull String pathAndQuery, @Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
         return new HttpGet(uri);
     }

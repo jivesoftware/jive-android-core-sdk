@@ -2,7 +2,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.base.Strings;
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPeopleRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonListEntity;
 import org.hamcrest.Matcher;
@@ -21,8 +21,8 @@ import static org.junit.Assert.assertThat;
 public class JiveCoreSearchPeopleITest extends AbstractITest {
     @Test
     public void testSearchPeople() throws Exception {
-        JiveCoreSearchPeopleRequestOptions options = new JiveCoreSearchPeopleRequestOptions();
-        options.setSearchTerms(Arrays.asList(USER2.displayName.split("\\s+")));
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
+        options.setSearchTermFilter(Arrays.asList(USER2.displayName.split("\\s+")));
         PersonListEntity personListEntity = jiveCoreAdmin.searchPeople(options).call();
 
         // IntelliJ thinks the below <PersonEntity> is redundant, but javac disagrees
@@ -32,9 +32,9 @@ public class JiveCoreSearchPeopleITest extends AbstractITest {
     @Test
     public void testSearchPeopleWithNextLink() throws Exception {
         String commonSearchTerm = Strings.commonPrefix(USER2.displayName, USER3.displayName);
-        JiveCoreSearchPeopleRequestOptions options = new JiveCoreSearchPeopleRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setCount(1);
-        options.setSearchTerms(Arrays.asList(commonSearchTerm));
+        options.setSearchTermFilter(Arrays.asList(commonSearchTerm));
 
 
         PersonListEntity personListEntity = jiveCoreAdmin.searchPeople(options).call();

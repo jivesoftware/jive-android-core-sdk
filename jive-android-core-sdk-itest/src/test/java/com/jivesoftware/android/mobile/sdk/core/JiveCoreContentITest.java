@@ -2,7 +2,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.AttachmentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
@@ -105,8 +105,8 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         await().until(new Callable<List<List<String>>>() {
                           @Override
                           public List<List<String>> call() throws Exception {
-                              JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
-                              options.setSearchTerms(Arrays.asList(uuid));
+                              JiveCoreRequestOptions options = new JiveCoreRequestOptions();
+                              options.setSearchTermFilter(Arrays.asList(uuid));
                               ContentListEntity contentListEntity = jiveCoreAdmin.fetchContents(options).call();
 
                               List<List<String>> contentEntitySelfUrlResults = new ArrayList<List<String>>();
@@ -156,9 +156,9 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         await().until(new Callable<List<List<String>>>() {
                           @Override
                           public List<List<String>> call() throws Exception {
-                              JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
+                              JiveCoreRequestOptions options = new JiveCoreRequestOptions();
                               options.setCount(1);
-                              options.setSearchTerms(Arrays.asList(uuid));
+                              options.setSearchTermFilter(Arrays.asList(uuid));
                               ContentListEntity contentListEntity = jiveCoreAdmin.fetchContents(options).call();
 
                               List<List<String>> contentEntitySelfUrlResults = new ArrayList<List<String>>();
@@ -373,7 +373,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
 
         jiveCoreAdmin.createContent(createdDocumentEntity.resources.get("comments").ref, newCommentEntity2, Collections.<FileBody>emptyList()).call();
 
-        ContentListEntity repliesContentListEntity = jiveCoreAdmin.fetchReplies(createdDocumentEntity.resources.get("comments").ref, new JiveCoreContentRequestOptions()).call();
+        ContentListEntity repliesContentListEntity = jiveCoreAdmin.fetchReplies(createdDocumentEntity.resources.get("comments").ref, new JiveCoreRequestOptions()).call();
 
         assertThat(repliesContentListEntity, listEntities(Matchers.<ContentEntity>contains(
                 contentContentBody(Matchers.<ContentBodyEntity>allOf(

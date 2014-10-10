@@ -2,6 +2,9 @@ package com.jivesoftware.android.mobile.sdk.core.options;
 
 import javax.annotation.Nonnull;
 
+/**
+ * An entity descriptor tuple.
+ */
 public class JiveCoreEntityDescriptor {
 
     @Nonnull

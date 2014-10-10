@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreQueryParameterProvider;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -37,9 +37,9 @@ public class JiveURIUtil {
     }
 
     @Nonnull
-    public static URI createURI(@Nonnull URL baseURL, @Nonnull String path, @Nonnull JiveCoreRequestOptions options) {
+    public static URI createURI(@Nonnull URL baseURL, @Nonnull String path, @Nonnull JiveCoreQueryParameterProvider options) {
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-        for (Map.Entry<String, List<String>> entry : options.copyQueryParameters().entrySet()) {
+        for (Map.Entry<String, List<String>> entry : options.provideQueryParameters().entrySet()) {
             for ( String value : entry.getValue() ) {
                 pairs.add(new BasicNameValuePair(entry.getKey(), value));
             }

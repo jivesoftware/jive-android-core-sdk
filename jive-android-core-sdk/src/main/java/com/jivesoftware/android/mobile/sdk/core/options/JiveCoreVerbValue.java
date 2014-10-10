@@ -1,12 +1,12 @@
 package com.jivesoftware.android.mobile.sdk.core.options;
 
 /**
- * Tagging interface for sort type instances.
+ * Tagging interface for verb instances.
  */
-public interface JiveCoreSortValue {
+public interface JiveCoreVerbValue {
 
     /**
-     * Get the sort name.
+     * Get the verb name.
      *
      * @return name
      */

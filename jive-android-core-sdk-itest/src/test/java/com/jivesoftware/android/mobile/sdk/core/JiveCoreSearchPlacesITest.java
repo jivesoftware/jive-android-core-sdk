@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSearchPlacesRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
 import org.hamcrest.Matchers;
@@ -68,8 +68,8 @@ public class JiveCoreSearchPlacesITest extends AbstractDelayedRestITest {
         await().until(new Callable<PlaceListEntity>() {
                           @Override
                           public PlaceListEntity call() throws Exception {
-                              JiveCoreSearchPlacesRequestOptions options = new JiveCoreSearchPlacesRequestOptions();
-                              options.setSearchTerms(Arrays.asList(uuid));
+                              JiveCoreRequestOptions options = new JiveCoreRequestOptions();
+                              options.setSearchTermFilter(Arrays.asList(uuid));
 
                               PlaceListEntity placeListEntity = jiveCoreAdmin.searchPlaces(options).call();
                               return placeListEntity;
@@ -87,9 +87,9 @@ public class JiveCoreSearchPlacesITest extends AbstractDelayedRestITest {
         await().until(new Callable<List<PlaceListEntity>>() {
                           @Override
                           public List<PlaceListEntity> call() throws Exception {
-                              JiveCoreSearchPlacesRequestOptions options = new JiveCoreSearchPlacesRequestOptions();
+                              JiveCoreRequestOptions options = new JiveCoreRequestOptions();
                               options.setCount(1);
-                              options.setSearchTerms(Arrays.asList(uuid));
+                              options.setSearchTermFilter(Arrays.asList(uuid));
 
                               PlaceListEntity placeListEntity1 = jiveCoreAdmin.searchPlaces(options).call();
                               if ((placeListEntity1.links != null) && (placeListEntity1.links.next != null)) {

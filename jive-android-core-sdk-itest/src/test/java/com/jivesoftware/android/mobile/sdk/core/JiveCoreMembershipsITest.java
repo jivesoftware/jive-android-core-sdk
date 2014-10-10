@@ -1,7 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreContentRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.MemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MemberListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
@@ -33,7 +32,7 @@ public class JiveCoreMembershipsITest extends AbstractITest {
         super.setup();
 
         user3PersonEntity = jiveCoreUser3.fetchMePerson().call();
-        MemberListEntity user3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity user3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreRequestOptions()).call();
         for (MemberEntity memberEntity : user3MemberListEntity.list) {
             jiveCoreUser3.deleteMember(getSelfResourceRef(memberEntity)).call();
         }
@@ -72,13 +71,13 @@ public class JiveCoreMembershipsITest extends AbstractITest {
                 memberPerson(objectSelfURL(USER3.selfURL)),
                 memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))));
 
-        MemberListEntity user3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity user3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreRequestOptions()).call();
         assertThat(user3MemberListEntity, listEntities(Matchers.<MemberEntity>contains(
                 allOf(
                         memberPerson(objectSelfURL(USER3.selfURL)),
                         memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
 
-        MemberListEntity placeMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity placeMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreRequestOptions()).call();
         assertThat(placeMemberListEntity, listEntities(Matchers.<MemberEntity>containsInAnyOrder(
                 allOf(
                         memberPerson(objectSelfURL(USER2.selfURL)),
@@ -89,7 +88,7 @@ public class JiveCoreMembershipsITest extends AbstractITest {
                         memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
 
         {
-            JiveCoreContentRequestOptions options = new JiveCoreContentRequestOptions();
+            JiveCoreRequestOptions options = new JiveCoreRequestOptions();
             options.setCount(1);
 
             MemberListEntity placeMemberListEntity1 = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, options).call();
@@ -106,10 +105,10 @@ public class JiveCoreMembershipsITest extends AbstractITest {
 
         jiveCoreUser3.deleteMember(getSelfResourceRef(createdMemberEntity)).call();
 
-        MemberListEntity postDeleteUser3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity postDeleteUser3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreRequestOptions()).call();
         assertThat(postDeleteUser3MemberListEntity, listEntities(Matchers.<MemberEntity>emptyIterable()));
 
-        MemberListEntity postDeletePlaceMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreCountRequestOptions()).call();
+        MemberListEntity postDeletePlaceMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreRequestOptions()).call();
         assertThat(postDeletePlaceMemberListEntity, listEntities(Matchers.<MemberEntity>containsInAnyOrder(
                 allOf(
                         memberPerson(objectSelfURL(USER2.selfURL)),

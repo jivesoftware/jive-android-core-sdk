@@ -1,12 +1,12 @@
 package com.jivesoftware.android.mobile.sdk.core.options;
 
 /**
- * Tagging interface for sort type instances.
+ * Tagging interface for entry state instances.
  */
-public interface JiveCoreSortValue {
+public interface JiveCoreEntryStateValue {
 
     /**
-     * Get the sort name.
+     * Get the entry state name.
      *
      * @return name
      */

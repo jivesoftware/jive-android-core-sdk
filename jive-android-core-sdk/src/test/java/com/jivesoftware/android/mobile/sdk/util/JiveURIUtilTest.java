@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreCountRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import org.junit.Test;
 
 import java.net.URI;
@@ -15,17 +15,17 @@ public class JiveURIUtilTest {
 
     @Test
     public void testCreateURIWithOptions() throws Exception {
-        JiveCoreCountRequestOptions options = new JiveCoreCountRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         options.setCount(2);
         options.setFields(Arrays.asList("foo", "bar"));
 
         URI actual = JiveURIUtil.createURI(new URL("http://jivesoftware.com"), "/path", options);
-        assertEquals(new URI("http://jivesoftware.com/path?fields=foo%2Cbar&count=2"), actual);
+        assertEquals(new URI("http://jivesoftware.com/path?count=2&fields=foo%2Cbar"), actual);
     }
 
     @Test
     public void testWhenUrlHasNoQueryParamsButIsFullyFormedThenQuestionMarkIsNotAppended() throws Exception {
-        JiveCoreCountRequestOptions options = new JiveCoreCountRequestOptions();
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         String url = "http://jivesoftware.com/?q=whatever";
         URI actual = JiveURIUtil.createURI(new URL(url), "", options);
         assertEquals(new URI(url), actual);

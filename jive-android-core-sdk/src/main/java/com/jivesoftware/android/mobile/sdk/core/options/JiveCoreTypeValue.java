@@ -1,16 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.core.options;
 
 /**
- * Tagging interface for sort type instances.
+ * Tagging interface for core type instances.
  */
-public interface JiveCoreSortValue {
+public interface JiveCoreTypeValue {
 
     /**
-     * Get the sort name.
+     * Get the core type name.
      *
      * @return name
      */
-    @Override
     String toString();
 
 }
