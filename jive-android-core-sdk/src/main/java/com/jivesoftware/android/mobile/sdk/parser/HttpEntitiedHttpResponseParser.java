@@ -19,7 +19,7 @@ public abstract class HttpEntitiedHttpResponseParser<T> extends HttpResponsePars
             int statusCode,
             @Nullable HttpEntity httpEntity) throws IOException {
         if (httpEntity == null) {
-            throw new JiveCoreNullHttpEntityException(httpResponse, statusCode);
+            throw new JiveCoreNullHttpEntityException(httpResponse);
         } else {
             T result = parseHttpEntitiedResponse(httpResponse, statusCode, httpEntity);
             return result;

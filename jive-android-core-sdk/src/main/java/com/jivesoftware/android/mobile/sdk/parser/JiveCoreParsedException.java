@@ -4,17 +4,20 @@ import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
 import org.apache.http.HttpResponse;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 public class JiveCoreParsedException extends JiveCoreException {
     @Nonnull
     public final ErrorEntity errorEntity;
 
-    public JiveCoreParsedException(@Nonnull HttpResponse httpResponse, int statusCode, @Nonnull ErrorEntity errorEntity) {
-        this(null, httpResponse, statusCode, errorEntity);
+    public JiveCoreParsedException(HttpResponse httpResponse, ErrorEntity errorEntity) {
+        this(null, httpResponse, errorEntity);
     }
 
-    public JiveCoreParsedException(Throwable cause, @Nonnull HttpResponse httpResponse, int statusCode, @Nonnull ErrorEntity errorEntity) {
-        super(errorEntity, cause, httpResponse, statusCode);
+    public JiveCoreParsedException(@Nullable Throwable cause, HttpResponse httpResponse, ErrorEntity errorEntity) {
+        super(errorEntity, cause, httpResponse);
         this.errorEntity = errorEntity;
     }
 }

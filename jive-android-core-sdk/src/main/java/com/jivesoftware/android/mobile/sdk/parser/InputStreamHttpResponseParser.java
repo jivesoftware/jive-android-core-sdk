@@ -19,7 +19,7 @@ public abstract class InputStreamHttpResponseParser<T> extends HttpEntitiedHttpR
     protected T parseHttpEntitiedResponse(@Nonnull HttpResponse httpResponse, int statusCode, @Nonnull HttpEntity httpEntity) throws IOException {
         InputStream maybeTransformedContentInputStream = httpEntity.getContent();
         if (maybeTransformedContentInputStream == null) {
-            throw new JiveCoreNullContentInputStreamException(httpResponse, statusCode, httpEntity);
+            throw new JiveCoreNullContentInputStreamException(httpResponse, httpEntity);
         } else {
             InputStream contentInputStream = HttpEntityUtil.getUntransformedContentInputStream(httpEntity, maybeTransformedContentInputStream);
             T result = parseContentInputStreamedResponse(httpResponse, statusCode, httpEntity, contentInputStream);

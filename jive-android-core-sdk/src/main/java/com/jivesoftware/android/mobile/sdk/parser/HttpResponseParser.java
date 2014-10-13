@@ -39,7 +39,7 @@ public abstract class HttpResponseParser<T> {
             T result = parseValidResponse(httpResponse, statusCode, httpEntity);
             return result;
         } else if (statusCategoryCode == 5) {
-            throw new JiveCoreServerException(httpResponse, statusCode);
+            throw new JiveCoreServerException(httpResponse);
         } else {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             if (httpEntity != null) {
@@ -53,7 +53,7 @@ public abstract class HttpResponseParser<T> {
             }
             byte[] contentBodyBytes = byteArrayOutputStream.toByteArray();
             if (isMobileGatewayResponse) {
-                throw new JiveCoreMobileGatewayException(httpResponse, statusCode);
+                throw new JiveCoreMobileGatewayException(httpResponse);
             } else {
                 IOException ioException = jiveCoreExceptionFactory.createException(httpResponse, statusCode, httpEntity, contentBodyBytes);
                 throw ioException;

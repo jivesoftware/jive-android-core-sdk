@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.annotation.Nonnull;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,8 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ObjectErrorEntity implements ErrorEntity {
-    private MessageEntity error;
+    @Nonnull
+    private final MessageEntity error;
 
     public ObjectErrorEntity(String message, String code, int status) {
         error = new MessageEntity(message, code, status);
@@ -27,34 +30,34 @@ public class ObjectErrorEntity implements ErrorEntity {
 
     @Override
     public String getDescription() {
-        return error == null ? "" : error.message;
+        return error.message;
     }
 
     @Override
     public Integer getErrorCode() {
-        return error == null ? -1 : error.status;
+        return error.status;
     }
 
     @Override
     public String getAPIErrorCode() {
-        return error == null ? null : error.code;
+        return error.code;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
 
         ObjectErrorEntity that = (ObjectErrorEntity) o;
 
-        if (error != null ? !error.equals(that.error) : that.error != null) return false;
+        if (!error.equals(that.error)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return error != null ? error.hashCode() : 0;
+        return error.hashCode();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ObjectErrorEntity implements ErrorEntity {
 
     @JsonSerialize(include= NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private class MessageEntity {
+    private class MessageEntity implements Serializable {
         public String message;
         public String code;
         public int status;
@@ -81,7 +84,7 @@ public class ObjectErrorEntity implements ErrorEntity {
         @Override
         public boolean equals(Object o) {
             if ( this == o ) return true;
-            if ( o == null || getClass() != o.getClass() ) return false;
+            if ( o == null || ((Object)this).getClass() != o.getClass() ) return false;
 
             MessageEntity that = (MessageEntity) o;
 

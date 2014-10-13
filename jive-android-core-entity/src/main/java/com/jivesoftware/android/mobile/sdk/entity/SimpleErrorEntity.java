@@ -50,7 +50,7 @@ public class SimpleErrorEntity implements ErrorEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
 
         SimpleErrorEntity that = (SimpleErrorEntity) o;
 
