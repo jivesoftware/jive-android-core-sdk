@@ -68,4 +68,7 @@ public class ContentEntity extends JiveObjectEntity {
     public Integer viewCount;
     public Boolean visibleToExternalContributors;
     public String visibility;
+    public ActorEntity actor;
+    public String productName;
+    public ObjectEntity object;
 }
