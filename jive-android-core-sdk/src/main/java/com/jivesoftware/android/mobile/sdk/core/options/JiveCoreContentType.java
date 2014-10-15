@@ -5,21 +5,33 @@ package com.jivesoftware.android.mobile.sdk.core.options;
  */
 public enum JiveCoreContentType implements JiveCoreTypeValue {
 
+    comment,
+
     discussion,
+
+    dm,
 
     document,
 
+    event,
+
+    favorite,
+
     file,
+
+    idea,
+
+    message,
 
     poll,
 
     post,
 
-    favorite,
-
     task,
 
-    update
+    update,
+
+    video
 
 }
 
