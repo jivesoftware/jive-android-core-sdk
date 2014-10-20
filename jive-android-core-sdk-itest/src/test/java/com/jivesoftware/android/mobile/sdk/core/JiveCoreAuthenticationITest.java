@@ -8,8 +8,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.SessionGrantEntityMatchers.sessionGrantStatus;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.TokenEntityMatchers.tokenAccessToken;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.TokenEntityMatchers.tokenExpiresIn;
@@ -50,7 +48,7 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenAuthenticationTokenIsFetchedThenItIsCorrect() throws IOException {
+    public void testWhenAuthenticationTokenIsFetchedThenItIsCorrect() throws Exception {
         JiveCoreCallable<TokenEntity> callable = jiveCoreUnauthenticatedAdmin.authorizeDevice(ADMIN.username, ADMIN.password);
         TokenEntity tokenEntity = callable.call();
 
@@ -62,7 +60,7 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenDeauthenticatedTokenIsRemoved() throws IOException {
+    public void testWhenDeauthenticatedTokenIsRemoved() throws Exception {
         JiveCoreCallable<PersonEntity> mePersonCallable1 = jiveCoreAdmin.fetchMePerson();
         // establishes that a legal TokenEntity exists
         mePersonCallable1.call();

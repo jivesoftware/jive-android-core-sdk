@@ -2,7 +2,6 @@ package com.jivesoftware.android.mobile.sdk.parser;
 
 import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
 import com.jivesoftware.android.mobile.sdk.entity.SimpleErrorEntity;
-import com.jivesoftware.android.mobile.sdk.json.InvalidJsonException;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,9 +33,6 @@ public class JiveCoreExceptionFactory {
             } else {
                 errorEntityParseException = null;
             }
-        } catch (InvalidJsonException e) {
-            errorEntity = null;
-            errorEntityParseException = new JiveCoreInvalidJsonException(null, e, httpResponse);
         } catch (IOException e) {
             errorEntity = null;
             // since we already read the contentBodyBytes, we shouldn't get any IOException

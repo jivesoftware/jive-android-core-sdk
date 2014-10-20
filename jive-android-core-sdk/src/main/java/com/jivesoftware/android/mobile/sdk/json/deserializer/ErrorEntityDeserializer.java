@@ -11,9 +11,13 @@ import com.jivesoftware.android.mobile.sdk.entity.ErrorEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ObjectErrorEntity;
 import com.jivesoftware.android.mobile.sdk.entity.SimpleErrorEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
+@ParametersAreNonnullByDefault
 public class ErrorEntityDeserializer extends JsonDeserializer<ErrorEntity> {
+    @Nonnull
     private final ObjectMapper objectMapper;
 
     public ErrorEntityDeserializer(ObjectMapper objectMapper) {
@@ -21,24 +25,19 @@ public class ErrorEntityDeserializer extends JsonDeserializer<ErrorEntity> {
     }
 
     @Override
+    @Nonnull
     public ErrorEntity deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        try {
-            ObjectCodec codec = jsonParser.getCodec();
-            JsonNode node = codec.readTree(jsonParser);
-            JsonNode error = node.get("error");
-            Class<? extends ErrorEntity> type;
-            if (error == null) {
-                type = CodeErrorEntity.class;
-            } else if (error.isValueNode()) {
-                type = SimpleErrorEntity.class;
-            } else {
-                type = ObjectErrorEntity.class;
-            }
-            return objectMapper.treeToValue(node,type);
-        } catch (Exception e) {
-            throw new IOException("Unknown element type", e);
-        } finally {
-            jsonParser.close();
+        ObjectCodec codec = jsonParser.getCodec();
+        JsonNode node = codec.readTree(jsonParser);
+        JsonNode error = node.get("error");
+        Class<? extends ErrorEntity> type;
+        if (error == null) {
+            type = CodeErrorEntity.class;
+        } else if (error.isValueNode()) {
+            type = SimpleErrorEntity.class;
+        } else {
+            type = ObjectErrorEntity.class;
         }
+        return objectMapper.treeToValue(node, type);
     }
 }

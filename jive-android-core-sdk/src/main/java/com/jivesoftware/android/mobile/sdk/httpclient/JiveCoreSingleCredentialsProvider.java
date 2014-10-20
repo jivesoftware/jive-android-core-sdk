@@ -38,7 +38,7 @@ public class JiveCoreSingleCredentialsProvider implements CredentialsProvider {
                 TokenEntity tokenEntity;
                 try {
                     tokenEntity = tokenEntityStore.getTokenEntity();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     // can't rethrow this auth exception. It will crash HttpClient.
                     tokenEntity = null;
                 }

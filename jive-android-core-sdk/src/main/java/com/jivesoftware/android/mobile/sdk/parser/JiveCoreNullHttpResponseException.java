@@ -1,6 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
-import java.io.IOException;
+import com.jivesoftware.android.mobile.sdk.httpclient.SerializableHeader;
 
-public class JiveCoreNullHttpResponseException extends IOException {
+import java.util.Collections;
+
+public class JiveCoreNullHttpResponseException extends JiveCoreException {
+    public JiveCoreNullHttpResponseException() {
+        super(null, null, -1, Collections.<SerializableHeader>emptyList());
+    }
 }

@@ -21,7 +21,7 @@ public abstract class HttpResponseParser<T> {
     }
 
     @Nullable
-    public T parseResponse(@Nullable HttpResponse httpResponse) throws IOException {
+    public T parseResponse(@Nullable HttpResponse httpResponse) throws IOException, JiveCoreException {
         if (httpResponse == null) {
             throw new JiveCoreNullHttpResponseException();
         }
@@ -55,8 +55,8 @@ public abstract class HttpResponseParser<T> {
             if (isMobileGatewayResponse) {
                 throw new JiveCoreMobileGatewayException(httpResponse);
             } else {
-                IOException ioException = jiveCoreExceptionFactory.createException(httpResponse, statusCode, httpEntity, contentBodyBytes);
-                throw ioException;
+                JiveCoreException jiveCoreException = jiveCoreExceptionFactory.createException(httpResponse, statusCode, httpEntity, contentBodyBytes);
+                throw jiveCoreException;
             }
         }
     }
@@ -76,5 +76,5 @@ public abstract class HttpResponseParser<T> {
     protected abstract T parseValidResponse(
             @Nonnull HttpResponse httpResponse,
             int statusCode,
-            @Nullable HttpEntity httpEntity) throws IOException;
+            @Nullable HttpEntity httpEntity) throws IOException, JiveCoreException;
 }

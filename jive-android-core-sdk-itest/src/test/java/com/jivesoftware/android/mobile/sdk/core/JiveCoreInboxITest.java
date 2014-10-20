@@ -153,7 +153,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
     private Callable<ActivityEntity> fetchInboxActivityEntity(@Nonnull final JiveCore jiveCore, @Nonnull final String objectSelfUrl) {
         return new Callable<ActivityEntity>() {
             @Override
-            public ActivityEntity call() throws IOException {
+            public ActivityEntity call() throws Exception {
                 JiveCoreCallable<ActivityListEntity> fetchInboxCallable = jiveCore.fetchInbox(new JiveCoreRequestOptions());
                 ActivityListEntity inboxActivityListEntity = fetchInboxCallable.call();
                 for (ActivityEntity inboxActivityEntity : inboxActivityListEntity.list) {

@@ -53,7 +53,7 @@ import static org.junit.Assert.assertThat;
 public class JiveCoreContentITest extends AbstractDelayedRestITest {
 
     @Test
-    public void testWhenDocumentContentIsCreatedThenItIsRetrieved() throws IOException {
+    public void testWhenDocumentContentIsCreatedThenItIsRetrieved() throws Exception {
         String content = "Hello world!";
         String subject = "testWhenDocumentContentIsCreatedThenItIsRetrieved " + UUID.randomUUID().toString();
         String contentType = "text/html";
@@ -76,7 +76,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
     }
 
     @Test
-    public void testFetchContents() throws IOException {
+    public void testFetchContents() throws Exception {
         String content = "Hello world!";
         final String uuid = UUID.randomUUID().toString();
         String subject = "testWhenDocumentContentIsCreatedThenItIsRetrieved " + uuid;
@@ -126,7 +126,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
     }
 
     @Test
-    public void testFetchContentWithNextLink() throws IOException {
+    public void testFetchContentWithNextLink() throws Exception {
         String content = "Hello world!";
         final String uuid = UUID.randomUUID().toString();
         String subject = "testWhenDocumentContentIsCreatedThenItIsRetrieved " + uuid;

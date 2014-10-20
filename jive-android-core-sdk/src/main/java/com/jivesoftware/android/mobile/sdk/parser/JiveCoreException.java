@@ -10,13 +10,12 @@ import org.apache.http.StatusLine;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class JiveCoreException extends IOException {
+public class JiveCoreException extends Exception {
     /**
      * -1 if unknown
      */
@@ -34,6 +33,12 @@ public class JiveCoreException extends IOException {
         super(message, cause);
         this.statusCode = getStatusCode(httpResponse);
         this.headers = getSerializableHeaders(httpResponse);
+    }
+
+    public JiveCoreException(@Nullable String message, @Nullable Throwable cause, int statusCode, List<SerializableHeader> headers) {
+        super(message, cause);
+        this.statusCode = statusCode;
+        this.headers = headers;
     }
 
     protected JiveCoreException(@Nullable ErrorEntity errorEntity, HttpResponse httpResponse) {

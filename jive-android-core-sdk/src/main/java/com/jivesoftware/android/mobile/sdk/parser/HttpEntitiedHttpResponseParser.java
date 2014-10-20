@@ -17,7 +17,7 @@ public abstract class HttpEntitiedHttpResponseParser<T> extends HttpResponsePars
      protected T parseValidResponse(
             @Nonnull HttpResponse httpResponse,
             int statusCode,
-            @Nullable HttpEntity httpEntity) throws IOException {
+            @Nullable HttpEntity httpEntity) throws IOException, JiveCoreException {
         if (httpEntity == null) {
             throw new JiveCoreNullHttpEntityException(httpResponse);
         } else {
@@ -30,5 +30,5 @@ public abstract class HttpEntitiedHttpResponseParser<T> extends HttpResponsePars
     protected abstract T parseHttpEntitiedResponse(
             @Nonnull HttpResponse httpResponse,
             int statusCode,
-            @Nonnull HttpEntity httpEntity) throws IOException;
+            @Nonnull HttpEntity httpEntity) throws IOException, JiveCoreException;
 }

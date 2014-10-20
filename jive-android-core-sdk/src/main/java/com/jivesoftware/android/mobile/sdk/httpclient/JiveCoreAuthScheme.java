@@ -96,7 +96,7 @@ public class JiveCoreAuthScheme extends AuthSchemeBase {
             TokenEntity refreshedTokenEntity;
             try {
                 refreshedTokenEntity = tokenEntityRefresher.refreshTokenEntity(tokenEntityCredentialsTokenEntity.refreshToken);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 tokenEntityCredentials.tokenEntityEqualsAtomicReference.set(null);
                 complete = true;
                 throw new JiveCoreOAuthUnrefreshableAuthenticationException("OAuth refreshToken failed", e);

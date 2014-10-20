@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 public class JiveCoreFollowITest extends AbstractITest {
 
     @Test
-    public void testWhenDocumentCreatedThenUnfollowWorksCorrectly() throws IOException {
+    public void testWhenDocumentCreatedThenUnfollowWorksCorrectly() throws Exception {
         String content = "Hello world!";
         String subject = "testWhenDocumentCreatedThenUnfollowWorksCorrectly " + UUID.randomUUID().toString();
         String contentType = "text/html";
@@ -39,7 +39,7 @@ public class JiveCoreFollowITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenDocumentCreatedThenFollowWorksCorrectly() throws IOException {
+    public void testWhenDocumentCreatedThenFollowWorksCorrectly() throws Exception {
         String content = "Hello world!";
         String subject = "testWhenDocumentCreatedThenFollowWorksCorrectly " + UUID.randomUUID().toString();
         String contentType = "text/html";

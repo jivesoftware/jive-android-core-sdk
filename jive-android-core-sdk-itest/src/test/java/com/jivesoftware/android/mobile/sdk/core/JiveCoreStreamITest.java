@@ -4,7 +4,6 @@ import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamListEntity;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertNotEquals;
@@ -23,7 +22,7 @@ public class JiveCoreStreamITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenUserStreamsAreRequestedThenTheyAreRetrieved() throws IOException {
+    public void testWhenUserStreamsAreRequestedThenTheyAreRetrieved() throws Exception {
         JiveCoreCallable<PersonEntity> fetchMePersonJiveCoreCallable = jiveCoreAdmin.fetchMePerson();
         PersonEntity mePersonEntity = fetchMePersonJiveCoreCallable.call();
 

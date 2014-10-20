@@ -29,7 +29,7 @@ public class JiveCoreLikeITest extends AbstractITest {
 
     @SuppressWarnings("ConstantConditions")
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws Exception {
         String uuid = UUID.randomUUID().toString();
         String content = "Hello world!";
         String subject = "contentLiked " + uuid;
@@ -54,14 +54,14 @@ public class JiveCoreLikeITest extends AbstractITest {
     }
 
     @Test
-    public void contentLike() throws IOException {
+    public void contentLike() throws Exception {
         jiveCoreUser2.likeContent(contentLikeRef).call();
         contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreRequestOptions()).call();
         assertThat(contentEntity, contentLikeCount(1));
     }
 
     @Test
-    public void contentUnlike() throws IOException {
+    public void contentUnlike() throws Exception {
         jiveCoreUser2.likeContent(contentLikeRef).call();
         jiveCoreUser2.unlikeContent(contentLikeRef).call();
         contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreRequestOptions()).call();

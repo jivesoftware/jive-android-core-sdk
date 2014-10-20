@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jayway.awaitility.Awaitility;
 import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.After;
 import org.junit.Before;
@@ -144,7 +145,7 @@ public class AbstractITest extends TestEndpoint {
 
         @Nullable
         @Override
-        public TokenEntity getTokenEntity() throws IOException {
+        public TokenEntity getTokenEntity() throws IOException, JiveCoreException {
             JiveCoreCallable<TokenEntity> authorizeDeviceCallable = jiveCoreUnauthenticated.authorizeDevice(username, password);
             TokenEntity tokenEntity = authorizeDeviceCallable.call();
             tokenEntities.add(tokenEntity);
@@ -158,7 +159,7 @@ public class AbstractITest extends TestEndpoint {
 
         @Nullable
         @Override
-        public TokenEntity refreshTokenEntity(@Nonnull String refreshToken) throws IOException {
+        public TokenEntity refreshTokenEntity(@Nonnull String refreshToken) throws IOException, JiveCoreException {
             JiveCoreCallable<TokenEntity> refreshTokenCallable = jiveCoreUnauthenticatedAdmin.refreshToken(refreshToken);
             TokenEntity refreshedTokenEntity = refreshTokenCallable.call();
             refreshedTokenEntities.add(refreshedTokenEntity);

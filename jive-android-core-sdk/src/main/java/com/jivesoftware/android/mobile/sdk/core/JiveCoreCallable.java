@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -34,7 +35,7 @@ public class JiveCoreCallable<T> implements Callable<T> {
     }
 
     @Override
-    public T call() throws IOException, CancellationException {
+    public T call() throws IOException, CancellationException, JiveCoreException {
         if (calledAtomicBoolean.compareAndSet(false, true)) {
             HttpResponse httpResponse;
             try {
