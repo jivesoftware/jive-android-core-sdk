@@ -17,10 +17,16 @@ import static com.jivesoftware.android.mobile.sdk.util.JiveURIUtil.createURI;
 
 public class JiveCoreUnauthenticatedRequestFactory {
     @Nonnull
+    private final String oauthCredentials;
+    @Nonnull
     private final URL baseURL;
+    @Nonnull
+    private final String addonUUID;
 
-    public JiveCoreUnauthenticatedRequestFactory(@Nonnull URL baseURL) {
+    public JiveCoreUnauthenticatedRequestFactory(@Nonnull URL baseURL, @Nonnull String oauthCredentials, @Nonnull String addonUUID) {
+        this.oauthCredentials = oauthCredentials;
         this.baseURL = baseURL;
+        this.addonUUID = addonUUID;
     }
 
     public HttpGet fetchVersion() {
@@ -38,7 +44,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
     public HttpPost authorizeDevice(@Nonnull String username, @Nonnull String password) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
-        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + JiveCoreConstants.OAUTH2_CREDENTIALS);
+        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
@@ -62,7 +68,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
     public HttpPost authorizeDeviceFromSession() {
         final URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
-        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + JiveCoreConstants.OAUTH2_CREDENTIALS);
+        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
         authorizeDeviceHttpPost.setEntity(JiveEntityUtil.createForm("grant_type", "session"));
 
@@ -72,7 +78,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
     public HttpPost refreshToken(String refreshToken) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REFRESH_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
-        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + JiveCoreConstants.OAUTH2_CREDENTIALS);
+        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("grant_type", "refresh_token"));
@@ -85,7 +91,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpGet isSessionOAuthGrantAllowed() {
-        URI uri = createURI(baseURL, "/api/addons/" + JiveCoreConstants.OAUTH2_ADDON_UUID + "/session-grant-allowed");
+        URI uri = createURI(baseURL, "/api/addons/" + addonUUID + "/session-grant-allowed");
         return new HttpGet(uri);
     }
 }

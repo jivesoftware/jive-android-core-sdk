@@ -57,9 +57,13 @@ public class GzipITest extends TestEndpoint {
     private URL baseURL;
     private DefaultHttpClient httpClient;
     private JiveJson jiveJson;
+    private String oauthCredentials;
+    private String oauthAddOnUUID;
 
     @Before
     public void setup() throws Exception {
+        oauthCredentials = "oauthCredentials";
+        oauthAddOnUUID = "oauthAddOnUUID";
         jiveJson = new JiveJson();
         IOException lastIOException = null;
         for (int i = 0; i < 10; i++) {
@@ -104,7 +108,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreUnauthenticatedIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<VersionEntity> fetchVersionCallable = jiveCoreUnauthenticated.fetchVersion();
         VersionEntity versionEntity = fetchVersionCallable.call();
         assertNotNull(versionEntity);
@@ -135,7 +139,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<InputStream> inputStreamCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<InputStream>() {
             @Nonnull
             @Override
@@ -171,7 +175,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, httpClient, jiveJson);
+        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<Void> emptyCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<Void>() {
             @Nonnull
             @Override

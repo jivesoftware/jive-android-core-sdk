@@ -74,6 +74,8 @@ public abstract class TestEndpoint {
 
     // TEST_URL must be defined above TestUser because TestUser uses it in its constructor.
     public static final URL TEST_URL = JiveURLUtil.createURL(getProperty("TEST_URL"));
+    public static final String OAUTH_CREDENTIALS = getProperty("OAUTH_CREDENTIALS");
+    public static final String OAUTH_ADDON_UUID = getProperty("OAUTH_ADDON_UUID");
 
     protected static final long TIMEOUT_AMOUNT = 10L;
     protected static final TimeUnit TIMEOUT_TIME_UNIT = TimeUnit.SECONDS;

@@ -57,7 +57,7 @@ public class AbstractITest extends TestEndpoint {
     @Before
     public void setup() throws Exception {
         jiveCoreUnauthenticatedDefaultHttpClientAdmin = new DefaultHttpClient();
-        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientAdmin, jiveJson);
+        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClientAdmin, jiveJson);
 
         testTokenEntityStoreAdmin = new TestTokenEntityStore(jiveCoreUnauthenticatedAdmin, ADMIN.username, ADMIN.password);
         testTokenEntityRefresherAdmin = new TestTokenEntityRefresher();
@@ -66,7 +66,7 @@ public class AbstractITest extends TestEndpoint {
         jiveCoreAdmin = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientAdmin, testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser2 = new DefaultHttpClient();
-        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser2, jiveJson);
+        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClientUser2, jiveJson);
 
         testTokenEntityStoreUser2 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser2, USER2.username, USER2.password);
         testTokenEntityRefresherUser2 = new TestTokenEntityRefresher();
@@ -75,7 +75,7 @@ public class AbstractITest extends TestEndpoint {
         jiveCoreUser2 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser2, testTokenEntityStoreUser2, testTokenEntityRefresherUser2, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser3 = new DefaultHttpClient();
-        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, jiveCoreUnauthenticatedDefaultHttpClientUser3, jiveJson);
+        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClientUser3, jiveJson);
 
         testTokenEntityStoreUser3 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser3, USER3.username, USER3.password);
         testTokenEntityRefresherUser3 = new TestTokenEntityRefresher();

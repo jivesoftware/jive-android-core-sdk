@@ -47,9 +47,11 @@ public class JiveCoreUnauthenticated {
 
     public JiveCoreUnauthenticated(
             URL baseURL,
+            String oauthCredentials,
+            String oauthAddOnUUID,
             HttpClient httpClient,
             JiveJson jiveJson) {
-        this(new JiveCoreUnauthenticatedRequestFactory(baseURL), httpClient, jiveJson);
+        this(new JiveCoreUnauthenticatedRequestFactory(baseURL, oauthCredentials, oauthAddOnUUID), httpClient, jiveJson);
     }
 
     public JiveCoreUnauthenticated(

@@ -30,9 +30,6 @@ public class JiveCoreConstants {
     public static final String X_JCAPI_TOKEN = "X-JCAPI-Token";
     public static final String X_JIVE_MOBILE_GATEWAY = "x-jive-mobile-gateway";
 
-    public static final String OAUTH2_CREDENTIALS = "OXNtZ2dqZHQzanlkajl2bTA4ZGc4MnBwaGMwYWx2ZTAuaTpndm8zN3Awd3VyejZrMXZsY2c0M2J2dDZ1Zzg1cTF4Zy5z";
-    public static final String OAUTH2_ADDON_UUID = "ede79b6c-50d1-4c57-adf1-4ee2c94234ce";
-
     public static final String COMMENT = "COMMENT";
     public static final String MESSAGE = "MESSAGE";
     public static final String DISCUSSION = "DISCUSSION";
