@@ -3,7 +3,6 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.LineProcessor;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;

@@ -1,4 +1,4 @@
-package com.jivesoftware.android.mobile.sdk.core.options;
+package com.jivesoftware.android.mobile.sdk.entity.value;
 
 /**
  * Common sort types.
@@ -68,22 +68,7 @@ public enum JiveCoreSort implements JiveCoreSortValue {
     /**
      * Sort by the date this content object was most recently updated, in descending order.
      */
-    updatedDesc;
-
-    /**
-     * Convenience method to create a sort value instance not in the common set.
-     *
-     * @param name sort name
-     * @return value instance
-     */
-    public static JiveCoreSortValue fromString(final String name) {
-        return new JiveCoreSortValue() {
-            @Override
-            public String toString() {
-                return name;
-            }
-        };
-    }
+    updatedDesc
 
 }
 

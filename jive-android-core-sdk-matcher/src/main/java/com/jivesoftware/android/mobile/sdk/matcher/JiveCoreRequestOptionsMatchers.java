@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.matcher;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreQueryParameterProvider;
+import com.jivesoftware.android.mobile.sdk.core.JiveCoreQueryParameterProvider;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;

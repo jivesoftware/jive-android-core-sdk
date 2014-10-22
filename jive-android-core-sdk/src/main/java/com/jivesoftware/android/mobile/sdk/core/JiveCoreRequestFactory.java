@@ -1,7 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreQueryParameterProvider;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;

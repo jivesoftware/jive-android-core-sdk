@@ -1,15 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.matcher;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreDirective;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreDirectiveValue;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreEntityDescriptor;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreEntryState;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCorePlaceType;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreSort;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreVerb;
+import com.jivesoftware.android.mobile.sdk.core.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ResourceEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirective;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirectiveValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryState;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerb;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -168,7 +168,7 @@ public class JiveCoreRequestOptionsMatchersTest {
 
     @Test
     public void testDirectives() throws Exception {
-        options.setDirectives(Arrays.asList(JiveCoreDirective.fromString("one")));
+        options.setDirectives(Arrays.asList(JiveCoreValueFactory.createDirectiveValue("one")));
         Assert.assertThat(options, JiveCoreRequestOptionsMatchers.optionsDirectives(contains("one")));
     }
 
@@ -212,7 +212,7 @@ public class JiveCoreRequestOptionsMatchersTest {
 
     @Test
     public void testSort() throws Exception {
-        options.setSort(JiveCoreSort.fromString("one"));
+        options.setSort(JiveCoreValueFactory.createSortValue("one"));
         Assert.assertThat(options, JiveCoreRequestOptionsMatchers.optionsSort("one"));
     }
 

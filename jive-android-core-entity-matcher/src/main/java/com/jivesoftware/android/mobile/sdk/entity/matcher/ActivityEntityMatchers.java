@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.entity.matcher;
 
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import org.hamcrest.Matcher;
 
 import javax.annotation.Nonnull;
@@ -11,11 +12,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ActivityEntityMatchers {
     @Nonnull
-    public static Matcher<ActivityEntity> activityVerb(String verb) {
-        return new PropertyMatcher<String, ActivityEntity>("verb", verb) {
+    public static Matcher<ActivityEntity> activityVerb(JiveCoreVerbValue verb) {
+        return new PropertyMatcher<JiveCoreVerbValue, ActivityEntity>("verb", verb) {
             @Nullable
             @Override
-            protected String getPropertyValue(ActivityEntity item) throws Exception {
+            protected JiveCoreVerbValue getPropertyValue(ActivityEntity item) throws Exception {
                 return item.verb;
             }
         };

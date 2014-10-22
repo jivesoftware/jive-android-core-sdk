@@ -1,4 +1,4 @@
-package com.jivesoftware.android.mobile.sdk.core.options;
+package com.jivesoftware.android.mobile.sdk.core;
 
 import javax.annotation.Nonnull;
 import java.util.List;

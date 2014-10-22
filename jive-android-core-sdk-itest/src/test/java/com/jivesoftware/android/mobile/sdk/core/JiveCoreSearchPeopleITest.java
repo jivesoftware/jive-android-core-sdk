@@ -2,7 +2,6 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.base.Strings;
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonListEntity;
 import org.hamcrest.Matcher;

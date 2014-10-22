@@ -1,7 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.base.Preconditions;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EntityUtils;

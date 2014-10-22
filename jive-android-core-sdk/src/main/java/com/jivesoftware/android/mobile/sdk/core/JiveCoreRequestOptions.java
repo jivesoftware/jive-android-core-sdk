@@ -1,6 +1,13 @@
-package com.jivesoftware.android.mobile.sdk.core.options;
+package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirectiveValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryStateValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationshipValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSortValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
 import com.jivesoftware.android.mobile.sdk.util.Joiner;
 
@@ -31,6 +38,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
     private final Map<String, List<String>> queryParameters = new LinkedHashMap<String, List<String>>();
 
     @Override
+    @Nonnull
     public Map<String, List<String>> provideQueryParameters() {
         updateAllDerived();
         return Collections.unmodifiableMap(queryParameters);

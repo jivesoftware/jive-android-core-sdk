@@ -1,11 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerb;
 import org.apache.http.entity.mime.content.FileBody;
 import org.junit.Test;
 
@@ -134,20 +134,20 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
                                 allOf(
                                         activityObjectUrl(contentEntity1SelfUrl),
                                         activityRead(false),
-                                        activityVerb("jive:notification")),
+                                        activityVerb(JiveCoreVerb.notification)),
                                 allOf(
                                         activityObjectUrl(contentEntity1SelfUrl),
                                         activityRead(false),
-                                        activityVerb("jive:created"))),
+                                        activityVerb(JiveCoreVerb.created))),
                         contains(
                                 allOf(
                                         activityObjectUrl(contentEntity2SelfUrl),
                                         activityRead(false),
-                                        activityVerb("jive:notification")),
+                                        activityVerb(JiveCoreVerb.notification)),
                                 allOf(
                                         activityObjectUrl(contentEntity2SelfUrl),
                                         activityRead(false),
-                                        activityVerb("jive:created")))));
+                                        activityVerb(JiveCoreVerb.created)))));
     }
 
     private Callable<ActivityEntity> fetchInboxActivityEntity(@Nonnull final JiveCore jiveCore, @Nonnull final String objectSelfUrl) {

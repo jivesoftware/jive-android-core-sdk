@@ -2,7 +2,6 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.AttachmentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;

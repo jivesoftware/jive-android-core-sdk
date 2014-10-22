@@ -1,7 +1,19 @@
-package com.jivesoftware.android.mobile.sdk.core.options;
+package com.jivesoftware.android.mobile.sdk.core;
 
+import com.jivesoftware.android.mobile.sdk.core.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ResourceEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirective;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirectiveValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryState;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationship;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationshipValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerb;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,7 +135,7 @@ public class JiveCoreRequestOptionsImplTest {
 
     @Test
     public void setTypeFilter_escaped() throws Exception {
-        testObject.setTypeFilter(Arrays.asList(JiveCorePlaceType.fromString("foo,()\\")));
+        testObject.setTypeFilter(Arrays.asList(JiveCoreValueFactory.createPlaceTypeValue("foo,()\\")));
         String actual = queryParametersAsString();
         assertEquals("filter=type(foo\\,\\(\\)\\\\);", actual);
     }

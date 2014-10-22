@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
+import com.jivesoftware.android.mobile.sdk.core.JiveCoreRequestOptions;
 import org.junit.Test;
 
 import java.net.URI;

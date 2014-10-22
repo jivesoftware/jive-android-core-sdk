@@ -4,6 +4,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 
 import java.util.Date;
 
@@ -19,7 +20,7 @@ public class ActivityEntity {
     public ActivityObjectEntity generator;
     public String content;
     public String title;
-    public String verb;
+    public JiveCoreVerbValue verb;
     public String url;
     public Date published;
     public Date updated;

@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreQueryParameterProvider;
+import com.jivesoftware.android.mobile.sdk.core.JiveCoreQueryParameterProvider;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;

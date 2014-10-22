@@ -3,9 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreDirective;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCorePlaceType;
-import com.jivesoftware.android.mobile.sdk.core.options.JiveCoreRequestOptions;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
@@ -59,11 +57,11 @@ public class JiveCoreRequestFactoryTest {
         options.setUnreadFilter(true);
         options.setAuthorFilter(Collections.singletonList("/the/author"));
         options.setTypeFilter(ImmutableList.of(
-                JiveCorePlaceType.fromString("typeUUUU"),
-                JiveCorePlaceType.fromString("typeTTTT")));
+                JiveCoreValueFactory.createPlaceTypeValue("typeUUUU"),
+                JiveCoreValueFactory.createPlaceTypeValue("typeTTTT")));
         options.setDirectives(ImmutableList.of(
-                JiveCoreDirective.fromString("prime(www)"),
-                JiveCoreDirective.fromString("subprime(vvvv)")));
+                JiveCoreValueFactory.createDirectiveValue("prime(www)"),
+                JiveCoreValueFactory.createDirectiveValue("subprime(vvvv)")));
         options.setCollapseSkipCollectionIdsDirective(ImmutableList.of("zzz", "yyy"));
         options.setOldestUnread(true);
 

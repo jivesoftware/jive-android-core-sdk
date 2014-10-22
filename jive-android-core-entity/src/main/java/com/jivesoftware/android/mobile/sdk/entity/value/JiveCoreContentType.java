@@ -1,9 +1,9 @@
-package com.jivesoftware.android.mobile.sdk.core.options;
+package com.jivesoftware.android.mobile.sdk.entity.value;
 
 /**
  * Commonly used content types.
  */
-public enum JiveCoreContentType implements JiveCoreTypeValue {
+public enum JiveCoreContentType implements JiveCoreContentTypeValue {
 
     comment,
 
