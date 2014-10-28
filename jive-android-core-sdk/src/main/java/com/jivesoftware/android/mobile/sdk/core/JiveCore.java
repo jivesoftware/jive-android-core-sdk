@@ -137,6 +137,12 @@ public class JiveCore {
     }
 
     @Nonnull
+    public JiveCoreCallable<ActivityListEntity> fetchActivitiesByPerson(String personUrl, JiveCoreQueryParameterProvider options) {
+        HttpGet fetchActivitiesByPerson = jiveCoreRequestFactory.fetchActivityByPerson(personUrl, options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchActivitiesByPerson, ActivityListEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchInbox(JiveCoreQueryParameterProvider options) {
         HttpGet fetchInboxHttpGet = jiveCoreRequestFactory.fetchInbox(options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchInboxHttpGet, ActivityListEntity.class);

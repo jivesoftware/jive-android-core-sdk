@@ -90,6 +90,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchActivityByPerson(@Nonnull String personUrl, @Nonnull JiveCoreQueryParameterProvider options) {
+        URI uri = JiveURIUtil.createURI(baseURL, personUrl + "/activities", options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpGet fetchContents(@Nonnull JiveCoreQueryParameterProvider options) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.CONTENT_ROOT, options);
         return new HttpGet(uri);
