@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
  */
 class JiveCoreValueImpl implements JiveCoreDirectiveValue, JiveCoreEntryStateValue, JiveCorePlaceTypeValue,
         JiveCoreContentTypeValue, JiveCoreOutcomeTypeValue, JiveCoreRelationshipValue, JiveCoreSortValue,
-        JiveCoreStatusValue, JiveCoreVerbValue {
+        JiveCoreStatusValue, JiveCoreVerbValue, JiveCoreProductTypeValue {
 
     @Nonnull
     private final String representation;

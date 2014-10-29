@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreProductTypeValue;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class VersionEntity {
     @JsonSerialize(include= NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class JiveEditionEntity {
-        public String product;
+        public JiveCoreProductTypeValue product;
 
     }
 }

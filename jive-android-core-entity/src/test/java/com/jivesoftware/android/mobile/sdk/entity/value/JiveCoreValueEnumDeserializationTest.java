@@ -38,6 +38,7 @@ public class JiveCoreValueEnumDeserializationTest<E extends Enum<E>, I> {
         result.add(new Object[] { JiveCoreSort.class, JiveCoreSortValue.class });
         result.add(new Object[] { JiveCoreStatus.class, JiveCoreStatusValue.class });
         result.add(new Object[] { JiveCoreVerb.class, JiveCoreVerbValue.class });
+        result.add(new Object[] { JiveCoreProductType.class, JiveCoreProductTypeValue.class });
         return result;
     }
 

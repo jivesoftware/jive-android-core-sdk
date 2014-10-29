@@ -77,6 +77,12 @@ public class JiveCoreValueFactory {
         return representation == null ? new JiveCoreValueImpl(stringValue) : representation;
     }
 
+    @Nonnull
+    public static JiveCoreProductTypeValue createProductTypeValue(String stringValue) {
+        JiveCoreProductType representation = JiveCoreProductType.getByRepresentation(stringValue);
+        return representation == null ? new JiveCoreValueImpl(stringValue) : representation;
+    }
+
     @Nullable
     private static <E extends Enum<E>> E createEnumValueOrNull(Class<E> enumType, String value) {
         try {
