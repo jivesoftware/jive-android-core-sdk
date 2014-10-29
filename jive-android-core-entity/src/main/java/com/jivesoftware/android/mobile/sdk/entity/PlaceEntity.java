@@ -21,4 +21,5 @@ public class PlaceEntity extends JiveObjectEntity {
     public String groupType;
     public boolean visibleToExternalContributors;
     public List<String> contentTypes;
+    public int followerCount;
 }
