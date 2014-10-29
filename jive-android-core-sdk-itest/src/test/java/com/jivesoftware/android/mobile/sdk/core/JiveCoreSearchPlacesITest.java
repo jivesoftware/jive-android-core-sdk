@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class JiveCoreSearchPlacesITest extends AbstractDelayedRestITest {
         PlaceEntity creatingPlaceEntity1 = new PlaceEntity();
         creatingPlaceEntity1.displayName = uuid + "-1";
         creatingPlaceEntity1.name = uuid + "-1";
-        creatingPlaceEntity1.type = "group";
+        creatingPlaceEntity1.type = JiveCorePlaceType.group;
         creatingPlaceEntity1.groupType = "OPEN";
 
         createdPlaceEntity1 = jiveCoreUser2.createPlace(creatingPlaceEntity1).call();
@@ -41,7 +42,7 @@ public class JiveCoreSearchPlacesITest extends AbstractDelayedRestITest {
         PlaceEntity creatingPlaceEntity2 = new PlaceEntity();
         creatingPlaceEntity2.displayName = uuid + "-2";
         creatingPlaceEntity2.name = uuid + "-2";
-        creatingPlaceEntity2.type = "group";
+        creatingPlaceEntity2.type = JiveCorePlaceType.group;
         creatingPlaceEntity2.groupType = "OPEN";
 
         createdPlaceEntity2 = jiveCoreUser2.createPlace(creatingPlaceEntity2).call();

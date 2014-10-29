@@ -6,6 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ImageEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ImageListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class JiveCoreImageITest extends AbstractITest {
         String uuid = UUID.randomUUID().toString();
 
         ContentEntity newStatusUpdateEntity = new ContentEntity();
-        newStatusUpdateEntity.type = "update";
+        newStatusUpdateEntity.type = JiveCoreContentType.update;
         newStatusUpdateEntity.subject = uuid;
         newStatusUpdateEntity.content = new ContentBodyEntity();
         newStatusUpdateEntity.content.text = "Hello world!";

@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentTypeValue;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ContentEntity extends JiveObjectEntity {
+public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     // keep this alphabetized
     /** For discussion */
     public String answer;

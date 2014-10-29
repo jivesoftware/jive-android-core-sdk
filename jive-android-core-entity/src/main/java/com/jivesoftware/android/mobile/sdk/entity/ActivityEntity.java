@@ -4,6 +4,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreOutcomeTypeValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 
 import java.util.Date;
@@ -50,7 +51,7 @@ public class ActivityEntity {
         public Boolean question;
         public Boolean liked;
         public Boolean parentLiked;
-        public String outcomeTypeName;
+        public JiveCoreOutcomeTypeValue outcomeTypeName;
         public Boolean canLike;
 
         public ActivityObjectEntity mentioned;

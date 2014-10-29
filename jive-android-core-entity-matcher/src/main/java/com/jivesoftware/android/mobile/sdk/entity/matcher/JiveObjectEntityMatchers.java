@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.entity.matcher;
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ResourceEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
 import org.hamcrest.Matcher;
 
 import javax.annotation.Nonnull;
@@ -17,7 +18,7 @@ import static com.jivesoftware.android.mobile.sdk.entity.matcher.ResourceEntityM
 @ParametersAreNonnullByDefault
 public class JiveObjectEntityMatchers {
     @Nonnull
-    public static <E extends JiveObjectEntity> Matcher<E> objectResources(Matcher<? super Map<? extends String, ? extends ResourceEntity>> resourcesMatcher) {
+    public static <E extends JiveObjectEntity<?>> Matcher<E> objectResources(Matcher<? super Map<? extends String, ? extends ResourceEntity>> resourcesMatcher) {
         return new PropertyMatcher<Map<String, ResourceEntity>, E>(resourcesMatcher, "resources") {
             @Nullable
             @Override
@@ -28,23 +29,23 @@ public class JiveObjectEntityMatchers {
     }
 
     @Nonnull
-    public static <E extends JiveObjectEntity> Matcher<E> objectType(String type) {
-        return new PropertyMatcher<String, E>("type", type) {
+    public static <E extends JiveObjectEntity<?>> Matcher<E> objectType(JiveCoreTypeValue type) {
+        return new PropertyMatcher<JiveCoreTypeValue, E>("type", type) {
             @Nullable
             @Override
-            protected String getPropertyValue(@Nonnull E item) throws Exception {
+            protected JiveCoreTypeValue getPropertyValue(@Nonnull E item) throws Exception {
                 return item.type;
             }
         };
     }
 
     @Nonnull
-    public static <E extends JiveObjectEntity> Matcher<E> objectSelfURL(URL selfURL) {
+    public static <E extends JiveObjectEntity<?>> Matcher<E> objectSelfURL(URL selfURL) {
         return objectResources(hasEntry("self", resourceRef(selfURL)));
     }
 
     @Nonnull
-    public static <E extends JiveObjectEntity> Matcher<E> objectSelfURL(String selfURL) {
+    public static <E extends JiveObjectEntity<?>> Matcher<E> objectSelfURL(String selfURL) {
         return objectResources(hasEntry("self", resourceRef(selfURL)));
     }
 }

@@ -4,6 +4,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersonEntity extends JiveObjectEntity {
+public class PersonEntity extends JiveObjectEntity<JiveCoreTypeValue> {
     public String displayName;
     public NameEntity name;
     public String thumbnailUrl;

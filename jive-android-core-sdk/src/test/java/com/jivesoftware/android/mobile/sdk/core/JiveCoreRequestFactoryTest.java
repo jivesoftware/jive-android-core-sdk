@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
@@ -118,7 +119,7 @@ public class JiveCoreRequestFactoryTest {
         entity.content.text = "Some text";
         entity.content.type = "text/plain";
         entity.subject = "Some subject";
-        entity.type = "comment";
+        entity.type = JiveCoreContentType.comment;
 
         List<FileBody> files = new ArrayList<FileBody>();
         files.add(new FileBody(new File("test-data/test1.txt"), "text/plain"));
@@ -154,7 +155,7 @@ public class JiveCoreRequestFactoryTest {
         entity.content.text = "Some text";
         entity.content.type = "text/plain";
         entity.subject = "Some subject";
-        entity.type = "comment";
+        entity.type = JiveCoreContentType.comment;
 
         List<FileBody> fileBodies = new ArrayList<FileBody>();
         HttpPost createContentHttpPost = testObject.createContent("/url", entity, fileBodies);

@@ -1,7 +1,5 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -9,12 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
-
 @ParametersAreNonnullByDefault
 public class EntityUtils {
     @Nullable
-    public static String getResourceRef(@Nullable JiveObjectEntity entity, String name) {
+    public static String getResourceRef(@Nullable JiveObjectEntity<?> entity, String name) {
         if (entity == null) {
             return null;
         } else if (entity.resources == null) {

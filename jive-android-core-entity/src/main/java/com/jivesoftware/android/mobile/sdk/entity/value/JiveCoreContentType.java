@@ -27,6 +27,12 @@ public enum JiveCoreContentType implements JiveCoreContentTypeValue {
 
     post,
 
+    share,
+
+    slide,
+
+    stage,
+
     task,
 
     update,

@@ -254,7 +254,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPost updateFollowingIn(@Nonnull JiveObjectEntity objectEntity, @Nonnull List<StreamEntity> streamEntities) {
+    public HttpPost updateFollowingIn(@Nonnull JiveObjectEntity<?> objectEntity, @Nonnull List<StreamEntity> streamEntities) {
         return updateFollowingIn(objectEntity.resources.get("followingIn").ref, streamEntities);
     }
 
