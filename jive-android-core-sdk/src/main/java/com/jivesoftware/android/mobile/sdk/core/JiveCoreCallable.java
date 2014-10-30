@@ -3,9 +3,10 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
+import com.jivesoftware.android.mobile.sdk.util.Cancelable;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.HttpHostConnectException;
 
 import javax.annotation.Nonnull;
@@ -15,9 +16,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class JiveCoreCallable<T> implements Callable<T> {
+public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
     @Nonnull
-    private final HttpRequestBase httpRequestBase;
+    private final HttpUriRequest httpUriRequest;
     @Nonnull
     private final HttpClient httpClient;
     @Nonnull
@@ -26,10 +27,10 @@ public class JiveCoreCallable<T> implements Callable<T> {
     private final AtomicBoolean calledAtomicBoolean = new AtomicBoolean();
 
     public JiveCoreCallable(
-            @Nonnull HttpRequestBase httpRequestBase,
+            @Nonnull HttpUriRequest httpUriRequest,
             @Nonnull HttpClient httpClient,
             @Nonnull HttpResponseParser<T> httpResponseParser) {
-        this.httpRequestBase = httpRequestBase;
+        this.httpUriRequest = httpUriRequest;
         this.httpClient = httpClient;
         this.httpResponseParser = httpResponseParser;
     }
@@ -40,21 +41,21 @@ public class JiveCoreCallable<T> implements Callable<T> {
             HttpResponse httpResponse;
             try {
                 try {
-                    httpResponse = httpClient.execute(httpRequestBase);
+                    httpResponse = httpClient.execute(httpUriRequest);
                 } catch (HttpHostConnectException httpHostConnectException) {
                     // https://code.google.com/p/android/issues/detail?id=55371
                     throw new SerializableHttpHostConnectException(httpHostConnectException);
                 }
             } catch (IOException e) {
                 // HttpClient throws an IOException if HttpRequestBase is aborted during execution
-                if (httpRequestBase.isAborted()) {
+                if (httpUriRequest.isAborted()) {
                     throw new CancellationException();
                 } else {
                     throw e;
                 }
             } catch (IllegalStateException e) {
                 // HttpClient throws an IllegalStateException if HttpRequestBase is aborted before execution.
-                if (httpRequestBase.isAborted()) {
+                if (httpUriRequest.isAborted()) {
                     throw new CancellationException();
                 } else {
                     throw e;
@@ -69,19 +70,25 @@ public class JiveCoreCallable<T> implements Callable<T> {
     }
 
     public URI getRequestURI() {
-        return httpRequestBase.getURI();
+        return httpUriRequest.getURI();
     }
 
-    public void abort() {
-        httpRequestBase.abort();
+    @Override
+    public boolean cancel() {
+        try {
+            httpUriRequest.abort();
+            return true;
+        } catch (UnsupportedOperationException e) {
+            return false;
+        }
     }
 
     @Override
     public String toString() {
         String string =
-                httpRequestBase.getMethod() + " "
-                        + httpRequestBase.getURI() + " "
-                        + (httpRequestBase.isAborted() ? "aborted" : "not aborted") + " "
+                httpUriRequest.getMethod() + " "
+                        + httpUriRequest.getURI() + " "
+                        + (httpUriRequest.isAborted() ? "aborted" : "not aborted") + " "
                         + (calledAtomicBoolean.get() ? "called" : "not called");
         return string;
     }

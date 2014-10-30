@@ -8,6 +8,7 @@ import com.jivesoftware.android.mobile.sdk.parser.PlainInputStreamHttpResponsePa
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.RequestWrapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,8 @@ import java.util.UUID;
 import java.util.concurrent.CancellationException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class JiveCoreCallableTest {
@@ -61,14 +64,15 @@ public class JiveCoreCallableTest {
     }
 
     @Test
-    public void callThrowsCancellationExceptionIfAbortedBeforeCall() throws Exception {
+    public void callThrowsCancellationExceptionIfCancelledBeforeCall() throws Exception {
         HttpGet httpGet = new HttpGet("http://example.com");
         JiveCoreCallable<InputStream> testObject = new JiveCoreCallable<InputStream>(
                 httpGet,
                 defaultHttpClient,
                 new PlainInputStreamHttpResponseParser(new JiveCoreExceptionFactory(new JiveJson())));
 
-        testObject.abort();
+        boolean success = testObject.cancel();
+        assertTrue(success);
 
         try {
             testObject.call();
@@ -86,8 +90,9 @@ public class JiveCoreCallableTest {
                 defaultHttpClient,
                 new PlainInputStreamHttpResponseParser(new JiveCoreExceptionFactory(new JiveJson())));
 
-        // just abort this call so we don't have to deal with setting up a fake server for this test.
-        testObject.abort();
+        // just cancel this call so we don't have to deal with setting up a fake server for this test.
+        boolean success = testObject.cancel();
+        assertTrue(success);
 
         try {
             testObject.call();
@@ -142,7 +147,7 @@ public class JiveCoreCallableTest {
     }
 
     @Test
-    public void abortDuringHttpClientExecuteThrowsCancellationException() throws Exception {
+    public void cancelDuringHttpClientExecuteThrowsCancellationException() throws Exception {
         FakeHttpServer fakeHttpServer = new FakeHttpServer();
         HttpGet httpGet = fakeHttpServer.startServerThreadAndAbortHttpGetWhenClientConnects();
 
@@ -159,5 +164,19 @@ public class JiveCoreCallableTest {
         fakeHttpServer.stopServerThread();
 
         assertEquals(Collections.<Throwable>emptySet(), fakeHttpServer.throwables);
+    }
+
+    @Test
+    public void cancelReturnsFalseWhenHttpRequestAbortThrowsUnsupportedOperationException() throws Exception {
+        HttpGet httpGet = new HttpGet("http://example.com");
+        // RequestWrapper#abort throws UnsupportedOperationException
+        RequestWrapper requestWrapper = new RequestWrapper(httpGet);
+        JiveCoreCallable<InputStream> testObject = new JiveCoreCallable<InputStream>(
+                requestWrapper,
+                defaultHttpClient,
+                new PlainInputStreamHttpResponseParser(new JiveCoreExceptionFactory(new JiveJson())));
+
+        boolean success = testObject.cancel();
+        assertFalse(success);
     }
 }
