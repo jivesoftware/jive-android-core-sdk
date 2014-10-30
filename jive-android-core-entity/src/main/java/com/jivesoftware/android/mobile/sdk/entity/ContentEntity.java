@@ -55,6 +55,8 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public String rootType;
     public String rootURI;
     /** For share */
+    public String shared;
+    /** For share */
     public ContentEntity sharedContent;
     /** For share */
     public PlaceEntity sharedPlace;
