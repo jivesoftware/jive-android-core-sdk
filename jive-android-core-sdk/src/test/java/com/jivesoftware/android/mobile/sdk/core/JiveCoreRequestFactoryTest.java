@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
@@ -78,6 +79,14 @@ public class JiveCoreRequestFactoryTest {
                         "directive=prime%28www%29&" +
                         "directive=subprime%28vvvv%29&" +
                         "directive=collapseSkip%28zzz%2Cyyy%29"));
+    }
+
+    @Test
+    public void fetchPeople() {
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
+        options.setSort(JiveCoreSort.firstNameAsc);
+        HttpGet httpGet = testObject.fetchPeople(options);
+        assertThat(httpGet, requestUrl("http://jiveland.com/api/core/v3/people?sort=firstNameAsc"));
     }
 
     @Test

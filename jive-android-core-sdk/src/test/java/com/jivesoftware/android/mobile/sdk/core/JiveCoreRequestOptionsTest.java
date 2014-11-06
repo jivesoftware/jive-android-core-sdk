@@ -1,6 +1,5 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.mobile.sdk.core.JiveCoreRequestOptions;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ResourceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirective;
@@ -28,13 +27,53 @@ import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 
-public class JiveCoreRequestOptionsImplTest {
+public class JiveCoreRequestOptionsTest {
 
     private JiveCoreRequestOptions testObject;
 
     @Before
     public void setUp() throws Exception {
         testObject = new JiveCoreRequestOptions();
+    }
+
+    @Test
+    public void overlay_requestOptions() {
+        JiveCoreRequestOptions other = new JiveCoreRequestOptions();
+        other.setEntityDescriptorFilter(3, 4L); // should overwrite
+        other.setAbridged(true); // should be added
+
+        testObject.setEntityDescriptorFilter(1, 2L); // gets overwritten
+        testObject.setActiveOnly(true); // is retained
+        testObject.overlay(other);
+
+        String actual = queryParametersAsString();
+        assertEquals("activeOnly=true;,abridged=true;,filter=entityDescriptor(3,4);", actual);
+    }
+
+    @Test
+    public void overlay_immutableRequestOptions() {
+        JiveCoreRequestOptions other = new JiveCoreRequestOptions();
+        other.setEntityDescriptorFilter(3, 4L); // should overwrite
+        other.setAbridged(true); // should be added
+
+        testObject.setEntityDescriptorFilter(1, 2L); // gets overwritten
+        testObject.setActiveOnly(true); // is retained
+        testObject.overlay(other.createImmutableCopy());
+
+        String actual = queryParametersAsString();
+        assertEquals("activeOnly=true;,abridged=true;,filter=entityDescriptor(3,4);", actual);
+    }
+
+    @Test
+    public void createImmutableCopy() {
+        testObject.setEntityDescriptorFilter(1, 2L);
+        testObject.setActiveOnly(true);
+        JiveCoreImmutableRequestOptions copy = testObject.createImmutableCopy();
+        testObject.setEntityDescriptorFilter(3, 4L);
+        testObject.setActiveOnly(false);
+
+        String actual = queryParametersAsString(copy.values);
+        assertEquals("activeOnly=true;,filter=entityDescriptor(1,2);", actual);
     }
 
     @Test
@@ -668,8 +707,12 @@ public class JiveCoreRequestOptionsImplTest {
     }
 
     private String queryParametersAsString() {
+        return queryParametersAsString(testObject.values);
+    }
+
+    private String queryParametersAsString(JiveCoreRequestOptionsValues values) {
         StringBuilder builder = new StringBuilder();
-        Map<String, List<String>> stringListMap = testObject.provideQueryParameters();
+        Map<String, List<String>> stringListMap = values.provideQueryParameters();
         for (Map.Entry<String, List<String>> entry : stringListMap.entrySet()) {
             if (builder.length() > 0) {
                 builder.append(",");

@@ -107,6 +107,11 @@ public class JiveCoreRequestFactory {
         return new HttpGet(uri);
     }
 
+    @Nonnull
+    public HttpGet fetchPeople(@Nonnull JiveCoreQueryParameterProvider options) {
+        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PEOPLE_ROOT, options);
+        return new HttpGet(uri);
+    }
 
     @Nonnull
     public HttpGet searchPeople(@Nonnull JiveCoreQueryParameterProvider options) {

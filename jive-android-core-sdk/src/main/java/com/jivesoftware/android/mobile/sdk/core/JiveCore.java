@@ -149,6 +149,18 @@ public class JiveCore {
     }
 
     @Nonnull
+    public JiveCoreCallable<PersonListEntity> fetchPeople(JiveCoreQueryParameterProvider options) {
+        HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.fetchPeople(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<PersonListEntity> fetchPeople(String pathAndQuery) {
+        HttpGet fetchPeopleHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchPeopleHttpGet, PersonListEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchAllActivities() {
         return fetchActivities(JiveCoreEndpoints.ALL_ACTIVITY);
     }

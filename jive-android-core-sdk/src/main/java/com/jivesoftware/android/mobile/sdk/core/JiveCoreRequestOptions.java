@@ -9,7 +9,6 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSortValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
-import com.jivesoftware.android.mobile.sdk.util.Joiner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,75 +31,99 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
 
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("[,\\(\\)\\\\]");
 
-    private final Map<String, List<String>> filters = new LinkedHashMap<String, List<String>>();
-    private final Map<String, List<String>> directives = new LinkedHashMap<String, List<String>>();
-    private final Map<String, List<String>> queryParameters = new LinkedHashMap<String, List<String>>();
+    @Nonnull
+    final JiveCoreRequestOptionsValues values = new JiveCoreRequestOptionsValues();
+
+    /**
+     * Applies all options defined in the provided options object to the local instance, overwriting
+     * any pre-existing values.
+     *
+     * @param other instance to pull values from
+     */
+    public void overlay(JiveCoreRequestOptions other) {
+        values.overlay(other.values);
+    }
+
+    /**
+     * Applies all options defined in the provided options object to the local instance, overwriting
+     * any pre-existing values.
+     *
+     * @param other instance to pull values from
+     */
+    public void overlay(JiveCoreImmutableRequestOptions other) {
+        values.overlay(other.values);
+    }
+
+    public JiveCoreImmutableRequestOptions createImmutableCopy() {
+        JiveCoreRequestOptionsValues copy = new JiveCoreRequestOptionsValues();
+        copy.overlay(values);
+        return new JiveCoreImmutableRequestOptions(copy);
+    }
 
     @Override
     @Nonnull
     public Map<String, List<String>> provideQueryParameters() {
-        updateAllDerived();
-        return Collections.unmodifiableMap(queryParameters);
+        return values.provideQueryParameters();
     }
 
     @Nonnull
     public JiveCoreRequestOptions setEntityDescriptorFilter(int objectType, long objectId) {
         JiveCoreEntityDescriptor entityDescriptor = new JiveCoreEntityDescriptor(objectType, objectId);
-        filters.put("entityDescriptor", Collections.singletonList(entityDescriptor.toString()));
+        values.putFilter("entityDescriptor", Collections.singletonList(entityDescriptor.toString()));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setEntityDescriptorFilter(JiveCoreEntityDescriptor ... entityDescriptors) {
-        filters.put("entityDescriptor", toUnescapedList(Arrays.asList(entityDescriptors)));
+        values.putFilter("entityDescriptor", toUnescapedList(Arrays.asList(entityDescriptors)));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setRelationshipFilter(JiveCoreRelationshipValue relationship) {
-        filters.put("relationship", toEscapedList(Collections.singletonList(relationship.toString())));
+        values.putFilter("relationship", toEscapedList(Collections.singletonList(relationship.toString())));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setSearchTermFilter(Iterable<String> searchTerms) {
-        filters.put("search", toEscapedList(searchTerms));
+        values.putFilter("search", toEscapedList(searchTerms));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setTagFilter(Iterable<String> tags) {
-        filters.put("tag", toEscapedList(tags));
+        values.putFilter("tag", toEscapedList(tags));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setTypeFilter(Iterable<? extends JiveCoreTypeValue> types) {
-        filters.put("type", toEscapedList(types));
+        values.putFilter("type", toEscapedList(types));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setVerbFilter(Iterable<? extends JiveCoreVerbValue> verbs) {
-        filters.put("verb", toEscapedList(verbs));
+        values.putFilter("verb", toEscapedList(verbs));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setAuthorFilter(Iterable<String> authors) {
-        filters.put("author", toEscapedList(authors));
+        values.putFilter("author", toEscapedList(authors));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setPlaceFilter(Iterable<String> placeUris) {
-        filters.put("place", toEscapedList(placeUris));
+        values.putFilter("place", toEscapedList(placeUris));
         return this;
     }
 
     @Nonnull
-    public JiveCoreRequestOptions setEntryStateFilter(Iterable<? extends JiveCoreEntryStateValue> values) {
-        filters.put("entryState", toEscapedList(values));
+    public JiveCoreRequestOptions setEntryStateFilter(Iterable<? extends JiveCoreEntryStateValue> entryStateValues) {
+        values.putFilter("entryState", toEscapedList(entryStateValues));
         return this;
     }
 
@@ -120,46 +142,46 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
     @Nonnull
     public JiveCoreRequestOptions setDirectives(Iterable<JiveCoreDirectiveValue> directiveList) {
         for (JiveCoreDirectiveValue directive : directiveList) {
-            directives.put(directive.toString(), Collections.<String>emptyList());
+            values.putDirective(directive.toString(), Collections.<String>emptyList());
         }
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setCollapseSkipCollectionIdsDirective(Iterable<String> ids) {
-        directives.put("collapseSkip", toEscapedList(ids));
+        values.putDirective("collapseSkip", toEscapedList(ids));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setSort(JiveCoreSortValue sortOrder) {
-        queryParameters.put("sort", Collections.singletonList(sortOrder.toString()));
+        values.putQueryParameter("sort", Collections.singletonList(sortOrder.toString()));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setPublished(Date date) {
-        queryParameters.put("published", Collections.singletonList(toFormattedDate(date)));
+        values.putQueryParameter("published", Collections.singletonList(toFormattedDate(date)));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setUpdated(Date date) {
-        queryParameters.put("updated", Collections.singletonList(toFormattedDate(date)));
+        values.putQueryParameter("updated", Collections.singletonList(toFormattedDate(date)));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setAfter(Date date) {
-        queryParameters.remove("before");
-        queryParameters.put("after", Collections.singletonList(toFormattedDate(date)));
+        values.removeQueryParameter("before");
+        values.putQueryParameter("after", Collections.singletonList(toFormattedDate(date)));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setBefore(Date date) {
-        queryParameters.put("before", Collections.singletonList(toFormattedDate(date)));
-        queryParameters.remove("after");
+        values.putQueryParameter("before", Collections.singletonList(toFormattedDate(date)));
+        values.removeQueryParameter("after");
         return this;
     }
 
@@ -169,19 +191,19 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         for (PersonEntity personEntity : authors) {
             transformed.add(personEntity.resources.get("self").ref);
         }
-        queryParameters.put("authors", transformed);
+        values.putQueryParameter("authors", transformed);
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setFields(Iterable<String> fieldNames) {
-        queryParameters.put("fields", Collections.singletonList(toJoinedString(fieldNames)));
+        values.putQueryParameter("fields", Collections.singletonList(toJoinedString(fieldNames)));
         return this;
     }
 
     @Nonnull
     public JiveCoreRequestOptions setAnchor(String uri) {
-        queryParameters.put("anchor", Collections.singletonList(uri));
+        values.putQueryParameter("anchor", Collections.singletonList(uri));
         return this;
     }
 
@@ -280,7 +302,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         if (count <= 0) {
             throw new IllegalArgumentException("Invalid count: " + count);
         }
-        queryParameters.put("count", Collections.singletonList(Integer.toString(count)));
+        values.putQueryParameter("count", Collections.singletonList(Integer.toString(count)));
         return this;
     }
 
@@ -289,7 +311,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         if (startIndex < 0) {
             throw new IllegalArgumentException("Invalid startIndex: " + startIndex);
         }
-        queryParameters.put("startIndex", Collections.singletonList(Integer.toString(startIndex)));
+        values.putQueryParameter("startIndex", Collections.singletonList(Integer.toString(startIndex)));
         return this;
     }
 
@@ -298,7 +320,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         if (max <= 0) {
             throw new IllegalArgumentException("Invalid max: " + max);
         }
-        queryParameters.put("max", Collections.singletonList(Integer.toString(max)));
+        values.putQueryParameter("max", Collections.singletonList(Integer.toString(max)));
         return this;
     }
 
@@ -307,7 +329,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         if (width <= 0) {
             throw new IllegalArgumentException("Invalid width: " + width);
         }
-        queryParameters.put("width", Collections.singletonList(Integer.toString(width)));
+        values.putQueryParameter("width", Collections.singletonList(Integer.toString(width)));
         return this;
     }
 
@@ -316,78 +338,26 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         if (height <= 0) {
             throw new IllegalArgumentException("Invalid height: " + height);
         }
-        queryParameters.put("height", Collections.singletonList(Integer.toString(height)));
+        values.putQueryParameter("height", Collections.singletonList(Integer.toString(height)));
         return this;
     }
 
     @Override
     @Nonnull
     public String toString() {
-        updateAllDerived();
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName()).append("{");
-        boolean entryComma = false;
-        for (Map.Entry<String, List<String>> entry : queryParameters.entrySet()) {
-            if (entryComma) {
-                builder.append(",");
-            } else {
-                entryComma = true;
-            }
-            builder.append(entry.getKey())
-                    .append("=[");
-            boolean valueComma = false;
-            for (String value : entry.getValue()) {
-                if (valueComma) {
-                    builder.append(",");
-                } else {
-                    valueComma = true;
-                }
-                builder.append(value);
-            }
-            builder.append("]");
-        }
-        builder.append("}");
-        return builder.toString();
+        return "{" + getClass().getSimpleName() + " values=" + values + "}";
     }
 
     private void updateFlagFilter(String filter, boolean value) {
         if (value) {
-            filters.put(filter, Collections.<String>emptyList());
+            values.putFilter(filter, Collections.<String>emptyList());
         } else {
-            filters.remove(filter);
+            values.removeFilter(filter);
         }
     }
 
     private void updateFlagQueryParameter(String queryParameter, boolean value) {
-        queryParameters.put(queryParameter, Collections.singletonList(Boolean.toString(value)));
-    }
-
-    private void updateAllDerived() {
-        updateDerived("filter", filters);
-        updateDerived("directive", directives);
-    }
-
-    private void updateDerived(String queryParameter, Map<String, List<String>> map) {
-        if (map.isEmpty()) {
-            queryParameters.remove(queryParameter);
-        } else {
-            queryParameters.put(queryParameter, buildValueList(map));
-        }
-    }
-
-    @Nonnull
-    private static List<String> buildValueList(Map<String, List<String>> map) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-            String key = entry.getKey();
-            List<String> value = entry.getValue();
-            if (value.isEmpty()) {
-                result.add(key);
-            } else {
-                String joined = Joiner.on(",").join(value);
-                result.add(key + "(" + joined + ")");
-            }
-        }
-        return result;
+        values.putQueryParameter(queryParameter, Collections.singletonList(Boolean.toString(value)));
     }
 
     @Nonnull
