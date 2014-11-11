@@ -21,4 +21,12 @@ public class ActivityObjectEntity {
     public String answer;
     public Boolean question;
     public MediaLinkEntity image;
+
+    public JiveExtensionEntity jive;
+
+    @JsonSerialize(include= Inclusion.NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class JiveExtensionEntity {
+        public Boolean externalContributor;
+    }
 }
