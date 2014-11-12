@@ -121,7 +121,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "direct-message.json"));
 
-        JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(baseURL, jiveJson), httpClient, jiveJson);
+        JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), httpClient, jiveJson);
         JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreRequestOptions());
         ContentEntity contentEntity = fetchContentCallable.call();
         assertNotNull(contentEntity);

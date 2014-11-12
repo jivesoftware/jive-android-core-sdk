@@ -31,5 +31,5 @@ public class JiveCoreEndpoints {
     public static final String PLACE_MEMBERSHIPS_ROOT = MEMBERSHIPS_ROOT + "/places";
 
     public static final String IMAGES_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/images";
-    public static final Object VERSION = "/api/version";
+    public static final String VERSION = "/api/version";
 }

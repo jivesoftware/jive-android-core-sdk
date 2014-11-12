@@ -64,7 +64,7 @@ public class AbstractITest extends TestEndpoint {
         testTokenEntityRefresherAdmin = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientAdmin = new DefaultHttpClient();
-        jiveCoreAdmin = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientAdmin, testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin, jiveJson);
+        jiveCoreAdmin = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, jiveCoreDefaultHttpClientAdmin, testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser2 = new DefaultHttpClient();
         jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClientUser2, jiveJson);
@@ -73,7 +73,7 @@ public class AbstractITest extends TestEndpoint {
         testTokenEntityRefresherUser2 = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientUser2 = new DefaultHttpClient();
-        jiveCoreUser2 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser2, testTokenEntityStoreUser2, testTokenEntityRefresherUser2, jiveJson);
+        jiveCoreUser2 = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, jiveCoreDefaultHttpClientUser2, testTokenEntityStoreUser2, testTokenEntityRefresherUser2, jiveJson);
 
         jiveCoreUnauthenticatedDefaultHttpClientUser3 = new DefaultHttpClient();
         jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClientUser3, jiveJson);
@@ -82,7 +82,7 @@ public class AbstractITest extends TestEndpoint {
         testTokenEntityRefresherUser3 = new TestTokenEntityRefresher();
 
         jiveCoreDefaultHttpClientUser3 = new DefaultHttpClient();
-        jiveCoreUser3 = new JiveCore(TEST_URL, jiveCoreDefaultHttpClientUser3, testTokenEntityStoreUser3, testTokenEntityRefresherUser3, jiveJson);
+        jiveCoreUser3 = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, jiveCoreDefaultHttpClientUser3, testTokenEntityStoreUser3, testTokenEntityRefresherUser3, jiveJson);
     }
 
     @After

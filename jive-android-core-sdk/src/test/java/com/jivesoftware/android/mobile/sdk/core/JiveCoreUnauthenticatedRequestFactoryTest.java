@@ -28,16 +28,13 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
     @Mock private HttpClient httpClient;
 
     private JiveCoreUnauthenticatedRequestFactory testObject;
-    private String baseUrl;
-    private String oauthCredentials;
-    private String oautAddOnUUID;
 
     @Before
     public void setUp() throws MalformedURLException {
-        baseUrl = "http://jiveland.com";
-        oauthCredentials = "oauthCredentials";
-        oautAddOnUUID = "oauthAddOnUUID";
-        testObject = new JiveCoreUnauthenticatedRequestFactory(new URL(baseUrl), oauthCredentials, oautAddOnUUID);
+        testObject = new JiveCoreUnauthenticatedRequestFactory(
+                new URL("http://jiveland.com"),
+                "oauthCredentials",
+                "oauthAddOnUUID");
     }
 
     @Test
@@ -46,7 +43,7 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
 
         assertNotNull(get);
         assertEquals(get.getMethod(), "GET");
-        assertEquals(get.getURI(), URI.create(baseUrl + JiveCoreEndpoints.VERSION));
+        assertEquals(get.getURI(), URI.create("http://jiveland.com/api/version"));
     }
 
     @Test
@@ -56,33 +53,20 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
 
         assertNotNull(post);
         assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create(baseUrl + "/oauth2/token"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic " + oauthCredentials);
+        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
+        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
         assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=refresh_token&refresh_token=" + refreshTokenValue);
     }
 
     @Test
     public void testWhenAuthorizeDeviceThenRequestIsCreatedProperly() throws IOException {
-        String user = "user";
-        String password = "password123";
-        HttpPost post = testObject.authorizeDevice(user, password);
+        HttpPost post = testObject.authorizeDevice("user", "password123");
 
         assertNotNull(post);
         assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create(baseUrl + "/oauth2/token"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic " + oauthCredentials);
-        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=password&username=" + user + "&password=" + password);
-    }
-
-    @Test
-    public void testWhenAuthorizeDeviceFromSessionThenRequestIsCreatedProperly() throws IOException {
-        HttpPost post = testObject.authorizeDeviceFromSession();
-
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create(baseUrl + "/oauth2/token"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic " + oauthCredentials);
-        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=session");
+        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
+        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
+        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=password&username=user&password=password123");
     }
 
     @Test
@@ -95,8 +79,8 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
 
         assertNotNull(post);
         assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create(baseUrl + "/oauth2/revoke"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), tokenEntity.tokenType + " " + tokenEntity.accessToken);
+        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/revoke"));
+        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "tokenType accessToken");
     }
 
     @Test
@@ -105,7 +89,7 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
 
         assertNotNull(get);
         assertEquals(get.getMethod(), "GET");
-        assertEquals(get.getURI(), URI.create(baseUrl + "/api/addons/" + oautAddOnUUID + "/session-grant-allowed"));
+        assertEquals(get.getURI(), URI.create("http://jiveland.com/api/addons/oauthAddOnUUID/session-grant-allowed"));
     }
 
     @Test
@@ -113,9 +97,7 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
         HttpGet get = testObject.fetchPublicMetadataProperties();
 
         assertThat(get, allOf(
-                HttpMatchers.requestUrl(baseUrl + JiveCoreConstants.CORE_API_V3_PREFIX + "/metadata/properties/public"),
+                HttpMatchers.requestUrl("http://jiveland.com/api/core/v3/metadata/properties/public"),
                 HttpMatchers.requestMethod("GET")));
     }
-
-
 }

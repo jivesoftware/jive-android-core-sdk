@@ -10,12 +10,14 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.HttpHostConnectException;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@ParametersAreNonnullByDefault
 public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
     @Nonnull
     private final HttpUriRequest httpUriRequest;
@@ -27,9 +29,9 @@ public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
     private final AtomicBoolean calledAtomicBoolean = new AtomicBoolean();
 
     public JiveCoreCallable(
-            @Nonnull HttpUriRequest httpUriRequest,
-            @Nonnull HttpClient httpClient,
-            @Nonnull HttpResponseParser<T> httpResponseParser) {
+            HttpUriRequest httpUriRequest,
+            HttpClient httpClient,
+            HttpResponseParser<T> httpResponseParser) {
         this.httpUriRequest = httpUriRequest;
         this.httpClient = httpClient;
         this.httpResponseParser = httpResponseParser;

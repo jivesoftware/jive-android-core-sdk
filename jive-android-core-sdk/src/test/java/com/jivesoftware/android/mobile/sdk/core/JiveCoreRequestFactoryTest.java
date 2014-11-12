@@ -26,6 +26,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +37,11 @@ import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.he
 import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestEntity;
 import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestHeaders;
 import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestUrl;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by mark.schisler on 8/19/14.
@@ -49,7 +52,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Before
     public void setUp() throws MalformedURLException {
-        testObject = new JiveCoreRequestFactory(new URL("http://jiveland.com"), json);
+        testObject = new JiveCoreRequestFactory("oauthCredentials", new URL("http://jiveland.com"), json);
     }
 
     @Test
@@ -359,5 +362,16 @@ public class JiveCoreRequestFactoryTest {
         HttpPost completeMissionHttpPost = testObject.completeMission("FOO");
 
         assertThat(completeMissionHttpPost, requestUrl("http://jiveland.com/api/core/mobile/v1/quest/FOO"));
+    }
+
+    @Test
+    public void testWhenAuthorizeDeviceFromSessionThenRequestIsCreatedProperly() throws IOException {
+        HttpPost post = testObject.authorizeDeviceFromSession();
+
+        assertNotNull(post);
+        assertEquals(post.getMethod(), "POST");
+        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
+        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
+        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=session");
     }
 }

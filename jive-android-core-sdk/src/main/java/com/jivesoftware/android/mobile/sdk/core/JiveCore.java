@@ -20,6 +20,7 @@ import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
 import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreHttpClientAuthUtils;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
@@ -72,11 +73,12 @@ public class JiveCore {
 
     public JiveCore(
             URL baseURL,
+            String oauthCredentials,
             AbstractHttpClient httpClient,
             JiveCoreTokenEntityStore tokenEntityStore,
             JiveCoreTokenEntityRefresher tokenEntityRefresher,
             JiveJson jiveJson) {
-        this(new JiveCoreRequestFactory(baseURL, jiveJson), JiveCoreHttpClientAuthUtils.initHttpClientAuth(httpClient, tokenEntityStore, tokenEntityRefresher), jiveJson);
+        this(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), JiveCoreHttpClientAuthUtils.initHttpClientAuth(httpClient, tokenEntityStore, tokenEntityRefresher), jiveJson);
     }
 
     public JiveCore(
@@ -401,5 +403,11 @@ public class JiveCore {
     @Nonnull
     public <T> JiveCoreCallable<T> createCallable(HttpRequestBase httpRequestBase, HttpResponseParserFactory<T> httpResponseParserFactory) {
         return jiveCoreGenericCallableFactory.createGenericCallable(httpRequestBase, httpResponseParserFactory);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<TokenEntity> authorizeDeviceFromSession() {
+        HttpPost authorizeDeviceFromSessionHttpPost = jiveCoreRequestFactory.authorizeDeviceFromSession();
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(authorizeDeviceFromSessionHttpPost, TokenEntity.class);
     }
 }

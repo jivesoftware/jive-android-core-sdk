@@ -9,12 +9,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
 import static com.jivesoftware.android.mobile.sdk.util.JiveURIUtil.createURI;
 
+@ParametersAreNonnullByDefault
 public class JiveCoreUnauthenticatedRequestFactory {
     @Nonnull
     private final String oauthCredentials;
@@ -23,25 +25,28 @@ public class JiveCoreUnauthenticatedRequestFactory {
     @Nonnull
     private final String addonUUID;
 
-    public JiveCoreUnauthenticatedRequestFactory(@Nonnull URL baseURL, @Nonnull String oauthCredentials, @Nonnull String addonUUID) {
+    public JiveCoreUnauthenticatedRequestFactory(URL baseURL, String oauthCredentials, String addonUUID) {
         this.oauthCredentials = oauthCredentials;
         this.baseURL = baseURL;
         this.addonUUID = addonUUID;
     }
 
+    @Nonnull
     public HttpGet fetchVersion() {
         URI fetchVersionURI = createURI(baseURL, "api/version");
         HttpGet versionHttpGet = new HttpGet(fetchVersionURI);
         return versionHttpGet;
     }
 
+    @Nonnull
     public HttpGet fetchPublicMetadataProperties() {
         URI fetchPublicMetadataPropertiesURI = createURI(baseURL, "api/core/v3/metadata/properties/public");
         HttpGet publicMetadataPropertiesHttpGet = new HttpGet(fetchPublicMetadataPropertiesURI);
         return publicMetadataPropertiesHttpGet;
     }
 
-    public HttpPost authorizeDevice(@Nonnull String username, @Nonnull String password) {
+    @Nonnull
+    public HttpPost authorizeDevice(String username, String password) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
         authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
@@ -56,7 +61,8 @@ public class JiveCoreUnauthenticatedRequestFactory {
         return authorizeDeviceHttpPost;
     }
 
-    public HttpPost deauthorizeDevice(@Nonnull TokenEntity tokenEntity) {
+    @Nonnull
+    public HttpPost deauthorizeDevice(TokenEntity tokenEntity) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REVOKE_URL);
         HttpPost deauthorizeDevicePost = new HttpPost(uri);
         Header authenticationHeader = JiveCoreAuthScheme.authenticate(tokenEntity);
@@ -65,16 +71,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
         return deauthorizeDevicePost;
     }
 
-    public HttpPost authorizeDeviceFromSession() {
-        final URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
-        HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
-        authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
-
-        authorizeDeviceHttpPost.setEntity(JiveEntityUtil.createForm("grant_type", "session"));
-
-        return authorizeDeviceHttpPost;
-    }
-
+    @Nonnull
     public HttpPost refreshToken(String refreshToken) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REFRESH_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
