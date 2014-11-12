@@ -81,7 +81,8 @@ public class JiveCoreOAuthAuthenticationFailureITest extends TestEndpoint {
     @Test
     public void testJiveCoreCallableThrowsLoginRequiredExceptionWhenTokenEntityStoreReturnsInvalidTokenEntity() throws Exception {
         TokenEntity tokenEntity = jiveCoreUnauthenticated.authorizeDevice(ADMIN.username, ADMIN.password).call();
-        jiveCoreUnauthenticated.deauthorizeDevice(tokenEntity).call();
+        testTokenEntityStore.tokenEntityOrIOExceptionQueue.add(new TokenEntityOrIOException(tokenEntity));
+        jiveCore.deauthorizeDevice().call();
         testTokenEntityStore.tokenEntityOrIOExceptionQueue.add(new TokenEntityOrIOException(tokenEntity));
 
         try {

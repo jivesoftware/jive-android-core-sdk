@@ -95,12 +95,6 @@ public class JiveCoreUnauthenticated {
     }
 
     @Nonnull
-    public JiveCoreCallable<Void> deauthorizeDevice(TokenEntity tokenEntity) {
-        HttpPost deauthorizeDeviceHttpPost = jiveCoreUnauthenticatedRequestFactory.deauthorizeDevice(tokenEntity);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(deauthorizeDeviceHttpPost);
-    }
-
-    @Nonnull
     public JiveCoreCallable<VersionEntity> fetchVersion() {
         HttpGet fetchVersionHttpGet = jiveCoreUnauthenticatedRequestFactory.fetchVersion();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchVersionHttpGet, VersionEntity.class);

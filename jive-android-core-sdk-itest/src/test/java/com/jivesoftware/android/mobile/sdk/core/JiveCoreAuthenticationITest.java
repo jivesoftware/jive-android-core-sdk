@@ -64,12 +64,10 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
         JiveCoreCallable<PersonEntity> mePersonCallable1 = jiveCoreAdmin.fetchMePerson();
         // establishes that a legal TokenEntity exists
         mePersonCallable1.call();
-        TokenEntity tokenEntity = testTokenEntityStoreAdmin.getLastTokenEntity();
-        assertNotNull(tokenEntity);
 
-        JiveCoreCallable<Void> deauthorizeDeviceCallable = jiveCoreUnauthenticatedAdmin.deauthorizeDevice(tokenEntity);
+        JiveCoreCallable<Void> deauthorizeDeviceCallable = jiveCoreAdmin.deauthorizeDevice();
         deauthorizeDeviceCallable.call();
-        JiveCoreCallable<Void> failingDeauthorizeDeviceCallable = jiveCoreUnauthenticatedAdmin.deauthorizeDevice(tokenEntity);
+        JiveCoreCallable<Void> failingDeauthorizeDeviceCallable = jiveCoreAdmin.deauthorizeDevice();
         try {
             failingDeauthorizeDeviceCallable.call();
             fail("This should fail");

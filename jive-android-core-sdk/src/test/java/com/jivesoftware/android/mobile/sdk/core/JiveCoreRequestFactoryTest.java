@@ -3,14 +3,14 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EndpointRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.RequestMethod;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
@@ -43,9 +43,6 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by mark.schisler on 8/19/14.
- */
 public class JiveCoreRequestFactoryTest {
     private JiveJson json = new JiveJson();
     private JiveCoreRequestFactory testObject;
@@ -301,6 +298,7 @@ public class JiveCoreRequestFactoryTest {
                 requestUrl("http://jiveland.com/path?query=foo"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchMembersByPerson() {
         JiveCoreRequestOptions countRequestOptions = new JiveCoreRequestOptions();
@@ -308,7 +306,7 @@ public class JiveCoreRequestFactoryTest {
 
         HttpGet fetchMembersByPersonHttpGet = testObject.fetchMembersByPerson("9999", countRequestOptions);
 
-        assertThat(fetchMembersByPersonHttpGet, allOf(requestUrl("http://jiveland.com/api/core/v3/members/people/9999?count=25")));
+        assertThat(fetchMembersByPersonHttpGet, requestUrl("http://jiveland.com/api/core/v3/members/people/9999?count=25"));
     }
 
     @Test
@@ -318,7 +316,7 @@ public class JiveCoreRequestFactoryTest {
 
         HttpGet fetchContentHttpGet = testObject.fetchContent("/url", options);
 
-        assertThat(fetchContentHttpGet, allOf(requestUrl("http://jiveland.com/url?fields=type")));
+        assertThat(fetchContentHttpGet, requestUrl("http://jiveland.com/url?fields=type"));
     }
 
     @Test
@@ -328,7 +326,7 @@ public class JiveCoreRequestFactoryTest {
 
         HttpGet fetchRepliesHttpGet = testObject.fetchReplies("/url", options);
 
-        assertThat(fetchRepliesHttpGet, allOf(requestUrl("http://jiveland.com/url?startIndex=1")));
+        assertThat(fetchRepliesHttpGet, requestUrl("http://jiveland.com/url?startIndex=1"));
     }
 
     @Test
@@ -373,5 +371,14 @@ public class JiveCoreRequestFactoryTest {
         assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
         assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
         assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=session");
+    }
+
+    @Test
+    public void testWhenDeauthorizeDeviceThenRequestIsCreatedProperly() throws IOException {
+        HttpPost post = testObject.deauthorizeDevice();
+
+        assertNotNull(post);
+        assertEquals(post.getMethod(), "POST");
+        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/revoke"));
     }
 }

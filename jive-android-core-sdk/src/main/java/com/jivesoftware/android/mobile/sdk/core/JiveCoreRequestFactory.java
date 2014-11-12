@@ -40,7 +40,6 @@ public class JiveCoreRequestFactory {
     @Nonnull
     private final JiveJson jiveJson;
 
-
     public JiveCoreRequestFactory(String oauthCredentials, URL baseURL, JiveJson jiveJson) {
         this.oauthCredentials = oauthCredentials;
         this.baseURL = baseURL;
@@ -296,5 +295,13 @@ public class JiveCoreRequestFactory {
         authorizeDeviceHttpPost.setEntity(JiveEntityUtil.createForm("grant_type", "session"));
 
         return authorizeDeviceHttpPost;
+    }
+
+    @Nonnull
+    public HttpPost deauthorizeDevice() {
+        URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REVOKE_URL);
+        HttpPost deauthorizeDevicePost = new HttpPost(uri);
+
+        return deauthorizeDevicePost;
     }
 }

@@ -62,16 +62,6 @@ public class JiveCoreUnauthenticatedRequestFactory {
     }
 
     @Nonnull
-    public HttpPost deauthorizeDevice(TokenEntity tokenEntity) {
-        URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REVOKE_URL);
-        HttpPost deauthorizeDevicePost = new HttpPost(uri);
-        Header authenticationHeader = JiveCoreAuthScheme.authenticate(tokenEntity);
-        deauthorizeDevicePost.addHeader(authenticationHeader);
-
-        return deauthorizeDevicePost;
-    }
-
-    @Nonnull
     public HttpPost refreshToken(String refreshToken) {
         URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REFRESH_URL);
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);

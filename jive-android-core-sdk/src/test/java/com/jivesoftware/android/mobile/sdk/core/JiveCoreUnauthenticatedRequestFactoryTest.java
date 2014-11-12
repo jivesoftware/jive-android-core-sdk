@@ -70,20 +70,6 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
     }
 
     @Test
-    public void testWhenDeauthorizeDeviceThenRequestIsCreatedProperly() throws IOException {
-        TokenEntity tokenEntity = new TokenEntity();
-        tokenEntity.tokenType = "tokenType";
-        tokenEntity.accessToken = "accessToken";
-
-        HttpPost post = testObject.deauthorizeDevice(tokenEntity);
-
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/revoke"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "tokenType accessToken");
-    }
-
-    @Test
     public void testWhenIsSessionOAuthGrantAllowedCalledThenRequestIsCreatedProperly() {
         HttpGet get = testObject.isSessionOAuthGrantAllowed();
 
