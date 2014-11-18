@@ -64,11 +64,18 @@ public class JiveCoreRequestFactory {
         return new HttpGet(inboxURI);
     }
 
+    @Nonnull
     public HttpPost executeBatchOperation(BatchRequestEntity[] requestEntities) {
         URI uri = JiveURIUtil.createURI(baseURL, JiveCoreConstants.CORE_API_V3_PREFIX + "/executeBatch");
         HttpPost post = new HttpPost(uri);
         post.setEntity(JsonEntity.from(jiveJson, requestEntities));
         return post;
+    }
+
+    @Nonnull
+    public HttpGet fetchImage(String pathAndQuery, JiveCoreQueryParameterProvider options) {
+        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
+        return new HttpGet(uri);
     }
 
     @Nonnull

@@ -24,6 +24,16 @@ public class JiveURIUtilTest {
     }
 
     @Test
+    public void testCreateQueriedURIWithOptions() throws Exception {
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions();
+        options.setCount(2);
+        options.setFields(Arrays.asList("foo", "bar"));
+
+        URI actual = JiveURIUtil.createURI(new URL("http://jivesoftware.com"), "/path?fizz=buzz", options);
+        assertEquals(new URI("http://jivesoftware.com/path?fizz=buzz&count=2&fields=foo%2Cbar"), actual);
+    }
+
+    @Test
     public void testWhenUrlHasNoQueryParamsButIsFullyFormedThenQuestionMarkIsNotAppended() throws Exception {
         JiveCoreRequestOptions options = new JiveCoreRequestOptions();
         String url = "http://jivesoftware.com/?q=whatever";

@@ -6,9 +6,9 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ImageEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ImageListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import org.apache.http.entity.mime.content.FileBody;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -23,8 +23,8 @@ import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatc
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatchers.imageRef;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatchers.imageSize;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatchers.imageWidth;
-import static com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers.listEntities;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertArrayEquals;
@@ -52,7 +52,7 @@ public class JiveCoreImageITest extends AbstractITest {
         ImageListEntity imageListEntity = jiveCoreUser2.fetchImages(createdContentEntity.resources.get("images").ref).call();
 
         // must be order independent because of JIVE-48402
-        assertThat(imageListEntity, listEntities(Matchers.<ImageEntity>containsInAnyOrder(allOf(
+        assertThat(imageListEntity, ListEntityMatchers.<ImageEntity, ImageListEntity>listEntities(containsInAnyOrder(allOf(
                         imageSize(greaterThan(0)),
                         imageContentType("image/jpeg"),
                         imageName("el-barto.jpg"),
@@ -85,12 +85,19 @@ public class JiveCoreImageITest extends AbstractITest {
                 imageWidth(275),
                 imageHeight(342)));
 
-        InputStream imageInputStream = jiveCoreUser2.fetchImage(uploadedImageEntity.ref).call();
+        InputStream imageInputStream = jiveCoreUser2.fetchImage(uploadedImageEntity.ref, new JiveCoreRequestOptions()).call();
         ByteArrayOutputStream imageByteArrayOutputStream = new ByteArrayOutputStream();
         ByteStreams.copy(imageInputStream, imageByteArrayOutputStream);
         imageInputStream.close();
         byte[] imageBytes = imageByteArrayOutputStream.toByteArray();
-
         assertArrayEquals(sourceImageFileBytes, imageBytes);
+
+        JiveCoreRequestOptions shrunkenImageOptions = new JiveCoreRequestOptions().setWidth(27).setPreserveAspectRatio(true);
+        InputStream shrunkenImageInputStream = jiveCoreUser2.fetchImage(uploadedImageEntity.ref, shrunkenImageOptions).call();
+        ByteArrayOutputStream shrunkenImageByteArrayOutputStream = new ByteArrayOutputStream();
+        ByteStreams.copy(shrunkenImageInputStream, shrunkenImageByteArrayOutputStream);
+        shrunkenImageByteArrayOutputStream.close();
+        byte[] shrunkenImageBytes = shrunkenImageByteArrayOutputStream.toByteArray();
+        assertThat(imageBytes.length, greaterThan(shrunkenImageBytes.length));
     }
 }

@@ -1,8 +1,8 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Interface used by options instances to expose the query parameters which need to be applied to
@@ -16,6 +16,6 @@ public interface JiveCoreQueryParameterProvider {
      * @return query parameter map
      */
     @Nonnull
-    Map<String, List<String>> provideQueryParameters();
+    LinkedHashMap<String, List<String>> provideQueryParameters();
 
 }

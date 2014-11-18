@@ -11,14 +11,15 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +63,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
 
     @Override
     @Nonnull
-    public Map<String, List<String>> provideQueryParameters() {
+    public LinkedHashMap<String, List<String>> provideQueryParameters() {
         return values.provideQueryParameters();
     }
 
@@ -340,6 +341,23 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
         }
         values.putQueryParameter("height", Collections.singletonList(Integer.toString(height)));
         return this;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JiveCoreRequestOptions that = (JiveCoreRequestOptions) o;
+
+        if (!values.equals(that.values)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return values.hashCode();
     }
 
     @Override

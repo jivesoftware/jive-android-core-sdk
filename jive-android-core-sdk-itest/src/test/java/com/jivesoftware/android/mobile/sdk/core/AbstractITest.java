@@ -21,6 +21,19 @@ public class AbstractITest extends TestEndpoint {
     protected static final TimeUnit POLL_INTERVAL_TIME_UNIT = TimeUnit.SECONDS;
 
     static {
+        //trueify to enable logging
+        //noinspection ConstantIfStatement,ConstantConditions
+        if (false) {
+            java.util.logging.Logger.getLogger("org.apache.http.wire").setLevel(java.util.logging.Level.FINEST);
+            java.util.logging.Logger.getLogger("org.apache.http.headers").setLevel(java.util.logging.Level.FINEST);
+
+            System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
+            System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+            System.setProperty("org.apache.commons.logging.simplelog.log.httpclient.wire", "debug");
+            System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http", "debug");
+            System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.headers", "debug");
+        }
+
         Awaitility.setDefaultPollDelay(POLL_DELAY_AMOUNT, POLL_DELAY_TIME_UNIT);
         Awaitility.setDefaultPollInterval(POLL_INTERVAL_AMOUNT, POLL_INTERVAL_TIME_UNIT);
         Awaitility.setDefaultTimeout(TIMEOUT_AMOUNT, TIMEOUT_TIME_UNIT);

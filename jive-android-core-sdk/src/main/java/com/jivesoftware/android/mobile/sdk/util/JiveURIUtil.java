@@ -37,7 +37,7 @@ public class JiveURIUtil {
     }
 
     @Nonnull
-    public static URI createURI(@Nonnull URL baseURL, @Nonnull String path, @Nonnull JiveCoreQueryParameterProvider options) {
+    public static URI createURI(@Nonnull URL baseURL, @Nonnull String pathAndQuery, @Nonnull JiveCoreQueryParameterProvider options) {
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
         for (Map.Entry<String, List<String>> entry : options.provideQueryParameters().entrySet()) {
             for ( String value : entry.getValue() ) {
@@ -45,14 +45,16 @@ public class JiveURIUtil {
             }
         }
 
-        String queryParams = URLEncodedUtils.format(pairs, "UTF-8");
-        String query;
-        if ((queryParams == null) || (queryParams.length() == 0)) {
-            query = "";
+        String additionalQueryParams = URLEncodedUtils.format(pairs, "UTF-8");
+        String additionalQuery;
+        if ((additionalQueryParams == null) || (additionalQueryParams.length() == 0)) {
+            additionalQuery = "";
+        } else if (pathAndQuery.contains("?")) {
+            additionalQuery = "&" + additionalQueryParams;
         } else {
-            query = "?" + queryParams;
+            additionalQuery = "?" + additionalQueryParams;
         }
-        URI uri = createURI(baseURL, path + query);
+        URI uri = createURI(baseURL, pathAndQuery + additionalQuery);
         return uri;
     }
 }

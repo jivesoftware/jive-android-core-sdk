@@ -61,7 +61,7 @@ public class JiveCore {
     }
 
     @Nonnull
-    private final JiveCoreRequestFactory jiveCoreRequestFactory;
+    public final JiveCoreRequestFactory jiveCoreRequestFactory;
     @Nonnull
     private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
     @Nonnull
@@ -371,8 +371,8 @@ public class JiveCore {
     }
 
     @Nonnull
-    public JiveCoreCallable<InputStream> fetchImage(String pathAndQuery) {
-        HttpGet fetchImageHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
+    public JiveCoreCallable<InputStream> fetchImage(String pathAndQuery, JiveCoreQueryParameterProvider options) {
+        HttpGet fetchImageHttpGet = jiveCoreRequestFactory.fetchImage(pathAndQuery, options);
         return jiveCoreInputStreamCallableFactory.createInputStreamCallable(fetchImageHttpGet);
     }
 

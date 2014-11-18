@@ -2,8 +2,8 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Immutable form of the {@code JiveCoreRequestOptions}.
@@ -20,7 +20,7 @@ public final class JiveCoreImmutableRequestOptions implements JiveCoreQueryParam
 
     @Override
     @Nonnull
-    public Map<String, List<String>> provideQueryParameters() {
+    public LinkedHashMap<String, List<String>> provideQueryParameters() {
         return values.provideQueryParameters();
     }
 

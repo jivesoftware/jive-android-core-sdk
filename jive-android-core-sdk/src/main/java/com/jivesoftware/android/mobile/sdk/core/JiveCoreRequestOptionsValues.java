@@ -3,9 +3,9 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jivesoftware.android.mobile.sdk.util.Joiner;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +18,9 @@ import java.util.Map;
 @ParametersAreNonnullByDefault
 final class JiveCoreRequestOptionsValues implements JiveCoreQueryParameterProvider {
 
-    private final Map<String, List<String>> filters = new LinkedHashMap<String, List<String>>();
-    private final Map<String, List<String>> directives = new LinkedHashMap<String, List<String>>();
-    private final Map<String, List<String>> queryParameters = new LinkedHashMap<String, List<String>>();
+    private final LinkedHashMap<String, List<String>> filters = new LinkedHashMap<String, List<String>>();
+    private final LinkedHashMap<String, List<String>> directives = new LinkedHashMap<String, List<String>>();
+    private final LinkedHashMap<String, List<String>> queryParameters = new LinkedHashMap<String, List<String>>();
 
     public void removeFilter(String name) {
         filters.remove(name);
@@ -66,11 +66,32 @@ final class JiveCoreRequestOptionsValues implements JiveCoreQueryParameterProvid
 
     @Override
     @Nonnull
-    public Map<String, List<String>> provideQueryParameters() {
+    public LinkedHashMap<String, List<String>> provideQueryParameters() {
         updateAllDerived();
-        return Collections.unmodifiableMap(queryParameters);
+        return queryParameters;
     }
 
+    @Override
+    public boolean equals(@Nullable Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JiveCoreRequestOptionsValues that = (JiveCoreRequestOptionsValues) o;
+
+        if (!directives.equals(that.directives)) return false;
+        if (!filters.equals(that.filters)) return false;
+        if (!queryParameters.equals(that.queryParameters)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = filters.hashCode();
+        result = 31 * result + directives.hashCode();
+        result = 31 * result + queryParameters.hashCode();
+        return result;
+    }
 
     @Override
     @Nonnull

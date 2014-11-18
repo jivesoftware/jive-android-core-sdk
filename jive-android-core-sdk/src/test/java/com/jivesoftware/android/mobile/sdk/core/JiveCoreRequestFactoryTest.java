@@ -41,7 +41,6 @@ import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.junit.Assert.assertNotNull;
 
 public class JiveCoreRequestFactoryTest {
     private JiveJson json = new JiveJson();
@@ -366,8 +365,6 @@ public class JiveCoreRequestFactoryTest {
     public void testWhenAuthorizeDeviceFromSessionThenRequestIsCreatedProperly() throws IOException {
         HttpPost post = testObject.authorizeDeviceFromSession();
 
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
         assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
         assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
         assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=session");
@@ -377,8 +374,13 @@ public class JiveCoreRequestFactoryTest {
     public void testWhenDeauthorizeDeviceThenRequestIsCreatedProperly() throws IOException {
         HttpPost post = testObject.deauthorizeDevice();
 
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
         assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/revoke"));
+    }
+
+    @Test
+    public void testWhenFetchImage() throws Exception {
+        JiveCoreRequestOptions options = new JiveCoreRequestOptions().setWidth(123).setHeight(456).setPreserveAspectRatio(true);
+        HttpGet get = testObject.fetchImage("/url", options);
+        assertEquals(get.getURI(), URI.create("http://jiveland.com/url?width=123&height=456&preserveAspectRatio=true"));
     }
 }

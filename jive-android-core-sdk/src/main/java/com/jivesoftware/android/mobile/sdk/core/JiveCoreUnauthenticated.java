@@ -37,11 +37,9 @@ public class JiveCoreUnauthenticated {
     }
 
     @Nonnull
-    private final JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory;
+    public final JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory;
     @Nonnull
     private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
-    @Nonnull
-    private final JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory;
     @Nonnull
     private final JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory;
 
@@ -73,18 +71,15 @@ public class JiveCoreUnauthenticated {
         this(
                 jiveCoreUnauthenticatedRequestFactory,
                 new JiveCoreJiveJsonCallableFactory(httpClient, jiveJson, jiveCoreExceptionFactory),
-                new JiveCoreEmptyCallableFactory(httpClient, jiveCoreExceptionFactory),
                 new JiveCoreGenericCallableFactory(httpClient, jiveCoreExceptionFactory));
     }
 
     public JiveCoreUnauthenticated(
             JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory,
             JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory,
-            JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory,
             JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory) {
         this.jiveCoreUnauthenticatedRequestFactory = jiveCoreUnauthenticatedRequestFactory;
         this.jiveCoreJiveJsonCallableFactory = jiveCoreJiveJsonCallableFactory;
-        this.jiveCoreEmptyCallableFactory = jiveCoreEmptyCallableFactory;
         this.jiveCoreGenericCallableFactory = jiveCoreGenericCallableFactory;
     }
 
