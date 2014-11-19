@@ -9,6 +9,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ImageListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import org.apache.http.entity.mime.content.FileBody;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -24,13 +25,13 @@ import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatc
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatchers.imageSize;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ImageEntityMatchers.imageWidth;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
 public class JiveCoreImageITest extends AbstractITest {
+    @SuppressWarnings("unchecked")
     @Test
     public void createStatusUpdateWithImagesThenFetchImages() throws Exception {
         String uuid = UUID.randomUUID().toString();
@@ -52,7 +53,8 @@ public class JiveCoreImageITest extends AbstractITest {
         ImageListEntity imageListEntity = jiveCoreUser2.fetchImages(createdContentEntity.resources.get("images").ref).call();
 
         // must be order independent because of JIVE-48402
-        assertThat(imageListEntity, ListEntityMatchers.<ImageEntity, ImageListEntity>listEntities(containsInAnyOrder(allOf(
+        // IntelliJ fails to report that Matchers.<ImageEntity>containsInAnyOrder is required for JDK6.
+        assertThat(imageListEntity, ListEntityMatchers.<ImageEntity, ImageListEntity>listEntities(Matchers.<ImageEntity>containsInAnyOrder(allOf(
                         imageSize(greaterThan(0)),
                         imageContentType("image/jpeg"),
                         imageName("el-barto.jpg"),
