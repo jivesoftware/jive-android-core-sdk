@@ -25,6 +25,7 @@ public class JiveCoreEndpoints {
     public static final String METADATA_PROPERTIES =  JiveCoreConstants.CORE_API_V3_PREFIX + "/metadata/properties";
 
     public static final String ME_URL = PEOPLE_ROOT + "/@me";
+    public static final String ME_NEWS_URL = ME_URL + "/@news";
 
     public static final String MEMBERSHIPS_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/members";
     public static final String PERSON_MEMBERSHIPS_ROOT = MEMBERSHIPS_ROOT + "/people";

@@ -59,6 +59,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchMeNews() {
+        URI fetchMeNewsURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.ME_NEWS_URL);
+        return new HttpGet(fetchMeNewsURI);
+    }
+
+    @Nonnull
     public HttpGet fetchInbox(JiveCoreQueryParameterProvider options) {
         URI inboxURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.INBOX, options);
         return new HttpGet(inboxURI);

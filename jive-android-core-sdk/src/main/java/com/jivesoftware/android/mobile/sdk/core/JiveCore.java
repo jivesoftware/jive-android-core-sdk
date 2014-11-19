@@ -14,6 +14,7 @@ import com.jivesoftware.android.mobile.sdk.entity.MemberListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MetadataObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MetadataPropertyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
+import com.jivesoftware.android.mobile.sdk.entity.NewsEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
@@ -124,6 +125,12 @@ public class JiveCore {
     public JiveCoreCallable<PersonEntity> fetchMePerson() {
         HttpGet fetchMePersonHttpGet = jiveCoreRequestFactory.fetchMePerson();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMePersonHttpGet, PersonEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<NewsEntity> fetchMeNews() {
+        HttpGet fetchMeNewsHttpGet = jiveCoreRequestFactory.fetchMeNews();
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMeNewsHttpGet, NewsEntity.class);
     }
 
     @Nonnull
