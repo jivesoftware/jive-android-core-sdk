@@ -23,6 +23,7 @@ public class ActivityEntity {
     public String title;
     public JiveCoreVerbValue verb;
     public String url;
+    public String previewImage;
     public Date published;
     public Date updated;
 
