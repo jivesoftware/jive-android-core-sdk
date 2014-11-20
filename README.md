@@ -8,7 +8,7 @@ Make sure to update the submodules after cloning by executing:
 
 # Getting Started
 
-See our [example project](https://github.com/jivesoftware/jive-android-core-sdk-example/wiki/Getting-Started) for more instructions on how to sue the Jive Android SDK. 
+See our [example project](https://github.com/jivesoftware/jive-android-core-sdk-example/wiki/Getting-Started) for more instructions on how to get started using the Jive Android SDK. 
 
 # License 
 
