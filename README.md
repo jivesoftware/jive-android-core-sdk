@@ -6,6 +6,10 @@ This Android SDK is build on top of REST API calls described [here] (https://dev
 Make sure to update the submodules after cloning by executing:
 `git submodule update --init --recursive`
 
+# Getting Started
+
+See our [example project](https://github.com/jivesoftware/jive-android-core-sdk-example/wiki/Getting-Started) for more instructions on how to sue the Jive Android SDK. 
+
 # License 
 
    Copyright 2013 Jive Software
