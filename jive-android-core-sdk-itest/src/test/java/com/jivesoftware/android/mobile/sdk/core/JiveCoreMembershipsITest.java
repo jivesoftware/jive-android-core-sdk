@@ -5,6 +5,7 @@ import com.jivesoftware.android.mobile.sdk.entity.MemberListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
+import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -16,7 +17,6 @@ import java.util.UUID;
 
 import static com.jivesoftware.android.mobile.sdk.entity.EntityUtils.getSelfResourceRef;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.JiveObjectEntityMatchers.objectSelfURL;
-import static com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers.listEntities;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.MemberEntityMatchers.memberGroup;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.MemberEntityMatchers.memberPerson;
 import static org.hamcrest.Matchers.allOf;
@@ -59,6 +59,7 @@ public class JiveCoreMembershipsITest extends AbstractITest {
         super.tearDown();
     }
 
+    @SuppressWarnings({"RedundantTypeArguments", "unchecked"})
     @Test
     public void testCreateReadDeleteMembership() throws Exception {
 
@@ -72,20 +73,22 @@ public class JiveCoreMembershipsITest extends AbstractITest {
                 memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))));
 
         MemberListEntity user3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreRequestOptions()).call();
-        assertThat(user3MemberListEntity, listEntities(Matchers.<MemberEntity>contains(
-                allOf(
-                        memberPerson(objectSelfURL(USER3.selfURL)),
-                        memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
+        assertThat(user3MemberListEntity, ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(
+                Matchers.<MemberEntity>contains(
+                        allOf(
+                                memberPerson(objectSelfURL(USER3.selfURL)),
+                                memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
 
         MemberListEntity placeMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreRequestOptions()).call();
-        assertThat(placeMemberListEntity, listEntities(Matchers.<MemberEntity>containsInAnyOrder(
-                allOf(
-                        memberPerson(objectSelfURL(USER2.selfURL)),
-                        memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))),
+        assertThat(placeMemberListEntity, ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(
+                Matchers.<MemberEntity>containsInAnyOrder(
+                        allOf(
+                                memberPerson(objectSelfURL(USER2.selfURL)),
+                                memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))),
 
-                allOf(
-                        memberPerson(objectSelfURL(USER3.selfURL)),
-                        memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
+                        allOf(
+                                memberPerson(objectSelfURL(USER3.selfURL)),
+                                memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
 
         {
             JiveCoreRequestOptions options = new JiveCoreRequestOptions();
@@ -95,10 +98,10 @@ public class JiveCoreMembershipsITest extends AbstractITest {
             MemberListEntity placeMemberListEntity2 = jiveCoreUser3.fetchMembers(placeMemberListEntity1.links.next).call();
 
             assertThat(Arrays.asList(placeMemberListEntity1, placeMemberListEntity2), containsInAnyOrder(
-                    listEntities(Matchers.<MemberEntity>contains(allOf(
+                    ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(Matchers.<MemberEntity>contains(allOf(
                             memberPerson(objectSelfURL(USER2.selfURL)),
                             memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))),
-                    listEntities(Matchers.<MemberEntity>contains(allOf(
+                    ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(Matchers.<MemberEntity>contains(allOf(
                             memberPerson(objectSelfURL(USER3.selfURL)),
                             memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity))))))));
         }
@@ -106,12 +109,14 @@ public class JiveCoreMembershipsITest extends AbstractITest {
         jiveCoreUser3.deleteMember(getSelfResourceRef(createdMemberEntity)).call();
 
         MemberListEntity postDeleteUser3MemberListEntity = jiveCoreUser3.fetchMembersByPerson(user3PersonEntity.id, new JiveCoreRequestOptions()).call();
-        assertThat(postDeleteUser3MemberListEntity, listEntities(Matchers.<MemberEntity>emptyIterable()));
+        assertThat(postDeleteUser3MemberListEntity, ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(
+                Matchers.<MemberEntity>emptyIterable()));
 
         MemberListEntity postDeletePlaceMemberListEntity = jiveCoreUser3.fetchMembersByPlace(createdPlaceEntity.placeID, new JiveCoreRequestOptions()).call();
-        assertThat(postDeletePlaceMemberListEntity, listEntities(Matchers.<MemberEntity>containsInAnyOrder(
-                allOf(
-                        memberPerson(objectSelfURL(USER2.selfURL)),
-                        memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
+        assertThat(postDeletePlaceMemberListEntity, ListEntityMatchers.<MemberEntity, MemberListEntity>listEntities(
+                Matchers.<MemberEntity>contains(
+                        allOf(
+                                memberPerson(objectSelfURL(USER2.selfURL)),
+                                memberGroup(objectSelfURL(getSelfResourceRef(createdPlaceEntity)))))));
     }
 }

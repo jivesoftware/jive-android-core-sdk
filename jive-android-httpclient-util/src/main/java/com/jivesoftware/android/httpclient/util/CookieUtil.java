@@ -1,9 +1,11 @@
 package com.jivesoftware.android.httpclient.util;
 
 import org.apache.http.Header;
+import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieOrigin;
 import org.apache.http.cookie.CookieSpec;
+import org.apache.http.message.BasicHeader;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,10 +18,20 @@ import java.util.List;
  * Created by mark.schisler on 4/2/14.
  */
 public class CookieUtil {
+    public static final String COOKIE_HEADER_NAME = "Cookie";
+
+    @Nullable
+    public static Header getRequestHeaderForURI(@Nonnull CookieStore cookieStore, @Nonnull CookieSpec cookieSpec, @Nonnull URI uri) {
+        List<Cookie> cookies = cookieStore.getCookies();
+        List<Cookie> matchingCookies = getCookiesForURI(cookies, cookieSpec, uri);
+        Header requestHeader = getRequestHeader(matchingCookies, cookieSpec);
+        return requestHeader;
+    }
+
     // Response header is the header as specified in http://tools.ietf.org/html/rfc2109#section-4.3.4
     // In other words, whatever follows "Cookie":
     @Nullable
-    public String getRequestHeaderValue(@Nullable List<Cookie> cookies, @Nonnull CookieSpec cookieSpec) {
+    public static Header getRequestHeader(@Nullable List<Cookie> cookies, @Nonnull CookieSpec cookieSpec) {
         if (cookies == null) return null;
         StringBuilder stringBuilder = new StringBuilder();
         for (Cookie cookie : cookies) {
@@ -30,14 +42,15 @@ public class CookieUtil {
             stringBuilder.append(";");
         }
         if (stringBuilder.length() > 0) {
-            return stringBuilder.substring(0, stringBuilder.length() - 1);
+            String requestHeaderValue =  stringBuilder.substring(0, stringBuilder.length() - 1);
+            return new BasicHeader(COOKIE_HEADER_NAME, requestHeaderValue);
         } else {
             return null;
         }
     }
 
     @Nonnull
-    public List<Cookie> getCookiesForURI(@Nullable List<Cookie> cookies, @Nonnull CookieSpec cookieSpec, @Nonnull URI uri) {
+    public static List<Cookie> getCookiesForURI(@Nullable List<Cookie> cookies, @Nonnull CookieSpec cookieSpec, @Nonnull URI uri) {
         CookieOrigin cookieOrigin = getCookieOrigin(uri);
         if (cookies == null) {
             return new ArrayList<Cookie>();
@@ -57,7 +70,7 @@ public class CookieUtil {
     }
 
     @Nonnull
-    public CookieOrigin getCookieOrigin(@Nonnull URI uri) {
+    public static CookieOrigin getCookieOrigin(@Nonnull URI uri) {
         String scheme = uri.getScheme().toLowerCase();
         String host = uri.getHost();
         int port = uri.getPort();
@@ -84,28 +97,5 @@ public class CookieUtil {
                 secure);
 
         return cookieOrigin;
-    }
-
-    @Nullable
-    public Cookie purgeDuplicateCookies(@Nonnull ICookieStore persistentCookieStore, @Nonnull CookieSpec cookieSpec, @Nonnull String url, @Nonnull String cookieName) {
-        URI uri = URI.create(url);
-        return purgeDuplicateCookies(persistentCookieStore, cookieSpec, uri, cookieName);
-    }
-
-    @Nullable
-    public Cookie purgeDuplicateCookies(@Nonnull ICookieStore persistentCookieStore, @Nonnull CookieSpec cookieSpec, @Nonnull URI uri, @Nonnull String cookieName) {
-        List<Cookie> allCookies = persistentCookieStore.getCookies();
-        List<Cookie> matchingCookies = getCookiesForURI(allCookies, cookieSpec, uri);
-        Cookie matchingCookie = null;
-        for (Cookie cookie : matchingCookies) {
-            if (cookieName.equalsIgnoreCase(cookie.getName())) {
-                if (matchingCookie == null) {
-                    matchingCookie = cookie;
-                } else {
-                    persistentCookieStore.deleteCookie(cookie);
-                }
-            }
-        }
-        return matchingCookie;
     }
 }

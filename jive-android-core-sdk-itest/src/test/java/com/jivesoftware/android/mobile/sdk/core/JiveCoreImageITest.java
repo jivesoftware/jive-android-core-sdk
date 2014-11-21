@@ -31,7 +31,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
 public class JiveCoreImageITest extends AbstractITest {
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "RedundantTypeArguments"})
     @Test
     public void createStatusUpdateWithImagesThenFetchImages() throws Exception {
         String uuid = UUID.randomUUID().toString();
@@ -53,21 +53,22 @@ public class JiveCoreImageITest extends AbstractITest {
         ImageListEntity imageListEntity = jiveCoreUser2.fetchImages(createdContentEntity.resources.get("images").ref).call();
 
         // must be order independent because of JIVE-48402
-        // IntelliJ fails to report that Matchers.<ImageEntity>containsInAnyOrder is required for JDK6.
-        assertThat(imageListEntity, ListEntityMatchers.<ImageEntity, ImageListEntity>listEntities(Matchers.<ImageEntity>containsInAnyOrder(allOf(
-                        imageSize(greaterThan(0)),
-                        imageContentType("image/jpeg"),
-                        imageName("el-barto.jpg"),
-                        imageRef(notNullValue(String.class)),
-                        imageWidth(275),
-                        imageHeight(342)),
-                allOf(
-                        imageSize(greaterThan(0)),
-                        imageContentType("image/gif"),
-                        imageName("mr-burns.gif"),
-                        imageRef(notNullValue(String.class)),
-                        imageWidth(481),
-                        imageHeight(592)))));
+        assertThat(imageListEntity, ListEntityMatchers.<ImageEntity, ImageListEntity>listEntities(
+                Matchers.<ImageEntity>containsInAnyOrder(
+                        allOf(
+                                imageSize(greaterThan(0)),
+                                imageContentType("image/jpeg"),
+                                imageName("el-barto.jpg"),
+                                imageRef(notNullValue(String.class)),
+                                imageWidth(275),
+                                imageHeight(342)),
+                        allOf(
+                                imageSize(greaterThan(0)),
+                                imageContentType("image/gif"),
+                                imageName("mr-burns.gif"),
+                                imageRef(notNullValue(String.class)),
+                                imageWidth(481),
+                                imageHeight(592)))));
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.AttachmentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,7 +41,6 @@ import static com.jivesoftware.android.mobile.sdk.entity.matcher.ContentEntityMa
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ContentEntityMatchers.contentUsers;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.ContentEntityMatchers.contentVisibility;
 import static com.jivesoftware.android.mobile.sdk.entity.matcher.JiveObjectEntityMatchers.objectSelfURL;
-import static com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers.listEntities;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -48,10 +48,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class JiveCoreContentITest extends AbstractDelayedRestITest {
 
+    @SuppressWarnings("RedundantTypeArguments")
     @Test
     public void testWhenDocumentContentIsCreatedThenItIsRetrieved() throws Exception {
         String content = "Hello world!";
@@ -125,6 +127,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
                         contentEntity2SelfUrl)));
     }
 
+    @SuppressWarnings({"unchecked", "RedundantTypeArguments"})
     @Test
     public void testFetchContentWithNextLink() throws Exception {
         String content = "Hello world!";
@@ -186,6 +189,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
                         Collections.singletonList(contentEntity2SelfUrl)));
     }
 
+    @SuppressWarnings("RedundantTypeArguments")
     @Test
     public void testUpdateContent() throws Exception {
         String uuid = UUID.randomUUID().toString();
@@ -215,6 +219,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
                 contentUsers(contains(objectSelfURL(USER2.selfURL)))));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateContentWithTextAttachments() throws Exception {
         String uuid = UUID.randomUUID().toString();
@@ -271,9 +276,10 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
                 HttpEntity entity = httpResponse.getEntity();
 
                 ZipInputStream zipInputStream = new ZipInputStream(entity.getContent());
-                for (ZipEntry zipEntry; (zipEntry = zipInputStream.getNextEntry()) != null; ) {
+                {
+                    ZipEntry zipEntry = zipInputStream.getNextEntry();
+                    assertNotNull(zipEntry);
                     assertEquals(name, zipEntry.getName());
-                    break;
                 }
 
                 InputStreamReader inputStreamReader = new InputStreamReader(zipInputStream, "UTF-8");
@@ -310,6 +316,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         assertThat(actual, containsInAnyOrder("el barto", "Monty Burns"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateContentWithImageAttachments() throws Exception {
         // Tested images separately because of JIVE-48402
@@ -343,6 +350,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         )));
     }
 
+    @SuppressWarnings({"unchecked", "RedundantTypeArguments"})
     @Test
     public void testCreateAndFetchComments() throws Exception {
         String uuid = UUID.randomUUID().toString();
@@ -363,7 +371,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         newCommentEntity1.content.type = "text/html";
 
         jiveCoreAdmin.createContent(createdDocumentEntity.resources.get("comments").ref, newCommentEntity1, Collections.<FileBody>emptyList()).call();
-        
+
         ContentEntity newCommentEntity2 = new ContentEntity();
         newCommentEntity2.type = JiveCoreContentType.comment;
         newCommentEntity2.content = new ContentBodyEntity();
@@ -374,12 +382,13 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
 
         ContentListEntity repliesContentListEntity = jiveCoreAdmin.fetchReplies(createdDocumentEntity.resources.get("comments").ref, new JiveCoreRequestOptions()).call();
 
-        assertThat(repliesContentListEntity, listEntities(Matchers.<ContentEntity>contains(
-                contentContentBody(Matchers.<ContentBodyEntity>allOf(
-                        contentBodyText(containsString("Comment1")),
-                        contentBodyType("text/html"))),
-                contentContentBody(Matchers.<ContentBodyEntity>allOf(
-                        contentBodyText(containsString("Comment2")),
-                        contentBodyType("text/html"))))));
+        assertThat(repliesContentListEntity, ListEntityMatchers.<ContentEntity, ContentListEntity>listEntities(
+                Matchers.<ContentEntity>contains(
+                        contentContentBody(Matchers.<ContentBodyEntity>allOf(
+                                contentBodyText(containsString("Comment1")),
+                                contentBodyType("text/html"))),
+                        contentContentBody(Matchers.<ContentBodyEntity>allOf(
+                                contentBodyText(containsString("Comment2")),
+                                contentBodyType("text/html"))))));
     }
 }
