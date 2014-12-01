@@ -25,6 +25,7 @@ import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
 import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreHttpClientAuthUtils;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
+import com.jivesoftware.android.mobile.sdk.util.HttpClientUtil;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -36,12 +37,14 @@ import org.apache.http.impl.client.AbstractHttpClient;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class JiveCore {
+public class JiveCore implements Closeable {
     static {
         // Uncomment to turn on HttpClient Wire Debugging
         //noinspection ConstantConditions,ConstantIfStatement
@@ -63,6 +66,8 @@ public class JiveCore {
 
     @Nonnull
     public final JiveCoreRequestFactory jiveCoreRequestFactory;
+    @Nonnull
+    private final HttpClient httpClient;
     @Nonnull
     private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
     @Nonnull
@@ -95,7 +100,7 @@ public class JiveCore {
             JiveJson jiveJson,
             JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this(
-                jiveCoreRequestFactory,
+                httpClient, jiveCoreRequestFactory,
                 new JiveCoreJiveJsonCallableFactory(httpClient, jiveJson, jiveCoreExceptionFactory),
                 new JiveCoreEmptyCallableFactory(httpClient, jiveCoreExceptionFactory),
                 new JiveCoreInputStreamCallableFactory(httpClient, jiveCoreExceptionFactory),
@@ -103,16 +108,23 @@ public class JiveCore {
     }
 
     public JiveCore(
+            HttpClient httpClient,
             JiveCoreRequestFactory jiveCoreRequestFactory,
             JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory,
             JiveCoreEmptyCallableFactory jiveCoreEmptyCallableFactory,
             JiveCoreInputStreamCallableFactory jiveCoreInputStreamCallableFactory,
             JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory) {
+        this.httpClient = httpClient;
         this.jiveCoreRequestFactory = jiveCoreRequestFactory;
         this.jiveCoreJiveJsonCallableFactory = jiveCoreJiveJsonCallableFactory;
         this.jiveCoreEmptyCallableFactory = jiveCoreEmptyCallableFactory;
         this.jiveCoreInputStreamCallableFactory = jiveCoreInputStreamCallableFactory;
         this.jiveCoreGenericCallableFactory = jiveCoreGenericCallableFactory;
+    }
+
+    @Override
+    public void close() throws IOException {
+        HttpClientUtil.shutdownSafely(httpClient);
     }
 
     @Nonnull
@@ -367,8 +379,8 @@ public class JiveCore {
 
     @Nonnull
     public JiveCoreCallable<ImageListEntity> fetchImages(String pathAndQuery) {
-       HttpGet fetchImagesHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
-       return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchImagesHttpGet, ImageListEntity.class);
+        HttpGet fetchImagesHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchImagesHttpGet, ImageListEntity.class);
     }
 
     @Nonnull

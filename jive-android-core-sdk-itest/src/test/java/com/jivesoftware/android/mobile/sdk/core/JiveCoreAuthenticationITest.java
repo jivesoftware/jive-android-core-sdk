@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.spy;
@@ -30,7 +29,7 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
     public void setup() throws Exception {
         super.setup();
 
-        jiveCoreDefaultHttpClientAdmin.getConnectionManager().shutdown();
+        jiveCoreAdmin.close();
 
         spyTestTokenEntityStore = spy(testTokenEntityStoreAdmin);
 

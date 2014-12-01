@@ -6,6 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
+import com.jivesoftware.android.mobile.sdk.util.HttpClientUtil;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -13,10 +14,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.Closeable;
+import java.io.IOException;
 import java.net.URL;
 
 @ParametersAreNonnullByDefault
-public class JiveCoreUnauthenticated {
+public class JiveCoreUnauthenticated implements Closeable {
     static {
         // Uncomment to turn on HttpClient Wire Debugging
         //noinspection ConstantConditions,ConstantIfStatement
@@ -38,6 +41,8 @@ public class JiveCoreUnauthenticated {
 
     @Nonnull
     public final JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory;
+    @Nonnull
+    private final HttpClient httpClient;
     @Nonnull
     private final JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory;
     @Nonnull
@@ -69,18 +74,25 @@ public class JiveCoreUnauthenticated {
             JiveJson jiveJson,
             JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this(
-                jiveCoreUnauthenticatedRequestFactory,
+                httpClient, jiveCoreUnauthenticatedRequestFactory,
                 new JiveCoreJiveJsonCallableFactory(httpClient, jiveJson, jiveCoreExceptionFactory),
                 new JiveCoreGenericCallableFactory(httpClient, jiveCoreExceptionFactory));
     }
 
     public JiveCoreUnauthenticated(
+            HttpClient httpClient,
             JiveCoreUnauthenticatedRequestFactory jiveCoreUnauthenticatedRequestFactory,
             JiveCoreJiveJsonCallableFactory jiveCoreJiveJsonCallableFactory,
             JiveCoreGenericCallableFactory jiveCoreGenericCallableFactory) {
+        this.httpClient = httpClient;
         this.jiveCoreUnauthenticatedRequestFactory = jiveCoreUnauthenticatedRequestFactory;
         this.jiveCoreJiveJsonCallableFactory = jiveCoreJiveJsonCallableFactory;
         this.jiveCoreGenericCallableFactory = jiveCoreGenericCallableFactory;
+    }
+
+    @Override
+    public void close() throws IOException {
+        HttpClientUtil.shutdownSafely(httpClient);
     }
 
     @Nonnull

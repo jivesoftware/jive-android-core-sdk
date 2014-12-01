@@ -8,6 +8,9 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,7 +19,9 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -272,8 +277,25 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
             public String download() throws Exception {
                 HttpGet httpGet = new HttpGet(url);
 
-                HttpResponse httpResponse = jiveCoreDefaultHttpClientAdmin.execute(httpGet);
-                HttpEntity entity = httpResponse.getEntity();
+                JiveCoreCallable<HttpResponse> attachmentHttpResponseCallable;
+                attachmentHttpResponseCallable = jiveCoreAdmin.createCallable(httpGet, new HttpResponseParserFactory<HttpResponse>() {
+                    @Nonnull
+                    @Override
+                    public HttpResponseParser<HttpResponse> createHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory) {
+                        return new HttpResponseParser<HttpResponse>(jiveCoreExceptionFactory) {
+                            @Nullable
+                            @Override
+                            protected HttpResponse parseValidResponse(
+                                    @Nonnull HttpResponse httpResponse,
+                                    int statusCode,
+                                    @Nullable HttpEntity httpEntity) throws IOException, JiveCoreException {
+                                return httpResponse;
+                            }
+                        };
+                    }
+                });
+                HttpResponse attachmentHttpResponse = attachmentHttpResponseCallable.call();
+                HttpEntity entity = attachmentHttpResponse.getEntity();
 
                 ZipInputStream zipInputStream = new ZipInputStream(entity.getContent());
                 {
