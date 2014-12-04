@@ -29,15 +29,14 @@ public class JiveCoreExceptionFactory {
         try {
             errorEntity = jiveJson.fromJson(new ByteArrayInputStream(contentBodyBytes), ErrorEntity.class);
             if (errorEntity == null) {
-                errorEntityParseException = new JiveCoreUnknownException("Parsed a null ErrorEntity", httpResponse, httpEntity, contentBodyBytes);
+                errorEntityParseException = new JiveCoreUnparsedException("Parsed a null ErrorEntity", httpResponse, httpEntity, contentBodyBytes);
             } else {
                 errorEntityParseException = null;
             }
         } catch (IOException e) {
             errorEntity = null;
-            // since we already read the contentBodyBytes, we shouldn't get any IOException
-            // but I'm not confident enough in that to throw an AssertionError
-            errorEntityParseException = new JiveCoreUnknownException(e, httpResponse, httpEntity, contentBodyBytes);
+            // We'll get here on JSON parse errors, caused by HTML content in a 404 response, for example.
+            errorEntityParseException = new JiveCoreUnparsedException(e, httpResponse, httpEntity, contentBodyBytes);
         }
 
         if (isLoginRequiredError(statusCode, errorEntity)) {

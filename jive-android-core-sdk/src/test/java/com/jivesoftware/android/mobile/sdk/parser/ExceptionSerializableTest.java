@@ -173,8 +173,8 @@ public class ExceptionSerializableTest {
     }
 
     @Test
-    public void serializeJiveCoreUnknownException() throws Exception {
-        JiveCoreUnknownException testObject = serializeAndDeserialize(JiveCoreUnknownException.class, new JiveCoreUnknownException(httpResponse, httpEntity, new byte[] {42}));
+    public void serializeJiveCoreUnparsedException() throws Exception {
+        JiveCoreUnparsedException testObject = serializeAndDeserialize(JiveCoreUnparsedException.class, new JiveCoreUnparsedException(httpResponse, httpEntity, new byte[] {42}));
 
         assertArrayEquals(new byte[] {42}, testObject.contentBodyBytes);
     }
