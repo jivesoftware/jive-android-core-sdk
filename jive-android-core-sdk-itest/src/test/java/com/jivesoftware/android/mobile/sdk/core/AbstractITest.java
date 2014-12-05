@@ -10,6 +10,7 @@ import org.junit.Before;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +42,8 @@ public class AbstractITest extends TestEndpoint {
 
     protected JiveJson jiveJson = new JiveJson();
 
+    protected JiveCoreUnauthenticated jiveCoreUnauthenticatedAdminRedirecting;
+
     protected JiveCoreUnauthenticated jiveCoreUnauthenticatedAdmin;
 
     protected volatile TestTokenEntityStore testTokenEntityStoreAdmin;
@@ -64,26 +67,76 @@ public class AbstractITest extends TestEndpoint {
 
     @Before
     public void setup() throws Exception {
-        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, new DefaultHttpClient(), jiveJson);
+        jiveCoreUnauthenticatedAdminRedirecting = new JiveCoreUnauthenticated(
+                TEST_REDIRECTING_URL,
+                OAUTH_CREDENTIALS,
+                OAUTH_ADDON_UUID,
+                new DefaultHttpClient(),
+                jiveJson);
 
-        testTokenEntityStoreAdmin = new TestTokenEntityStore(jiveCoreUnauthenticatedAdmin, ADMIN.username, ADMIN.password);
+        jiveCoreUnauthenticatedAdmin = new JiveCoreUnauthenticated(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                OAUTH_ADDON_UUID,
+                new DefaultHttpClient(),
+                jiveJson);
+
+        testTokenEntityStoreAdmin = new TestTokenEntityStore(
+                jiveCoreUnauthenticatedAdmin,
+                ADMIN.username,
+                ADMIN.password);
         testTokenEntityRefresherAdmin = new TestTokenEntityRefresher();
 
-        jiveCoreAdmin = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, new DefaultHttpClient(), testTokenEntityStoreAdmin, testTokenEntityRefresherAdmin, jiveJson);
+        jiveCoreAdmin = new JiveCore(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                new DefaultHttpClient(),
+                testTokenEntityStoreAdmin,
+                testTokenEntityRefresherAdmin,
+                jiveJson);
 
-        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, new DefaultHttpClient(), jiveJson);
+        jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                OAUTH_ADDON_UUID,
+                new DefaultHttpClient(),
+                jiveJson);
 
-        testTokenEntityStoreUser2 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser2, USER2.username, USER2.password);
+
+        testTokenEntityStoreUser2 = new TestTokenEntityStore(
+                jiveCoreUnauthenticatedUser2,
+                USER2.username,
+                USER2.password);
         testTokenEntityRefresherUser2 = new TestTokenEntityRefresher();
 
-        jiveCoreUser2 = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, new DefaultHttpClient(), testTokenEntityStoreUser2, testTokenEntityRefresherUser2, jiveJson);
+        jiveCoreUser2 = new JiveCore(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                new DefaultHttpClient(),
+                testTokenEntityStoreUser2,
+                testTokenEntityRefresherUser2,
+                jiveJson);
 
-        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, new DefaultHttpClient(), jiveJson);
+        jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                OAUTH_ADDON_UUID,
+                new DefaultHttpClient(),
+                jiveJson);
 
-        testTokenEntityStoreUser3 = new TestTokenEntityStore(jiveCoreUnauthenticatedUser3, USER3.username, USER3.password);
+        testTokenEntityStoreUser3 = new TestTokenEntityStore(
+                jiveCoreUnauthenticatedUser3,
+                USER3.username,
+                USER3.password);
         testTokenEntityRefresherUser3 = new TestTokenEntityRefresher();
 
-        jiveCoreUser3 = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, new DefaultHttpClient(), testTokenEntityStoreUser3, testTokenEntityRefresherUser3, jiveJson);
+        jiveCoreUser3 = new JiveCore(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                new DefaultHttpClient(),
+                testTokenEntityStoreUser3,
+                testTokenEntityRefresherUser3,
+                jiveJson);
     }
 
     @After
@@ -118,9 +171,8 @@ public class AbstractITest extends TestEndpoint {
         }
     }
 
+    @ParametersAreNonnullByDefault
     protected static class TestTokenEntityStore implements JiveCoreTokenEntityStore {
-        public final CopyOnWriteArrayList<TokenEntity> tokenEntities = new CopyOnWriteArrayList<TokenEntity>();
-
         @Nonnull
         private final JiveCoreUnauthenticated jiveCoreUnauthenticated;
         @Nonnull
@@ -129,38 +181,33 @@ public class AbstractITest extends TestEndpoint {
         @Nonnull
         private final String password;
 
-        public TestTokenEntityStore(@Nonnull JiveCoreUnauthenticated jiveCoreUnauthenticated, @Nonnull String username, @Nonnull String password) {
+        public TestTokenEntityStore(
+                JiveCoreUnauthenticated jiveCoreUnauthenticated,
+                String username,
+                String password) {
             this.jiveCoreUnauthenticated = jiveCoreUnauthenticated;
             this.username = username;
             this.password = password;
         }
 
         @Nullable
-        public TokenEntity getLastTokenEntity() {
-            if (tokenEntities.isEmpty()) {
-                return null;
-            } else {
-                return tokenEntities.get(tokenEntities.size() - 1);
-            }
-        }
-
-        @Nullable
         @Override
         public TokenEntity getTokenEntity() throws IOException, JiveCoreException {
-            JiveCoreCallable<TokenEntity> authorizeDeviceCallable = jiveCoreUnauthenticated.authorizeDevice(username, password);
+            JiveCoreCallable<TokenEntity> authorizeDeviceCallable = jiveCoreUnauthenticated.authorizeDevice(
+                    username,
+                    password);
             TokenEntity tokenEntity = authorizeDeviceCallable.call();
-            tokenEntities.add(tokenEntity);
-
             return tokenEntity;
         }
     }
 
+    @ParametersAreNonnullByDefault
     protected class TestTokenEntityRefresher implements JiveCoreTokenEntityRefresher {
         public final CopyOnWriteArrayList<TokenEntity> refreshedTokenEntities = new CopyOnWriteArrayList<TokenEntity>();
 
         @Nullable
         @Override
-        public TokenEntity refreshTokenEntity(@Nonnull String refreshToken) throws IOException, JiveCoreException {
+        public TokenEntity refreshTokenEntity(String refreshToken) throws IOException, JiveCoreException {
             JiveCoreCallable<TokenEntity> refreshTokenCallable = jiveCoreUnauthenticatedAdmin.refreshToken(refreshToken);
             TokenEntity refreshedTokenEntity = refreshTokenCallable.call();
             refreshedTokenEntities.add(refreshedTokenEntity);

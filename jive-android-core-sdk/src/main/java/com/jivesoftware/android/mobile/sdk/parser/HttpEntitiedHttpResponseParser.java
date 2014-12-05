@@ -3,19 +3,20 @@ package com.jivesoftware.android.mobile.sdk.parser;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 
+@ParametersAreNonnullByDefault
 public abstract class HttpEntitiedHttpResponseParser<T> extends HttpResponseParser<T> {
-    public HttpEntitiedHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory) {
+    public HttpEntitiedHttpResponseParser(JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         super(jiveCoreExceptionFactory);
     }
 
     @Nullable
      @Override
      protected T parseValidResponse(
-            @Nonnull HttpResponse httpResponse,
+            HttpResponse httpResponse,
             int statusCode,
             @Nullable HttpEntity httpEntity) throws IOException, JiveCoreException {
         if (httpEntity == null) {
@@ -28,7 +29,7 @@ public abstract class HttpEntitiedHttpResponseParser<T> extends HttpResponsePars
 
     @Nullable
     protected abstract T parseHttpEntitiedResponse(
-            @Nonnull HttpResponse httpResponse,
+            HttpResponse httpResponse,
             int statusCode,
-            @Nonnull HttpEntity httpEntity) throws IOException, JiveCoreException;
+            HttpEntity httpEntity) throws IOException, JiveCoreException;
 }

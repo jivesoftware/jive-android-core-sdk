@@ -5,9 +5,11 @@ import com.jivesoftware.android.mobile.matcher.DowncastMatcher;
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.hamcrest.CoreMatchers;
@@ -317,6 +319,17 @@ public class HttpMatchers {
             @Override
             protected String getPropertyValue(@Nonnull FileBody item) throws Exception {
                 return item.getMimeType();
+            }
+        };
+    }
+
+    @Nonnull
+    public static Matcher<HttpRequest> requestIsRedirecting(boolean redirecting) {
+        return new PropertyMatcher<Boolean, HttpRequest>("isRedirecting", redirecting) {
+            @Nonnull
+            @Override
+            protected Boolean getPropertyValue(@Nonnull HttpRequest item) throws Exception {
+                return HttpClientParams.isRedirecting(item.getParams());
             }
         };
     }

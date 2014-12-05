@@ -4,20 +4,22 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.io.InputStream;
 
+@ParametersAreNonnullByDefault
 public class PlainInputStreamHttpResponseParser extends InputStreamHttpResponseParser<InputStream> {
-    public PlainInputStreamHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory) {
+    public PlainInputStreamHttpResponseParser(JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         super(jiveCoreExceptionFactory);
     }
 
     @Nonnull
     @Override
-    protected InputStream parseContentInputStreamedResponse(@Nonnull HttpResponse httpResponse,
+    protected InputStream parseContentInputStreamedResponse(HttpResponse httpResponse,
                                                             int statusCode,
-                                                            @Nonnull HttpEntity httpEntity,
-                                                            @Nonnull InputStream contentInputStream) throws IOException {
+                                                            HttpEntity httpEntity,
+                                                            InputStream contentInputStream) throws IOException {
         return contentInputStream;
     }
 }

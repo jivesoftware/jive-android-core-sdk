@@ -121,7 +121,7 @@ public class JiveCoreUnauthenticated implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<SessionGrantEntity> fetchSessionGrant() {
-        HttpGet fetchSessionGrantHttpGet = jiveCoreUnauthenticatedRequestFactory.isSessionOAuthGrantAllowed();
+        HttpGet fetchSessionGrantHttpGet = jiveCoreUnauthenticatedRequestFactory.fetchSessionGrant();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchSessionGrantHttpGet, SessionGrantEntity.class);
     }
 

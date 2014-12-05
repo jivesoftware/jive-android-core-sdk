@@ -146,7 +146,11 @@ public class GzipITest extends TestEndpoint {
                 return new InputStreamHttpResponseParser<InputStream>(jiveCoreExceptionFactory) {
                     @Nullable
                     @Override
-                    protected InputStream parseContentInputStreamedResponse(@Nonnull HttpResponse httpResponse, int statusCode, @Nonnull HttpEntity httpEntity, @Nonnull InputStream contentInputStream) throws IOException {
+                    protected InputStream parseContentInputStreamedResponse(
+                            @Nonnull HttpResponse httpResponse,
+                            int statusCode,
+                            @Nonnull HttpEntity httpEntity,
+                            @Nonnull InputStream contentInputStream) throws IOException {
                         return contentInputStream;
                     }
                 };

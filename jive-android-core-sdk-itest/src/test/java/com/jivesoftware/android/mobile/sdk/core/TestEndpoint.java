@@ -74,6 +74,7 @@ public abstract class TestEndpoint {
 
     // TEST_URL must be defined above TestUser because TestUser uses it in its constructor.
     public static final URL TEST_URL = JiveURLUtil.createURL(getProperty("TEST_URL"));
+    public static final URL TEST_REDIRECTING_URL = JiveURLUtil.createURL(getProperty("TEST_REDIRECTING_URL"));
     public static final String OAUTH_CREDENTIALS = getProperty("OAUTH_CREDENTIALS");
     public static final String OAUTH_ADDON_UUID = getProperty("OAUTH_ADDON_UUID");
 

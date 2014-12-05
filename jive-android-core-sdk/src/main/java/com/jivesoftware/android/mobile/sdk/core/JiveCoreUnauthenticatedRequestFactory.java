@@ -1,15 +1,15 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
-import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
-import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreAuthScheme;
-import org.apache.http.Header;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,9 +32,29 @@ public class JiveCoreUnauthenticatedRequestFactory {
     }
 
     @Nonnull
+    public static URL getBaseURLFromFetchVersionLocation(String fetchVersionLocation) throws JiveCoreInvalidLocationException {
+        int lastApiVersionIndex = fetchVersionLocation.lastIndexOf("api/version");
+        if (lastApiVersionIndex == -1) {
+            throw new JiveCoreInvalidLocationException();
+        } else {
+            String baseLocation = fetchVersionLocation.substring(0, lastApiVersionIndex);
+            URL baseURL;
+            try {
+                baseURL = new URL(baseLocation);
+            } catch (MalformedURLException e) {
+                throw new JiveCoreInvalidLocationException(e);
+            }
+            return baseURL;
+        }
+    }
+
+    @Nonnull
     public HttpGet fetchVersion() {
         URI fetchVersionURI = createURI(baseURL, "api/version");
         HttpGet versionHttpGet = new HttpGet(fetchVersionURI);
+        HttpParams versionHttpGetHttpParams = versionHttpGet.getParams();
+        HttpClientParams.setRedirecting(versionHttpGetHttpParams, false);
+
         return versionHttpGet;
     }
 
@@ -42,6 +62,9 @@ public class JiveCoreUnauthenticatedRequestFactory {
     public HttpGet fetchPublicMetadataProperties() {
         URI fetchPublicMetadataPropertiesURI = createURI(baseURL, "api/core/v3/metadata/properties/public");
         HttpGet publicMetadataPropertiesHttpGet = new HttpGet(fetchPublicMetadataPropertiesURI);
+        HttpParams publicMetdataPropertiesHttpGetHttpParams = publicMetadataPropertiesHttpGet.getParams();
+        HttpClientParams.setRedirecting(publicMetdataPropertiesHttpGetHttpParams, false);
+
         return publicMetadataPropertiesHttpGet;
     }
 
@@ -77,8 +100,12 @@ public class JiveCoreUnauthenticatedRequestFactory {
     }
 
     @Nonnull
-    public HttpGet isSessionOAuthGrantAllowed() {
+    public HttpGet fetchSessionGrant() {
         URI uri = createURI(baseURL, "/api/addons/" + addonUUID + "/session-grant-allowed");
-        return new HttpGet(uri);
+        HttpGet fetchSessionGrantHttpGet = new HttpGet(uri);
+        HttpParams fetchSessionGrantHttpGetHttpParams = fetchSessionGrantHttpGet.getParams();
+        HttpClientParams.setRedirecting(fetchSessionGrantHttpGetHttpParams, false);
+
+        return fetchSessionGrantHttpGet;
     }
 }

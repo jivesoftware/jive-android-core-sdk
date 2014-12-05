@@ -1,12 +1,11 @@
 package com.jivesoftware.android.mobile.sdk.util;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by mark.schisler on 8/15/14.
- */
+@ParametersAreNonnullByDefault
 public class StringUtil {
     // ++ is a possessive one-or-many qualifier.
     // possessive quantifiers always eat the entire input string, trying once

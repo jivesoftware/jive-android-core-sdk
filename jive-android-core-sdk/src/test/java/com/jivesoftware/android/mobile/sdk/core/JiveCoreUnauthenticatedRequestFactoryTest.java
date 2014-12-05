@@ -1,31 +1,23 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
-import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
-import com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers;
-import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
-import static junit.framework.TestCase.assertEquals;
+import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.httpHeadersContains;
+import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestEntity;
+import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestIsRedirecting;
+import static com.jivesoftware.android.mobile.httpclient.matcher.HttpMatchers.requestUrl;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by mark.schisler on 8/19/14.
- */
 public class JiveCoreUnauthenticatedRequestFactoryTest {
-
-    @Mock private HttpClient httpClient;
 
     private JiveCoreUnauthenticatedRequestFactory testObject;
 
@@ -39,51 +31,66 @@ public class JiveCoreUnauthenticatedRequestFactoryTest {
 
     @Test
     public void testWhenVersionThenRequestIsCreatedProperly() {
-        HttpGet get = testObject.fetchVersion();
+        HttpGet fetchVersionHttpGet = testObject.fetchVersion();
 
-        assertNotNull(get);
-        assertEquals(get.getMethod(), "GET");
-        assertEquals(get.getURI(), URI.create("http://jiveland.com/api/version"));
+        assertThat(fetchVersionHttpGet, allOf(
+                requestUrl("http://jiveland.com/api/version"),
+                requestIsRedirecting(false)));
     }
 
     @Test
     public void testWhenRefreshTokenOccursThenOauth2TokenIsCalledWithRefreshGrant() throws IOException {
-        String refreshTokenValue = "refreshTokenValue";
-        HttpPost post = testObject.refreshToken(refreshTokenValue);
+        HttpPost refreshTokenHttpPost = testObject.refreshToken("refreshTokenValue");
 
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
-        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=refresh_token&refresh_token=" + refreshTokenValue);
+        assertThat(refreshTokenHttpPost, allOf(
+                requestUrl("http://jiveland.com/oauth2/token"),
+                httpHeadersContains(JiveCoreHeaders.AUTHORIZATION, "Basic oauthCredentials"),
+                requestEntity("grant_type", "refresh_token", "refresh_token", "refreshTokenValue"),
+                requestIsRedirecting(true)));
     }
 
     @Test
     public void testWhenAuthorizeDeviceThenRequestIsCreatedProperly() throws IOException {
-        HttpPost post = testObject.authorizeDevice("user", "password123");
+        HttpPost authorizeDeviceHttpPost = testObject.authorizeDevice("user", "password123");
 
-        assertNotNull(post);
-        assertEquals(post.getMethod(), "POST");
-        assertEquals(post.getURI(), URI.create("http://jiveland.com/oauth2/token"));
-        assertEquals(post.getFirstHeader(JiveCoreHeaders.AUTHORIZATION).getValue(), "Basic oauthCredentials");
-        assertEquals(JiveEntityUtil.toString(post.getEntity()), "grant_type=password&username=user&password=password123");
+        assertThat(authorizeDeviceHttpPost, allOf(
+                requestUrl("http://jiveland.com/oauth2/token"),
+                httpHeadersContains(JiveCoreHeaders.AUTHORIZATION, "Basic oauthCredentials"),
+                requestEntity("grant_type", "password", "username", "user", "password", "password123"),
+                requestIsRedirecting(true)));
     }
 
     @Test
-    public void testWhenIsSessionOAuthGrantAllowedCalledThenRequestIsCreatedProperly() {
-        HttpGet get = testObject.isSessionOAuthGrantAllowed();
+    public void testWhenFetchSessionGrantCalledThenRequestIsCreatedProperly() {
+        HttpGet fetchSessionGrantHttpGet = testObject.fetchSessionGrant();
 
-        assertNotNull(get);
-        assertEquals(get.getMethod(), "GET");
-        assertEquals(get.getURI(), URI.create("http://jiveland.com/api/addons/oauthAddOnUUID/session-grant-allowed"));
+        assertThat(fetchSessionGrantHttpGet, allOf(
+                requestUrl("http://jiveland.com/api/addons/oauthAddOnUUID/session-grant-allowed"),
+                requestIsRedirecting(false)));
     }
 
     @Test
-    public void testGetMetadataPropertiesPublic()  {
-        HttpGet get = testObject.fetchPublicMetadataProperties();
+    public void testGetMetadataPropertiesPublic() {
+        HttpGet fetchPublicMetadataPropertiesHttpGet = testObject.fetchPublicMetadataProperties();
 
-        assertThat(get, allOf(
-                HttpMatchers.requestUrl("http://jiveland.com/api/core/v3/metadata/properties/public"),
-                HttpMatchers.requestMethod("GET")));
+        assertThat(fetchPublicMetadataPropertiesHttpGet, allOf(
+                requestUrl("http://jiveland.com/api/core/v3/metadata/properties/public"),
+                requestIsRedirecting(false)));
+    }
+
+    @Test
+    public void testGetBaseURLFromFetchVersionLocationReturnsBaseURL() throws Exception {
+        URL baseURL = JiveCoreUnauthenticatedRequestFactory.getBaseURLFromFetchVersionLocation("http://jiveland.com/api/version");
+        assertEquals(new URL("http://jiveland.com/"), baseURL);
+    }
+
+    @Test (expected = JiveCoreInvalidLocationException.class)
+    public void testGetBaseURLFromFetchVersionLocationThrowsJiveCoreInvalidLocationExceptionWhenApiVersionMissing() throws Exception {
+        JiveCoreUnauthenticatedRequestFactory.getBaseURLFromFetchVersionLocation("http://jiveland.com");
+    }
+
+    @Test (expected = JiveCoreInvalidLocationException.class)
+    public void testGetBaseURLFromFetchVersionLocationThrowsJiveCoreInvalidLocationExceptionWhenLocationIsntURL() throws Exception {
+        JiveCoreUnauthenticatedRequestFactory.getBaseURLFromFetchVersionLocation("foo/bar/api/version");
     }
 }

@@ -8,15 +8,17 @@ import org.apache.http.StatusLine;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+@ParametersAreNonnullByDefault
 public abstract class HttpResponseParser<T> {
 
     @Nonnull
     private final JiveCoreExceptionFactory jiveCoreExceptionFactory;
 
-    protected HttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory) {
+    protected HttpResponseParser(JiveCoreExceptionFactory jiveCoreExceptionFactory) {
         this.jiveCoreExceptionFactory = jiveCoreExceptionFactory;
     }
 
@@ -38,6 +40,16 @@ public abstract class HttpResponseParser<T> {
         if ((statusCategoryCode == 2) && !isMobileGatewayResponse) {
             T result = parseValidResponse(httpResponse, statusCode, httpEntity);
             return result;
+        } else if (statusCategoryCode == 3) {
+            Header locationHeader = httpResponse.getFirstHeader("Location");
+            String location;
+            if (locationHeader == null) {
+                location = null;
+            } else {
+                location = locationHeader.getValue();
+            }
+
+            throw new JiveCoreRedirectedException(httpResponse, location);
         } else if (statusCategoryCode == 5) {
             throw new JiveCoreServerException(httpResponse);
         } else {
@@ -74,7 +86,7 @@ public abstract class HttpResponseParser<T> {
 
     @Nullable
     protected abstract T parseValidResponse(
-            @Nonnull HttpResponse httpResponse,
+            HttpResponse httpResponse,
             int statusCode,
             @Nullable HttpEntity httpEntity) throws IOException, JiveCoreException;
 }
