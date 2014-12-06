@@ -54,6 +54,7 @@ public class ActivityEntity {
         public Boolean parentLiked;
         public JiveCoreOutcomeTypeValue outcomeTypeName;
         public Boolean canLike;
+        public Boolean objectViewed;
 
         public ActivityObjectEntity mentioned;
         public Boolean read;
