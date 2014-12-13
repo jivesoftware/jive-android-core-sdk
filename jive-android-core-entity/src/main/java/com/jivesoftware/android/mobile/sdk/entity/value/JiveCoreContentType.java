@@ -17,6 +17,8 @@ public enum JiveCoreContentType implements JiveCoreContentTypeValue {
 
     favorite,
 
+    url,
+
     file,
 
     idea,
