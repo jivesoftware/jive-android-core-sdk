@@ -9,7 +9,7 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 
 import java.util.Date;
 
-import static com.fasterxml.jackson.databind.annotation.JsonSerialize.*;
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @JsonSerialize(include= Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -23,7 +23,7 @@ public class ActivityEntity {
     public String title;
     public JiveCoreVerbValue verb;
     public String url;
-    public String previewImage;
+    public MediaLinkEntity previewImage;
     public Date published;
     public Date updated;
 

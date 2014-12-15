@@ -8,5 +8,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MediaLinkEntity {
+    public Integer height;
+    public Integer width;
     public String url;
 }
