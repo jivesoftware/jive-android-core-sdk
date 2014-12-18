@@ -75,4 +75,5 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public String productName;
     public ObjectEntity object;
     public FavoriteObjectEntity favoriteObject;
+    public String url;
 }
