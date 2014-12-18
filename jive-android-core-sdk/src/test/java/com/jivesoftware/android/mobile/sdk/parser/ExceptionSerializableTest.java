@@ -1,6 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
-import com.jivesoftware.android.mobile.sdk.FakeHttpServer;
+import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.mobile.sdk.entity.SimpleErrorEntity;
 import com.jivesoftware.android.mobile.sdk.httpclient.SerializableHeader;
 import org.apache.http.HttpEntity;
@@ -11,6 +11,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import spark.Request;
+import spark.Response;
+import spark.SparkJive;
+import spark.route.HttpMethod;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
@@ -39,22 +43,31 @@ public class ExceptionSerializableTest {
     public void setup() throws Exception {
         defaultHttpClient = new DefaultHttpClient();
 
-        FakeHttpServer fakeHttpServer = new FakeHttpServer();
-        HttpGet httpGet = fakeHttpServer.startServerThreadAndCompleteNormallyWhenClientConnects(
-                "HTTP/1.1 200 OK",
-                new String[]{
-                        "Content-Type: text/html;charset=UTF-8",
-                        "Content-Encoding: identity",
-                        "Content-Language: en-US",
-                        "Connection: close",
-                        "Content-Length: " + CONTENT.length(),
-                },
-                CONTENT);
+        final SparkJive sparkJive = new SparkJive();
+        final HttpGet httpGet = new HttpGet(sparkJive.getURI());
+        sparkJive.setScript(ImmutableList.of(new SparkJive.ScriptEntry(HttpMethod.get, "/",
+                new SparkJive.Handler() {
+                    @Override
+                    public Object handle(Request request, Response response) {
+                        response.header("Content-Type", "text/html;charset=UTF-8");
+                        response.header("Content-Encoding", "identity");
+                        response.header("Content-Language", "en-US");
+                        response.header("Content-Length", String.valueOf(CONTENT.length()));
+                        response.header("Connection", "close");
+                        response.body(CONTENT);
+                        response.status(200);
+                        return response;
+                    }
+                }
+        )));
+
+
         httpResponse = defaultHttpClient.execute(httpGet);
-        fakeHttpServer.stopServerThread();
         assertNotNull(httpResponse);
         httpEntity = httpResponse.getEntity();
         assertNotNull(httpEntity);
+        assertTrue(sparkJive.isScriptComplete());
+        sparkJive.close();
     }
 
     @After
@@ -93,9 +106,9 @@ public class ExceptionSerializableTest {
                         new SerializableHeader("Content-Type", "text/html;charset=UTF-8"),
                         new SerializableHeader("Content-Encoding", "identity"),
                         new SerializableHeader("Content-Language", "en-US"),
-                        new SerializableHeader("Connection", "close"),
-                        new SerializableHeader("Content-Length", "34")),
-                testObject.headers);
+                        new SerializableHeader("Content-Length", "34"),
+                        new SerializableHeader("Connection", "close")),
+                testObject.headers.subList(0,testObject.headers.size()-1)); // Jetty likes to add an extra header, we don't need to check that
     }
 
     @Test

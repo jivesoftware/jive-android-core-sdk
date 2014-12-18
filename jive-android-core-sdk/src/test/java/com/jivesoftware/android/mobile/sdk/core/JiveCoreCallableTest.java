@@ -1,7 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
+import com.google.common.collect.ImmutableList;
 import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
-import com.jivesoftware.android.mobile.sdk.FakeHttpServer;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import com.jivesoftware.android.mobile.sdk.parser.PlainInputStreamHttpResponseParser;
@@ -12,6 +12,10 @@ import org.apache.http.impl.client.RequestWrapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import spark.Request;
+import spark.Response;
+import spark.SparkJive;
+import spark.route.HttpMethod;
 
 import java.io.InputStream;
 import java.net.UnknownHostException;
@@ -148,8 +152,18 @@ public class JiveCoreCallableTest {
 
     @Test
     public void cancelDuringHttpClientExecuteThrowsCancellationException() throws Exception {
-        FakeHttpServer fakeHttpServer = new FakeHttpServer();
-        HttpGet httpGet = fakeHttpServer.startServerThreadAndAbortHttpGetWhenClientConnects();
+        final SparkJive sparkJive = new SparkJive();
+        final HttpGet httpGet = new HttpGet(sparkJive.getURI());
+        sparkJive.setScript(ImmutableList.of(new SparkJive.ScriptEntry(HttpMethod.get, "/",
+                new SparkJive.Handler() {
+                    @Override
+                    public Object handle(Request request, Response response) {
+                        httpGet.abort();
+                        sparkJive.close();
+                        return null;
+                    }
+                }
+        )));
 
         JiveCoreCallable<InputStream> testObject = new JiveCoreCallable<InputStream>(
                 httpGet,
@@ -157,13 +171,12 @@ public class JiveCoreCallableTest {
                 new PlainInputStreamHttpResponseParser(new JiveCoreExceptionFactory(new JiveJson())));
         try {
             testObject.call();
+            fail("Should have thrown CancellationException");
         } catch (CancellationException e) {
             // success!
         }
 
-        fakeHttpServer.stopServerThread();
-
-        assertEquals(Collections.<Throwable>emptySet(), fakeHttpServer.throwables);
+        assertTrue(sparkJive.isScriptComplete());
     }
 
     @Test
