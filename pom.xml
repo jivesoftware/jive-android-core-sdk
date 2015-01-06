@@ -116,7 +116,6 @@
                 <artifactId>jive-spark-core</artifactId>
                 <version>1.1.1</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <build>
@@ -158,8 +157,9 @@
         <module>jive-android-core-sdk-matcher</module>
         <module>jive-android-httpclient-matcher</module>
         <module>jive-android-httpclient-util</module>
-        <module>jive-matcher</module>
-</modules>
+	<module>jive-matcher</module>
+	<module>third-party/spark</module>
+     </modules>
      <profiles>
          <profile>
              <id>standard</id>

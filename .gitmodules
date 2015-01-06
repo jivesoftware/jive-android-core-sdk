@@ -1,0 +1,3 @@
+[submodule "third-party/spark"]
+	path = third-party/spark
+	url = https://github.com/jivesoftware/spark
