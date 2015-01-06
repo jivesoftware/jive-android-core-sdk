@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
 import com.jivesoftware.android.mobile.sdk.core.JiveCoreConstants;
+import com.jivesoftware.android.mobile.sdk.util.HttpEntityUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,7 +57,7 @@ public abstract class HttpResponseParser<T> {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             if (httpEntity != null) {
                 try {
-                    httpEntity.writeTo(byteArrayOutputStream);
+                    HttpEntityUtil.writeToUntransformed(httpEntity, byteArrayOutputStream);
                 } catch (IOException e) {
                     // ignore, we're already in an error state. The HTTP status error is more important.
                 } finally {

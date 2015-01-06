@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 
 @ParametersAreNonnullByDefault
@@ -37,6 +38,22 @@ public class HttpEntityUtil {
             }
         }
         return contentInputStream;
+    }
+
+    public static void writeToUntransformed(HttpEntity httpEntity, OutputStream outputStream) throws IOException {
+        InputStream maybeTransformedContentInputStream = httpEntity.getContent();
+        if (maybeTransformedContentInputStream != null) {
+            InputStream untransformedContentInputStream = HttpEntityUtil.getUntransformedContentInputStream(httpEntity, maybeTransformedContentInputStream);
+
+            try {
+                byte[] buffer = new byte[2048];
+                for (int bytesRead; (bytesRead = untransformedContentInputStream.read(buffer)) != -1;) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } finally {
+                untransformedContentInputStream.close();
+            }
+        }
     }
 
     @Nullable

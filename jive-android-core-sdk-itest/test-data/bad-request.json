@@ -1,0 +1,9 @@
+throw 'allowIllegalResourceCall is false.';
+{
+"error":
+{
+"message": "Invalid filter expression place(/api/core/v3/places/2523,/api/core/v3/places/2524)",
+"status": 400,
+"code": "filterInvalid"
+}
+}
