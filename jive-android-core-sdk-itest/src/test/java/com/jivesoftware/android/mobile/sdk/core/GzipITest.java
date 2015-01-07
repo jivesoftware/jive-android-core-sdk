@@ -9,6 +9,7 @@ import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.EmptyHttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.InputStreamHttpResponseParser;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreAPIException;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,6 +42,10 @@ import java.util.concurrent.ThreadFactory;
 import java.util.zip.GZIPOutputStream;
 
 import static com.jivesoftware.android.mobile.matcher.IterableMatchers.containsAll;
+import static com.jivesoftware.android.mobile.sdk.entity.matcher.ErrorEntityMatchers.errorAPIErrorCode;
+import static com.jivesoftware.android.mobile.sdk.entity.matcher.ErrorEntityMatchers.errorDescription;
+import static com.jivesoftware.android.mobile.sdk.entity.matcher.ErrorEntityMatchers.errorErrorCode;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
@@ -58,6 +63,8 @@ public class GzipITest extends TestEndpoint {
     private JiveJson jiveJson;
     private String oauthCredentials;
     private String oauthAddOnUUID;
+    private JiveCore jiveCore;
+    private JiveCoreUnauthenticated jiveCoreUnauthenticated;
 
     @Before
     public void setup() throws Exception {
@@ -97,9 +104,17 @@ public class GzipITest extends TestEndpoint {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException {
         if (serverSocketExecutorService != null) {
             serverSocketExecutorService.shutdown();
+        }
+        if (jiveCore != null) {
+            jiveCore.close();
+            jiveCore = null;
+        }
+        if (jiveCoreUnauthenticated != null) {
+            jiveCoreUnauthenticated.close();
+            jiveCoreUnauthenticated = null;
         }
     }
 
@@ -107,7 +122,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreUnauthenticatedIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
+        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<VersionEntity> fetchVersionCallable = jiveCoreUnauthenticated.fetchVersion();
         VersionEntity versionEntity = fetchVersionCallable.call();
         assertNotNull(versionEntity);
@@ -121,7 +136,7 @@ public class GzipITest extends TestEndpoint {
     public void jiveCoreIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncoding() throws Exception {
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "direct-message.json"));
 
-        JiveCore jiveCore = new JiveCore(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), httpClient, jiveJson);
+        jiveCore = new JiveCore(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), httpClient, jiveJson);
         JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreRequestOptions());
         ContentEntity contentEntity = fetchContentCallable.call();
         assertNotNull(contentEntity);
@@ -138,7 +153,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
+        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<InputStream> inputStreamCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<InputStream>() {
             @Nonnull
             @Override
@@ -178,7 +193,7 @@ public class GzipITest extends TestEndpoint {
 
         Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "version.json"));
 
-        JiveCoreUnauthenticated jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
+        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
         JiveCoreCallable<Void> emptyCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<Void>() {
             @Nonnull
             @Override
@@ -193,13 +208,64 @@ public class GzipITest extends TestEndpoint {
         assertThat(requestLines, containsAll(not(containsString("gzip"))));
     }
 
+    @Test
+    public void emptyHttpResponseParserAcceptsUnexpectedGzipInErrorResponse() throws Exception {
+        Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "bad-request.json", "400 Bad Request"));
+
+        jiveCoreUnauthenticated = new JiveCoreUnauthenticated(baseURL, oauthCredentials, oauthAddOnUUID, httpClient, jiveJson);
+        JiveCoreCallable<Void> emptyCallable = jiveCoreUnauthenticated.createCallable(new HttpGet(baseURL.toURI()), new HttpResponseParserFactory<Void>() {
+            @Nonnull
+            @Override
+            public HttpResponseParser<Void> createHttpResponseParser(@Nonnull JiveCoreExceptionFactory jiveCoreExceptionFactory) {
+                return new EmptyHttpResponseParser(jiveCoreExceptionFactory);
+            }
+        });
+        try {
+            emptyCallable.call();
+        } catch (JiveCoreAPIException e) {
+            assertThat(e.errorEntity, allOf(
+                    errorDescription("Invalid filter expression place(/api/core/v3/places/2523,/api/core/v3/places/2524)"),
+                    errorAPIErrorCode("filterInvalid"),
+                    errorErrorCode(400)));
+        }
+
+        List<String> requestLines = requestLinesFuture.get(TIMEOUT_AMOUNT, TIMEOUT_TIME_UNIT);
+        assertThat(requestLines, containsAll(not(containsString("gzip"))));
+    }
+
+    @Test
+    public void jiveCoreIncludesAcceptGzipEncodingHeaderAndAcceptsGzipEncodingInErrorResponse() throws Exception {
+        Future<List<String>> requestLinesFuture = serverSocketExecutorService.submit(new AlwaysGzipHttpServer(serverSocket, "bad-request.json", "400 Bad Request"));
+
+        jiveCore = new JiveCore(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), httpClient, jiveJson);
+        JiveCoreCallable<ContentEntity> fetchContentCallable = jiveCore.fetchContent("/foo", new JiveCoreRequestOptions());
+
+        try {
+            fetchContentCallable.call();
+        } catch (JiveCoreAPIException e) {
+            assertThat(e.errorEntity, allOf(
+                    errorDescription("Invalid filter expression place(/api/core/v3/places/2523,/api/core/v3/places/2524)"),
+                    errorAPIErrorCode("filterInvalid"),
+                    errorErrorCode(400)));
+        }
+
+        List<String> requestLines = requestLinesFuture.get(TIMEOUT_AMOUNT, TIMEOUT_TIME_UNIT);
+        assertThat(requestLines, hasItem("Accept-Encoding: gzip"));
+    }
+
     private static class AlwaysGzipHttpServer implements Callable<List<String>> {
         private final ServerSocket serverSocket;
         private final String filename;
+        private final String statusLine;
 
-        private AlwaysGzipHttpServer(ServerSocket serverSocket, String filename) {
+        public AlwaysGzipHttpServer(ServerSocket serverSocket, String filename) {
+            this(serverSocket, filename, "200 OK");
+        }
+
+        public AlwaysGzipHttpServer(ServerSocket serverSocket, String filename, String statusLine) {
             this.serverSocket = serverSocket;
             this.filename = filename;
+            this.statusLine = statusLine;
         }
 
         @Override
@@ -227,7 +293,7 @@ public class GzipITest extends TestEndpoint {
 
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter printWriter = new PrintWriter(new OutputStreamWriter((outputStream)));
-            printWriter.println("HTTP/1.1 200 OK");
+            printWriter.println("HTTP/1.1 " + statusLine);
             printWriter.println("Content-Type: application/json");
             printWriter.println("Content-Length: " + file.length());
             printWriter.println("Content-Encoding: gzip");
