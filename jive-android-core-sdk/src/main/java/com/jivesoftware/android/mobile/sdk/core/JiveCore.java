@@ -36,6 +36,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.AbstractHttpClient;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.Closeable;
 import java.io.IOException;
@@ -83,8 +84,18 @@ public class JiveCore implements Closeable {
             AbstractHttpClient httpClient,
             JiveCoreTokenEntityStore tokenEntityStore,
             JiveCoreTokenEntityRefresher tokenEntityRefresher,
+            @Nullable JiveCoreJiveClientProvider jiveClientProvider,
             JiveJson jiveJson) {
-        this(new JiveCoreRequestFactory(oauthCredentials, baseURL, jiveJson), JiveCoreHttpClientAuthUtils.initHttpClientAuth(httpClient, tokenEntityStore, tokenEntityRefresher), jiveJson);
+        this(new JiveCoreRequestFactory(
+                oauthCredentials,
+                baseURL,
+                jiveJson),
+                JiveCoreHttpClientAuthUtils.initHttpClientAuth(
+                        httpClient,
+                        tokenEntityStore,
+                        tokenEntityRefresher,
+                        jiveClientProvider),
+                jiveJson);
     }
 
     public JiveCore(

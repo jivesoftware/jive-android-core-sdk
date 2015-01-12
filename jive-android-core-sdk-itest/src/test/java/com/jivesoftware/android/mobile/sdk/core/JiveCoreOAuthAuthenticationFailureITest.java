@@ -37,7 +37,14 @@ public class JiveCoreOAuthAuthenticationFailureITest extends TestEndpoint {
         jiveCoreUnauthenticated = new JiveCoreUnauthenticated(TEST_URL, OAUTH_CREDENTIALS, OAUTH_ADDON_UUID, jiveCoreUnauthenticatedDefaultHttpClient, jiveJson);
 
         jiveCoreDefaultHttpClient = new DefaultHttpClient();
-        jiveCore = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, jiveCoreDefaultHttpClient, testTokenEntityStore, testTokenEntityRefresher, jiveJson);
+        jiveCore = new JiveCore(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                jiveCoreDefaultHttpClient,
+                testTokenEntityStore,
+                testTokenEntityRefresher,
+                null,
+                jiveJson);
     }
 
     @After

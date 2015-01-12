@@ -33,7 +33,14 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
 
         spyTestTokenEntityStore = spy(testTokenEntityStoreAdmin);
 
-        jiveCoreAdmin = new JiveCore(TEST_URL, OAUTH_CREDENTIALS, new DefaultHttpClient(), spyTestTokenEntityStore, testTokenEntityRefresherAdmin, jiveJson);
+        jiveCoreAdmin = new JiveCore(
+                TEST_URL,
+                OAUTH_CREDENTIALS,
+                new DefaultHttpClient(),
+                spyTestTokenEntityStore,
+                testTokenEntityRefresherAdmin,
+                null,
+                jiveJson);
     }
 
     @Test

@@ -93,6 +93,7 @@ public class AbstractITest extends TestEndpoint {
                 new DefaultHttpClient(),
                 testTokenEntityStoreAdmin,
                 testTokenEntityRefresherAdmin,
+                null,
                 jiveJson);
 
         jiveCoreUnauthenticatedUser2 = new JiveCoreUnauthenticated(
@@ -115,6 +116,7 @@ public class AbstractITest extends TestEndpoint {
                 new DefaultHttpClient(),
                 testTokenEntityStoreUser2,
                 testTokenEntityRefresherUser2,
+                null,
                 jiveJson);
 
         jiveCoreUnauthenticatedUser3 = new JiveCoreUnauthenticated(
@@ -136,6 +138,7 @@ public class AbstractITest extends TestEndpoint {
                 new DefaultHttpClient(),
                 testTokenEntityStoreUser3,
                 testTokenEntityRefresherUser3,
+                null,
                 jiveJson);
     }
 
