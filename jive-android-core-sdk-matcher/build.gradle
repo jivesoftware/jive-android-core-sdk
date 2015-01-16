@@ -1,0 +1,17 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+test {
+    onlyIf { !Boolean.valueOf("$jive_android_core_sdk_skip_tests") }
+}
+
+dependencies {
+    compile project("$jive_android_core_sdk_prefix:jive-android-core-sdk")
+    compile project("$jive_android_core_sdk_prefix:jive-matcher")
+    compile 'com.google.code.findbugs:jsr305:1.3.9'
+    compile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'junit:junit:4.11'
+}
+

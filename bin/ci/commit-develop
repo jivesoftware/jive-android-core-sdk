@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+set -ex
+. bin/ci/build-env.bash
+build-prepare
+
+${GRADLE} build
+

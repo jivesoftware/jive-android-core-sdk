@@ -1,0 +1,37 @@
+apply plugin: "java"
+
+subprojects {
+    repositories {
+        // For jackson artifacts:
+        mavenCentral()
+    }
+
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+    test {
+        jvmArgs '-XX:MaxPermSize=500m','-Dfile.encoding=UTF-8'
+    }
+
+    // TODO - artifact versioning
+    // TODO - jar artifact creation
+    // TODO - jar signing
+    // TODO - CI integration
+
+//    configurations {
+//        provided
+//    }
+//
+//    sourceSets {
+//        main {
+//            compileClasspath += configurations.provided
+//            runtimeClasspath += configurations.provided
+//        }
+//        test {
+//            compileClasspath += configurations.provided
+//            runtimeClasspath += configurations.provided
+//        }
+//    }
+
+}
+

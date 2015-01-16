@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+set -x
+
+# Make sure our test properties are defined by the CI system.  We don't commit this
+# since it contains system credentials.
+if [ ! -f "jive-android-core-sdk-itest/test-data/TestEndpoint.properties" ]; then
+    echo "ERROR: jive-android-core-sdk-itest/test-data/TestEndpoint.properties should be creatd prior to script invocation" 1>&2
+    exit 1
+fi
+
+# Document our environment
+${GRADLE} --version
+

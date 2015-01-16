@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/jive-android-core-entity-matcher/jive-android-core-entity-matcher.iml" filepath="$PROJECT_DIR$/jive-android-core-entity-matcher/jive-android-core-entity-matcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk-itest/jive-android-core-sdk-itest.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk-itest/jive-android-core-sdk-itest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk-jive-android-core-sdk.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk/jive-android-core-sdk-jive-android-core-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk-matcher/jive-android-core-sdk-matcher.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk-matcher/jive-android-core-sdk-matcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/jive-android-core-sdk-parent.iml" filepath="$PROJECT_DIR$/jive-android-core-sdk-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/jive-android-httpclient-matcher/jive-android-httpclient-matcher.iml" filepath="$PROJECT_DIR$/jive-android-httpclient-matcher/jive-android-httpclient-matcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/jive-android-httpclient-util/jive-android-httpclient-util.iml" filepath="$PROJECT_DIR$/jive-android-httpclient-util/jive-android-httpclient-util.iml" />
@@ -13,4 +15,3 @@
     </modules>
   </component>
 </project>
-
