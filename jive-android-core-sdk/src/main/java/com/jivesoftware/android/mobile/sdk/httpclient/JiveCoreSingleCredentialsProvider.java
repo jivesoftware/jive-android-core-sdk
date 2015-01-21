@@ -7,7 +7,6 @@ import org.apache.http.auth.Credentials;
 import org.apache.http.client.CredentialsProvider;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 
 public class JiveCoreSingleCredentialsProvider implements CredentialsProvider {
     @Nonnull

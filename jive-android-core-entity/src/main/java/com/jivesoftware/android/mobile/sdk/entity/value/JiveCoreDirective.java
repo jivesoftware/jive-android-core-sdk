@@ -1,7 +1,5 @@
 package com.jivesoftware.android.mobile.sdk.entity.value;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Commonly used directives.
  */

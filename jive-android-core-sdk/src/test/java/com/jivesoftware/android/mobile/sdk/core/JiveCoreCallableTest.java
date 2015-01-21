@@ -19,11 +19,9 @@ import spark.route.HttpMethod;
 
 import java.io.InputStream;
 import java.net.UnknownHostException;
-import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CancellationException;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

@@ -18,7 +18,6 @@ import org.apache.http.util.CharArrayBuffer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.IOException;
 
 public class JiveCoreAuthScheme extends AuthSchemeBase {
     private static final String AUTH_HEADER_START = AUTH.WWW_AUTH_RESP + ": ";
