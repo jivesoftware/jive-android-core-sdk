@@ -1,5 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
+import com.google.common.io.ByteSink;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
 import com.jivesoftware.android.mobile.sdk.entity.AttachmentEntity;
@@ -21,8 +22,10 @@ import org.junit.Test;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -236,14 +239,27 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         newDocumentEntity.content.text = "Hello world!";
         newDocumentEntity.content.type = "text/html";
 
-        File attachment1File = File.createTempFile("attachment1", "txt");
-        File attachment2File = File.createTempFile("attachment2", "txt");
+        final File attachment1File = File.createTempFile("attachment1", "txt");
+        final File attachment2File = File.createTempFile("attachment2", "txt");
 
         attachment1File.deleteOnExit();
         attachment2File.deleteOnExit();
 
-        CharStreams.write("el barto", Files.newWriterSupplier(attachment1File, Charset.forName("UTF-8")));
-        CharStreams.write("Monty Burns", Files.newWriterSupplier(attachment2File, Charset.forName("UTF-8")));
+        ByteSink byteSink1 = new ByteSink() {
+            @Override
+            public OutputStream openStream() throws IOException {
+                return new FileOutputStream(attachment1File);
+            }
+        };
+        byteSink1.asCharSink(Charset.forName("UTF-8")).write("el barto");
+
+        ByteSink byteSink2 = new ByteSink() {
+            @Override
+            public OutputStream openStream() throws IOException {
+                return new FileOutputStream(attachment2File);
+            }
+        };
+        byteSink2.asCharSink(Charset.forName("UTF-8")).write("Monty Burns");
 
         FileBody fileBody1 = new FileBody(attachment1File, "attachment1.txt", "text/plain", "UTF-8");
         FileBody fileBody2 = new FileBody(attachment2File, "attachment2.txt", "text/plain", "UTF-8");

@@ -20,7 +20,7 @@ dependencies {
     testCompile project("$jive_android_core_sdk_prefix:jive-matcher")
     testCompile project("$jive_android_core_sdk_prefix:jive-android-httpclient-matcher")
     testCompile project("$jive_android_core_sdk_prefix:libraries:spark")
-    testCompile 'com.google.guava:guava:14.0.1'
+    testCompile 'com.google.guava:guava:18.0'
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'org.mockito:mockito-core:1.9.5'
