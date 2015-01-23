@@ -7,6 +7,7 @@ import org.apache.http.auth.Credentials;
 import org.apache.http.client.CredentialsProvider;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class JiveCoreSingleCredentialsProvider implements CredentialsProvider {
     @Nonnull
@@ -29,6 +30,7 @@ public class JiveCoreSingleCredentialsProvider implements CredentialsProvider {
     }
 
     @Override
+    @Nullable
     public TokenEntityCredentials getCredentials(AuthScope authscope) {
         synchronized (credentialsMonitor) {
             if (credentials == null) {

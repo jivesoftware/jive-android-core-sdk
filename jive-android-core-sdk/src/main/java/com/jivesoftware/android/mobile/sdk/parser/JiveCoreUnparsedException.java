@@ -13,7 +13,7 @@ public class JiveCoreUnparsedException extends JiveCoreHttpEntitiedException {
     public final byte[] contentBodyBytes;
 
     public JiveCoreUnparsedException(HttpResponse httpResponse, @Nullable HttpEntity httpEntity, byte[] contentBodyBytes) {
-        this((Throwable)null, httpResponse, httpEntity, contentBodyBytes);
+        this((Throwable) null, httpResponse, httpEntity, contentBodyBytes);
     }
 
     public JiveCoreUnparsedException(@Nullable Throwable cause, HttpResponse httpResponse, @Nullable HttpEntity httpEntity, byte[] contentBodyBytes) {

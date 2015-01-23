@@ -31,12 +31,12 @@ public class SimpleErrorEntity implements ErrorEntity {
     @Override
     public Integer getErrorCode() {
         Integer errorCode = -1;
-        if ( error != null ) {
+        if (error != null) {
             try {
                 OAuth2ErrorType errorType = OAuth2ErrorType.valueOf(error.toUpperCase());
                 errorCode = errorType.ordinal();
-            } catch ( IllegalArgumentException e) {
-
+            } catch (IllegalArgumentException e) {
+                // Empty
             }
         }
         return errorCode;
@@ -49,15 +49,19 @@ public class SimpleErrorEntity implements ErrorEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || ((Object) this).getClass() != o.getClass()) {
+            return false;
+        }
 
         SimpleErrorEntity that = (SimpleErrorEntity) o;
 
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (error != null ? !error.equals(that.error) : that.error != null) return false;
-
-        return true;
+        if (description != null ? !description.equals(that.description) : that.description != null) {
+            return false;
+        }
+        return !(error != null ? !error.equals(that.error) : that.error != null);
     }
 
     @Override

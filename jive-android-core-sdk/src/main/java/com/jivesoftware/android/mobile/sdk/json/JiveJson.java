@@ -16,6 +16,7 @@ import com.jivesoftware.android.mobile.sdk.json.deserializer.ErrorEntityDeserial
 import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -65,7 +66,7 @@ public class JiveJson {
         return objectMapper.readValue(reader, clazz);
     }
 
-    public String toJson(Object src) {
+    public String toJson(@Nullable Object src) {
         try {
             return objectMapper.writer().writeValueAsString(src);
         } catch (JsonProcessingException e) {

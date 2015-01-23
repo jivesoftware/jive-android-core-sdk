@@ -17,6 +17,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("TryWithIdenticalCatches")
 @ParametersAreNonnullByDefault
 public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
     @Nonnull

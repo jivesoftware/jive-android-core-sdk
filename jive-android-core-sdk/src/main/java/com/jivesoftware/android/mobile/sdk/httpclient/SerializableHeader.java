@@ -26,10 +26,12 @@ public class SerializableHeader implements Header, Serializable {
         this.value = value;
     }
 
+    @Nonnull
     public String getName() {
         return this.name;
     }
 
+    @Nullable
     public String getValue() {
         return this.value;
     }
@@ -50,15 +52,19 @@ public class SerializableHeader implements Header, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (((Object) this).getClass() != o.getClass()) {
+            return false;
+        }
 
         SerializableHeader that = (SerializableHeader) o;
 
-        if (!name.equals(that.name)) return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
-
-        return true;
+        if (!name.equals(that.name)) {
+            return false;
+        }
+        return !(value != null ? !value.equals(that.value) : that.value != null);
     }
 
     @Override

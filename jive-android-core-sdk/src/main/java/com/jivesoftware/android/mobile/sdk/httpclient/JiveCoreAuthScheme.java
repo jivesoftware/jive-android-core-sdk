@@ -46,11 +46,13 @@ public class JiveCoreAuthScheme extends AuthSchemeBase {
     }
 
     @Override
+    @Nullable
     public String getParameter(String name) {
         return null;
     }
 
     @Override
+    @Nullable
     public String getRealm() {
         return null;
     }
@@ -128,7 +130,8 @@ public class JiveCoreAuthScheme extends AuthSchemeBase {
             nextTokenEntity = lastUsedTokenEntityEqualsAtomicReference.get();
         }
 
-        Header authenticationHeader = authenticate(nextTokenEntity);
+        // TODO - need a header to return when all we've got is a null
+        @SuppressWarnings("ConstantConditions") Header authenticationHeader = authenticate(nextTokenEntity);
         return authenticationHeader;
     }
 

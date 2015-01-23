@@ -152,7 +152,8 @@ public class HttpMatchers {
         @Nullable
         protected abstract String getMaybeBoundariedPropertyValue(@Nonnull HttpEntity item) throws Exception;
 
-        private static String unboundary(String maybeBoundaried, String boundary) {
+        @Nullable
+        private static String unboundary(@Nullable String maybeBoundaried, @Nullable String boundary) {
             String unboundaried;
             if ((maybeBoundaried == null) || (boundary == null)) {
                 unboundaried = maybeBoundaried;
@@ -164,7 +165,7 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpEntity> httpEntityContentType(String contentType, String boundary) {
+    public static Matcher<HttpEntity> httpEntityContentType(@Nullable String contentType, @Nullable String boundary) {
         return new BoundaryNormalizingHttpEntityPropertyMatcher("contentType", contentType, boundary) {
             @Nullable
             @Override
@@ -176,7 +177,7 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpEntity> httpEntityContentEncoding(String contentEncoding) {
+    public static Matcher<HttpEntity> httpEntityContentEncoding(@Nullable String contentEncoding) {
         return new PropertyMatcher<String, HttpEntity>("contentEncoding", contentEncoding) {
             @Nullable
             @Override
@@ -187,7 +188,7 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpEntity> httpEntityContent(String content, String boundary) {
+    public static Matcher<HttpEntity> httpEntityContent(@Nullable String content, @Nullable String boundary) {
         return new BoundaryNormalizingHttpEntityPropertyMatcher("content", content, boundary) {
             @Nullable
             @Override
@@ -204,7 +205,8 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpEntity> httpEntity(@Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2) throws IOException {
+    public static Matcher<HttpEntity> httpEntity(
+            @Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2) throws IOException {
         return httpEntity(Arrays.asList(new BasicNameValuePair(name1, value1), new BasicNameValuePair(name2, value2)));
     }
 
@@ -231,14 +233,17 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpUriRequest> requestEntity(@Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2) throws IOException {
+    public static Matcher<HttpUriRequest> requestEntity(
+            @Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2) throws IOException {
         return requestEntity(Arrays.asList(
                 new BasicNameValuePair(name1, value1),
                 new BasicNameValuePair(name2, value2)));
     }
 
     @Nonnull
-    public static Matcher<HttpUriRequest> requestEntity(@Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2, @Nonnull String name3, @Nonnull String value3) throws IOException {
+    public static Matcher<HttpUriRequest> requestEntity(
+            @Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2,
+            @Nonnull String name3, @Nonnull String value3) throws IOException {
         return requestEntity(Arrays.asList(
                 new BasicNameValuePair(name1, value1),
                 new BasicNameValuePair(name2, value2),
@@ -246,7 +251,9 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<HttpUriRequest> requestEntity(@Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2, @Nonnull String name3, @Nonnull String value3, @Nonnull String name4, @Nonnull String value4) throws IOException {
+    public static Matcher<HttpUriRequest> requestEntity(
+            @Nonnull String name1, @Nonnull String value1, @Nonnull String name2, @Nonnull String value2,
+            @Nonnull String name3, @Nonnull String value3, @Nonnull String name4, @Nonnull String value4) throws IOException {
         return requestEntity(Arrays.asList(
                 new BasicNameValuePair(name1, value1),
                 new BasicNameValuePair(name2, value2),

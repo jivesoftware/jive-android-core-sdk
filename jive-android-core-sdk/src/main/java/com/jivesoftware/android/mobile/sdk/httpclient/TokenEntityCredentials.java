@@ -8,6 +8,7 @@ import org.apache.http.auth.BasicUserPrincipal;
 import org.apache.http.auth.Credentials;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.security.Principal;
 
 public class TokenEntityCredentials implements Credentials {
@@ -23,6 +24,7 @@ public class TokenEntityCredentials implements Credentials {
     }
 
     @Override
+    @Nullable
     public Principal getUserPrincipal() {
         TokenEntity tokenEntity = tokenEntityEqualsAtomicReference.get();
         if ((tokenEntity != null) && (tokenEntity.accessToken != null)) {
@@ -33,6 +35,7 @@ public class TokenEntityCredentials implements Credentials {
     }
 
     @Override
+    @Nullable
     public String getPassword() {
         return null;
     }

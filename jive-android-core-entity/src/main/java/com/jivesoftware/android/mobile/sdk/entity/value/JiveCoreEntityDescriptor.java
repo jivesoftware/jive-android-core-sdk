@@ -37,8 +37,12 @@ public class JiveCoreEntityDescriptor {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
 
         JiveCoreEntityDescriptor that = (JiveCoreEntityDescriptor) o;
         return representation.equals(that.representation);

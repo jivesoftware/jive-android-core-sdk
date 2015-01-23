@@ -12,6 +12,7 @@ public class EqualsAtomicReference<V> {
     @Nullable
     private V value;
 
+    @SuppressWarnings("UnusedDeclaration")
     public EqualsAtomicReference() {
         this(null, null);
     }
@@ -23,13 +24,14 @@ public class EqualsAtomicReference<V> {
         }
     }
 
+    @Nullable
     public V get() {
         synchronized (monitor) {
             return value;
         }
     }
 
-    public void set(V newValue) {
+    public void set(@Nullable V newValue) {
         synchronized (monitor) {
             value = newValue;
         }

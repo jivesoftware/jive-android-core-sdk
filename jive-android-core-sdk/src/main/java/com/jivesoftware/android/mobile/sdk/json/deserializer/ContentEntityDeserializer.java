@@ -33,6 +33,7 @@ public class ContentEntityDeserializer extends JsonDeserializer<ContentEntity> {
         return contentEntity;
     }
 
+    @Nullable
     private Object[] deserializeStringArrayOrPersonEntityArray(JsonNode jsonObject, String jsonArrayName) throws JsonProcessingException {
         JsonNode jsonArray = jsonObject.get(jsonArrayName);
         if (jsonArray != null && jsonArray.isArray()) {

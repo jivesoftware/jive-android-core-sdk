@@ -5,14 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.annotation.Nullable;
+
 import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
 
-@JsonSerialize(include= NON_NULL)
+@JsonSerialize(include = NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CodeErrorEntity implements ErrorEntity {
     private Integer code;
     private String message;
 
+    @SuppressWarnings("UnusedDeclaration")
     public CodeErrorEntity() {}
 
     @JsonCreator
@@ -32,19 +35,28 @@ public class CodeErrorEntity implements ErrorEntity {
     }
 
     @Override
+    @Nullable
     public String getAPIErrorCode() {
         return code == null ? null : Integer.toString(code, 10);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || ((Object)this).getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || ((Object) this).getClass() != o.getClass()) {
+            return false;
+        }
 
         CodeErrorEntity that = (CodeErrorEntity) o;
 
-        if (code != null ? !code.equals(that.code) : that.code != null) return false;
-        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) {
+            return false;
+        }
+        if (message != null ? !message.equals(that.message) : that.message != null) {
+            return false;
+        }
 
         return true;
     }

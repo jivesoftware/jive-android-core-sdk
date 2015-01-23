@@ -83,7 +83,7 @@ public final class JiveEntityUtil {
      * Modified org.apache.http.util.EntityUtils#toString(HttpEntity, String) to work with MultipartEntity
      */
     @Nonnull
-    public static String toString(@Nonnull HttpEntity entity, String defaultCharset) throws IOException {
+    public static String toString(@Nonnull HttpEntity entity, @Nullable String defaultCharset) throws IOException {
         // JIVE START
         // removed since some entities throw UnsupportedOperationExceptions
 //        InputStream instream = entity.getContent();
