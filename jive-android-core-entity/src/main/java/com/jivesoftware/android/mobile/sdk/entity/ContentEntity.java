@@ -40,6 +40,11 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public String parent;
     public SummaryEntity parentPlace;
     public SummaryEntity parentContent;
+    /** For ideas */
+    public Integer score;
+    public String stage;
+    public Integer voteCount;
+    public Boolean voted;
     /** For share, message.
      *  Can be a PersonEntity[] or a String[] of PersonEntity self urls
      * */

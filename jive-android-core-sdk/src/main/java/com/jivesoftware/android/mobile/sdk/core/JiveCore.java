@@ -22,6 +22,7 @@ import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.TokenEntity;
+import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
 import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreHttpClientAuthUtils;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
@@ -345,6 +346,12 @@ public class JiveCore implements Closeable {
     public JiveCoreCallable<Void> unlikeContent(String unlikePathAndQuery) {
         HttpDelete unlikeContentHttpDelete = jiveCoreRequestFactory.createHttpDelete(unlikePathAndQuery);
         return jiveCoreEmptyCallableFactory.createEmptyCallable(unlikeContentHttpDelete);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<Void> promoteContent(String promoteRequestUrl, VoteEntity voteEntity) {
+        HttpPost promoteContentHttpPost = jiveCoreRequestFactory.createPromoteContent(promoteRequestUrl, voteEntity);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(promoteContentHttpPost);
     }
 
     @Nonnull

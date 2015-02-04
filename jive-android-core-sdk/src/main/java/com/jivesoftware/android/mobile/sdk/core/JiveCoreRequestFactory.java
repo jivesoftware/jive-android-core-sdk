@@ -7,6 +7,7 @@ import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
+import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
@@ -156,6 +157,14 @@ public class JiveCoreRequestFactory {
         HttpPost joinPlacePost = new HttpPost(uri);
         joinPlacePost.setEntity(JsonEntity.from(jiveJson, newMemberEntity));
         return joinPlacePost;
+    }
+
+    @Nonnull
+    public HttpPost createPromoteContent(String promoteRequestUrl, VoteEntity voteEntity) {
+        URI uri = JiveURIUtil.createURI(baseURL, promoteRequestUrl);
+        HttpPost post = new HttpPost(uri);
+        post.setEntity(JsonEntity.from(jiveJson, voteEntity));
+        return post;
     }
 
     @Nonnull

@@ -75,7 +75,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
     }
 
     @Nonnull
-    public JiveCoreRequestOptions setEntityDescriptorFilter(JiveCoreEntityDescriptor ... entityDescriptors) {
+    public JiveCoreRequestOptions setEntityDescriptorFilter(JiveCoreEntityDescriptor... entityDescriptors) {
         values.putFilter("entityDescriptor", toUnescapedList(Arrays.asList(entityDescriptors)));
         return this;
     }
