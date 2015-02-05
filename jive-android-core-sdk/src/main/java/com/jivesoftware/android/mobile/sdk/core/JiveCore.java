@@ -378,6 +378,12 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreCallable<ContentEntity> createRsvp(String eventRsvpPathAndQuery, String rsvpVal) {
+        HttpPost createRsvpPost = jiveCoreRequestFactory.createRsvp(eventRsvpPathAndQuery, rsvpVal);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createRsvpPost, ContentEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ContentEntity> fetchContent(String pathAndQuery, JiveCoreQueryParameterProvider options) {
         HttpGet fetchContentHttpGet = jiveCoreRequestFactory.fetchContent(pathAndQuery, options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchContentHttpGet, ContentEntity.class);

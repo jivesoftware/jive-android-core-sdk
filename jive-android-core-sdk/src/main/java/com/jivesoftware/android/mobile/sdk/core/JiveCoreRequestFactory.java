@@ -24,6 +24,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -298,6 +299,17 @@ public class JiveCoreRequestFactory {
         HttpPost createPlaceHttpPost = new HttpPost(uri);
         createPlaceHttpPost.setEntity(JsonEntity.from(jiveJson, placeEntity));
         return createPlaceHttpPost;
+    }
+
+    @Nonnull
+    public HttpPost createRsvp(String eventRsvpPathAndQuery, String rsvpVal) {
+        try {
+            HttpPost createPlaceHttpPost = new HttpPost(eventRsvpPathAndQuery);
+            createPlaceHttpPost.setEntity(new JsonEntity(rsvpVal));
+            return createPlaceHttpPost;
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException("UnsupportedEncodingException for UTF-8 should be impossible", e);
+        }
     }
 
     @Nonnull

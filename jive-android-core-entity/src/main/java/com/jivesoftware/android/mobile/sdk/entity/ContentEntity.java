@@ -81,4 +81,10 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public ObjectEntity object;
     public FavoriteObjectEntity favoriteObject;
     public String url;
+
+    /** For event */
+    public String location;
+    public Date startDate;
+    public Date endDate;
+    public AttendanceEntity attendance;
 }
