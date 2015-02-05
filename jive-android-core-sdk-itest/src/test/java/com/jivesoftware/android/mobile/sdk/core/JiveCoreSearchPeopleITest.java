@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class JiveCoreSearchPeopleITest extends AbstractITest {
@@ -35,15 +36,11 @@ public class JiveCoreSearchPeopleITest extends AbstractITest {
         options.setCount(1);
         options.setSearchTermFilter(Arrays.asList(commonSearchTerm));
 
-
         PersonListEntity personListEntity = jiveCoreAdmin.searchPeople(options).call();
-        Matcher<Iterable<? super PersonEntity>> hasUser2OrUser3Matcher = hasItem(anyOf(
-                personEntityDisplayName(USER2.displayName),
-                personEntityDisplayName(USER3.displayName)));
-        assertThat(personListEntity.list, hasUser2OrUser3Matcher);
+        assertEquals(1, personListEntity.list.size());
 
         PersonListEntity nextPersonListEntity = jiveCoreAdmin.searchPeople(personListEntity.links.next).call();
-        assertThat(nextPersonListEntity.list, hasUser2OrUser3Matcher);
+        assertEquals(1, nextPersonListEntity.list.size());
     }
 
     private static TypeSafeMatcher<PersonEntity> personEntityDisplayName(@Nonnull String displayName) {

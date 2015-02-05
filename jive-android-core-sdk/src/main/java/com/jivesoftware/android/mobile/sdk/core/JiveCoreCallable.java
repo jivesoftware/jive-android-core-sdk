@@ -91,7 +91,7 @@ public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
         String string =
                 httpUriRequest.getMethod() + " "
                         + httpUriRequest.getURI() + " "
-                        + (httpUriRequest.isAborted() ? "aborted" : "not aborted") + " "
+                        + (httpUriRequest.isAborted() ? "aborted" : "not aborted") + ", "
                         + (calledAtomicBoolean.get() ? "called" : "not called");
         return string;
     }
