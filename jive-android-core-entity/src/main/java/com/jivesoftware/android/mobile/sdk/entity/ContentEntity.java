@@ -33,6 +33,7 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     /** For update */
     public Double latitude;
     public Integer likeCount;
+    public Integer helpfulCount;
     /** For update */
     public Double longitude;
     /** For file */
