@@ -12,6 +12,7 @@ import org.apache.http.conn.HttpHostConnectException;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.URI;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -41,35 +42,58 @@ public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
     @Override
     public T call() throws IOException, CancellationException, JiveCoreException {
         if (calledAtomicBoolean.compareAndSet(false, true)) {
-            HttpResponse httpResponse;
-            try {
+            Throwable caught;
+            int attempt = 0;
+            do {
                 try {
-                    httpResponse = httpClient.execute(httpUriRequest);
-                } catch (HttpHostConnectException httpHostConnectException) {
-                    // https://code.google.com/p/android/issues/detail?id=55371
-                    throw new SerializableHttpHostConnectException(httpHostConnectException);
+                    return callInternal();
+                } catch (IOException e) {
+                    if (isAndroidProblemRetryable(e)) {
+                        caught = e;
+                        continue;
+                    }
+                    throw(e);
+                } catch (RuntimeException e) {
+                    if (isAndroidProblemRetryable(e)) {
+                        caught = e;
+                        continue;
+                    }
+                    throw(e);
                 }
-            } catch (IOException e) {
-                // HttpClient throws an IOException if HttpRequestBase is aborted during execution
-                if (httpUriRequest.isAborted()) {
-                    throw new CancellationException();
-                } else {
-                    throw e;
-                }
-            } catch (IllegalStateException e) {
-                // HttpClient throws an IllegalStateException if HttpRequestBase is aborted before execution.
-                if (httpUriRequest.isAborted()) {
-                    throw new CancellationException();
-                } else {
-                    throw e;
-                }
-            }
-
-            T result = httpResponseParser.parseResponse(httpResponse);
-            return result;
+            } while (++attempt < 3);
+            throw new IllegalStateException("Unable to invoke callable after " + attempt + " attempts", caught);
         } else {
             throw new AlreadyCalledException();
         }
+    }
+
+    private T callInternal() throws IOException, CancellationException, JiveCoreException {
+        HttpResponse httpResponse;
+        try {
+            try {
+                httpResponse = httpClient.execute(httpUriRequest);
+            } catch (HttpHostConnectException httpHostConnectException) {
+                // https://code.google.com/p/android/issues/detail?id=55371
+                throw new SerializableHttpHostConnectException(httpHostConnectException);
+            }
+        } catch (IOException e) {
+            // HttpClient throws an IOException if HttpRequestBase is aborted during execution
+            if (httpUriRequest.isAborted()) {
+                throw new CancellationException();
+            } else {
+                throw e;
+            }
+        } catch (IllegalStateException e) {
+            // HttpClient throws an IllegalStateException if HttpRequestBase is aborted before execution.
+            if (httpUriRequest.isAborted()) {
+                throw new CancellationException();
+            } else {
+                throw e;
+            }
+        }
+
+        T result = httpResponseParser.parseResponse(httpResponse);
+        return result;
     }
 
     public URI getRequestURI() {
@@ -100,5 +124,21 @@ public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
         public AlreadyCalledException() {
             super("Already called");
         }
+    }
+
+    private boolean isAndroidProblemRetryable(Throwable e) {
+        String msg = e.getMessage();
+        if (e instanceof SerializableHttpHostConnectException) {
+            return false;
+        } else if (e instanceof SocketException) {
+            return true;
+        } else if (msg == null) {
+            return false;
+        } else if (msg.contains("Connection already shutdown")) {
+            return true;
+        } else if (msg.contains("Connection must not be open")) {
+            return true;
+        }
+        return false;
     }
 }
