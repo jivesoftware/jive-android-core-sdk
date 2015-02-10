@@ -1,8 +1,10 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jivesoftware.android.httpclient.util.SerializableHttpHostConnectException;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
+import com.jivesoftware.android.mobile.sdk.parser.JiveCoreServerException;
 import com.jivesoftware.android.mobile.sdk.util.Cancelable;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -125,14 +127,22 @@ public class JiveCoreCallable<T> implements Callable<T>, Cancelable {
         }
     }
 
+    /*
+     * The Nexus 5 appears to have unsafe HttpClient thread management.  Until we have a better option
+     * we need to identify the retry-able cases that we actually hit.  See ANDROID-2470 for more detail.
+     */
     private boolean isAndroidProblemRetryable(Throwable e) {
         String msg = e.getMessage();
         if (e instanceof SerializableHttpHostConnectException) {
             return false;
         } else if (e instanceof SocketException) {
             return true;
+        } else if (e instanceof JiveCoreServerException) {
+            return true;
         } else if (msg == null) {
             return false;
+        } else if (msg.contains("Chunked stream ended unexpectedly")) {
+            return true;
         } else if (msg.contains("Connection already shutdown")) {
             return true;
         } else if (msg.contains("Connection must not be open")) {
