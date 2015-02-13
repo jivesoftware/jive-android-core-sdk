@@ -41,8 +41,9 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
      *
      * @param other instance to pull values from
      */
-    public void overlay(JiveCoreRequestOptions other) {
+    public JiveCoreRequestOptions overlay(JiveCoreRequestOptions other) {
         values.overlay(other.values);
+        return this;
     }
 
     /**
@@ -51,8 +52,9 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
      *
      * @param other instance to pull values from
      */
-    public void overlay(JiveCoreImmutableRequestOptions other) {
+    public JiveCoreRequestOptions overlay(JiveCoreImmutableRequestOptions other) {
         values.overlay(other.values);
+        return this;
     }
 
     public JiveCoreImmutableRequestOptions createImmutableCopy() {

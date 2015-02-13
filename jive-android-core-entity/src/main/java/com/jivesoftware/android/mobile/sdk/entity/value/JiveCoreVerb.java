@@ -13,6 +13,8 @@ import java.util.Map;
 @ParametersAreNonnullByDefault
 public enum JiveCoreVerb implements JiveCoreVerbValue {
 
+    applied("jive:applied"),
+
     bookmarked("jive:bookmarked"),
 
     created("jive:created"),
