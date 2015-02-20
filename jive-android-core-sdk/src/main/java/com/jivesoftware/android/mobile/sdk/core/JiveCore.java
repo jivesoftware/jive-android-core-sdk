@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.AttendanceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchResponseEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
@@ -378,9 +379,9 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ContentEntity> createRsvp(String eventRsvpPathAndQuery, String rsvpVal) {
+    public JiveCoreCallable<AttendanceEntity> createRsvp(String eventRsvpPathAndQuery, String rsvpVal) {
         HttpPost createRsvpPost = jiveCoreRequestFactory.createRsvp(eventRsvpPathAndQuery, rsvpVal);
-        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createRsvpPost, ContentEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createRsvpPost, AttendanceEntity.class);
     }
 
     @Nonnull
