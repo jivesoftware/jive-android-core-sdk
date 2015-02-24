@@ -88,4 +88,6 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public Date startDate;
     public Date endDate;
     public AttendanceEntity attendance;
+    public String eventType;
+    public String eventAccess;
 }
