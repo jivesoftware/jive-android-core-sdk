@@ -17,15 +17,19 @@ import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
+@Singleton
 public class JiveJson {
 
     @Nonnull
     private final ObjectMapper objectMapper;
 
+    @Inject
     public JiveJson() {
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DateFormatUtil.getGmtIso8601DateFormat());
