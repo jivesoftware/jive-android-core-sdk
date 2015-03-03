@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.Writer;
 
 @Singleton
 public class JiveJson {
@@ -76,5 +77,9 @@ public class JiveJson {
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("This shouldn't be possible because we're writing to memory", e);
         }
+    }
+
+    public void toJson(Object object, Writer writer) throws IOException {
+        objectMapper.writer().writeValue(writer, object);
     }
 }
