@@ -46,6 +46,7 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreContentTypeValue> {
     public String stage;
     public Integer voteCount;
     public Boolean voted;
+    public Boolean promote;
     /** For share, message.
      *  Can be a PersonEntity[] or a String[] of PersonEntity self urls
      * */
