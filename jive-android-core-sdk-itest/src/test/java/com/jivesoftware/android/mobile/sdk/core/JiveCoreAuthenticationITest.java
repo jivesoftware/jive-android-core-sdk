@@ -60,7 +60,7 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
 
         assertThat(tokenEntity, allOf(
                 tokenAccessToken(notNullValue()),
-                tokenExpiresIn(not(equalTo(0))),
+                tokenExpiresIn(not(equalTo(0L))),
                 tokenRefreshToken(notNullValue()),
                 tokenTokenType("bearer")));
     }
@@ -90,7 +90,7 @@ public class JiveCoreAuthenticationITest extends AbstractITest {
 
         assertThat(refreshedTokenEntity, allOf(
                 tokenAccessToken(not(equalTo(tokenEntity.accessToken))),
-                tokenExpiresIn(not(equalTo(0))),
+                tokenExpiresIn(not(equalTo(0L))),
                 tokenRefreshToken(equalTo(tokenEntity.refreshToken)),
                 tokenTokenType("bearer")));
     }

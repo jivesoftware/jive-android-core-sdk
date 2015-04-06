@@ -20,5 +20,5 @@ public class TokenEntity {
     public String tokenType;
 
     @JsonProperty("expires_in")
-    public int expiresIn;
+    public long expiresIn;
 }

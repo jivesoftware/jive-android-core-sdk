@@ -18,11 +18,11 @@ public class TokenEntityMatchers {
         };
     }
 
-    public static Matcher<TokenEntity> tokenExpiresIn(@Nonnull Matcher<? super Integer> expiresInMatcher) {
-        return new PropertyMatcher<Integer, TokenEntity>(expiresInMatcher, "expiresIn") {
+    public static Matcher<TokenEntity> tokenExpiresIn(@Nonnull Matcher<? super Long> expiresInMatcher) {
+        return new PropertyMatcher<Long, TokenEntity>(expiresInMatcher, "expiresIn") {
             @Nonnull
             @Override
-            protected Integer getPropertyValue(@Nonnull TokenEntity item) throws Exception {
+            protected Long getPropertyValue(@Nonnull TokenEntity item) throws Exception {
                 return item.expiresIn;
             }
         };
