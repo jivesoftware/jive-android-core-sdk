@@ -12,7 +12,7 @@ public class TokenEntityComparator extends NonnullComparator<TokenEntity> {
     public static final TokenEntityComparator SINGLETON = new TokenEntityComparator();
 
     private final NonnullComparableComparator<String> nonnullStringComparator = new NonnullComparableComparator<String>();
-    private final NonnullComparableComparator<Integer> nonnullIntegerComparator = new NonnullComparableComparator<Integer>();
+    private final NonnullComparableComparator<Long> nonnullIntegerComparator = new NonnullComparableComparator<Long>();
     @Override
     public int compareNonNull(TokenEntity lhs, TokenEntity rhs) {
         int comparison = new ComparatorEngine().
