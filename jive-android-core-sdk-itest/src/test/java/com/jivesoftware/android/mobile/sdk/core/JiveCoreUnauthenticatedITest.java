@@ -27,7 +27,7 @@ public class JiveCoreUnauthenticatedITest extends AbstractITest {
         VersionEntity versionEntity = fetchVersionJiveCoreCallable.call();
 
         assertEquals(TEST_URL.toExternalForm(), versionEntity.instanceURL);
-        assertEquals("8.0.0.0 8c4", versionEntity.jiveVersion);
+        assertEquals("9.0.0.0 9c1", versionEntity.jiveVersion);
         assertNull(versionEntity.ssoEnabled);
     }
 

@@ -7,6 +7,7 @@ import com.jivesoftware.android.mobile.sdk.entity.EntityUtils;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
@@ -50,11 +51,13 @@ public class JiveCoreLikeITest extends AbstractITest {
     }
 
     @Test
+    @Ignore // Disabled due to JIVE-56573
     public void contentInitiallyUnliked() throws IOException {
         assertThat(contentEntity, contentLikeCount(0));
     }
 
     @Test
+    @Ignore // Disabled due to JIVE-56573
     public void contentLike() throws Exception {
         jiveCoreUser2.likeContent(contentLikeRef).call();
         contentEntity = jiveCoreAdmin.fetchContent(contentEntityRef, new JiveCoreRequestOptions()).call();
@@ -62,6 +65,7 @@ public class JiveCoreLikeITest extends AbstractITest {
     }
 
     @Test
+    @Ignore // Disabled due to JIVE-56573
     public void contentUnlike() throws Exception {
         jiveCoreUser2.likeContent(contentLikeRef).call();
         jiveCoreUser2.unlikeContent(contentLikeRef).call();

@@ -15,7 +15,10 @@ public enum JiveCoreProductType implements JiveCoreProductTypeValue {
 
     on_prem("on-prem"),
 
-    cloud("cloud");
+    cloud("cloud"),
+
+    cloudExternal("cloud-external");
+
 
 
     private static final Map<String, JiveCoreProductType> BY_REPRESENTATION;
