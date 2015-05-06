@@ -2,6 +2,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
 
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.*;
 public class ActivityObjectEntity {
     public String id;
     public String displayName;
-    public String objectType;
+    public JiveCoreObjectTypeValue objectType;
     public String summary;
     public Date published;
     public Date updated;
