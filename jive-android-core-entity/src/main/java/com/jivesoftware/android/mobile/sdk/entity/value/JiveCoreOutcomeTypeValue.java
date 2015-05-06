@@ -21,7 +21,7 @@ public interface JiveCoreOutcomeTypeValue {
      * Converter used to deserialize as common type instances when the value matches, falling back
      * to deserializing as an arbitrary value when an unknown value is encountered.
      */
-    public static class Converter extends StdConverter<String, JiveCoreOutcomeTypeValue> {
+    class Converter extends StdConverter<String, JiveCoreOutcomeTypeValue> {
         @Override
         public JiveCoreOutcomeTypeValue convert(String stringValue) {
             return JiveCoreValueFactory.createOutcomeTypeValue(stringValue);

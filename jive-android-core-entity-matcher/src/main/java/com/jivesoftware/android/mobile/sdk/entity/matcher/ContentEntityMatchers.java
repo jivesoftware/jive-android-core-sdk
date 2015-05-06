@@ -7,6 +7,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EntityUtils;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import org.hamcrest.Matcher;
 
@@ -65,7 +66,7 @@ public class ContentEntityMatchers {
                     for (int i=0; i < personEntitySelfUrls.length; i++) {
                         PersonEntity personEntity = new PersonEntity();
                         personEntity.resources = EntityUtils.createSelfResources(personEntitySelfUrls[i]);
-                        personEntity.type = JiveCoreValueFactory.createTypeValue("person");
+                        personEntity.type = JiveCoreObjectType.person;
                         personEntities[i] = personEntity;
                     }
                     return personEntities;

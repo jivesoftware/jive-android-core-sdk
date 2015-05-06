@@ -2,7 +2,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MemberEntity extends JiveObjectEntity<JiveCoreTypeValue> {
+public class MemberEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public PlaceEntity group;
     public PersonEntity person;
     public String state;

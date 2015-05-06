@@ -29,11 +29,10 @@ public class JiveCoreValueEnumDeserializationTest<E extends Enum<E>, I> {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         ArrayList<Object[]> result = new ArrayList<Object[]>();
-        result.add(new Object[] { JiveCoreContentType.class, JiveCoreContentTypeValue.class });
+        result.add(new Object[] { JiveCoreObjectType.class, JiveCoreObjectTypeValue.class });
         result.add(new Object[] { JiveCoreDirective.class, JiveCoreDirectiveValue.class });
         result.add(new Object[] { JiveCoreEntryState.class, JiveCoreEntryStateValue.class });
         result.add(new Object[] { JiveCoreOutcomeType.class, JiveCoreOutcomeTypeValue.class });
-        result.add(new Object[] { JiveCorePlaceType.class, JiveCorePlaceTypeValue.class });
         result.add(new Object[] { JiveCoreRelationship.class, JiveCoreRelationshipValue.class });
         result.add(new Object[] { JiveCoreSort.class, JiveCoreSortValue.class });
         result.add(new Object[] { JiveCoreStatus.class, JiveCoreStatusValue.class });

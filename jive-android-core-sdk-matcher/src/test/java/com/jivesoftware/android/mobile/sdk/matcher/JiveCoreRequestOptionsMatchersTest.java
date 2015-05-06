@@ -7,7 +7,7 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirective;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirectiveValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryState;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerb;
 import org.junit.Assert;
@@ -79,7 +79,7 @@ public class JiveCoreRequestOptionsMatchersTest {
 
     @Test
     public void testTypeFilters() throws Exception {
-        options.setTypeFilter(Arrays.asList(JiveCorePlaceType.space, JiveCorePlaceType.group));
+        options.setTypeFilter(Arrays.asList(JiveCoreObjectType.space, JiveCoreObjectType.group));
         Assert.assertThat(options, JiveCoreRequestOptionsMatchers.optionsTypeFilters(contains("space", "group")));
     }
 

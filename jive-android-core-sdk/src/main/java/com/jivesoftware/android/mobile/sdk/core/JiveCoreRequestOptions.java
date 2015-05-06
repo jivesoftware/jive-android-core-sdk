@@ -6,7 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryStateValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationshipValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSortValue;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 import com.jivesoftware.android.mobile.sdk.util.DateFormatUtil;
 
@@ -101,7 +101,7 @@ public final class JiveCoreRequestOptions implements JiveCoreQueryParameterProvi
     }
 
     @Nonnull
-    public JiveCoreRequestOptions setTypeFilter(Iterable<? extends JiveCoreTypeValue> types) {
+    public JiveCoreRequestOptions setTypeFilter(Iterable<? extends JiveCoreObjectTypeValue> types) {
         values.putFilter("type", toEscapedList(types));
         return this;
     }

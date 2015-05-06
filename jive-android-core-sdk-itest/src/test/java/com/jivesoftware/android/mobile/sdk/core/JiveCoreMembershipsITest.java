@@ -6,7 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class JiveCoreMembershipsITest extends AbstractITest {
         PlaceEntity creatingPlaceEntity = new PlaceEntity();
         creatingPlaceEntity.displayName = uuid;
         creatingPlaceEntity.name = uuid;
-        creatingPlaceEntity.type = JiveCorePlaceType.group;
+        creatingPlaceEntity.type = JiveCoreObjectType.group;
         creatingPlaceEntity.groupType = "OPEN";
 
         createdPlaceEntity = jiveCoreUser2.createPlace(creatingPlaceEntity).call();

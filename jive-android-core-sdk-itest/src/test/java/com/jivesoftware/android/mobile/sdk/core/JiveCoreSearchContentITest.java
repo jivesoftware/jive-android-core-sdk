@@ -3,7 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentListEntity;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.junit.Test;
 
@@ -98,7 +98,7 @@ public class JiveCoreSearchContentITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity newDocumentEntity = new ContentEntity();
-        newDocumentEntity.type = JiveCoreContentType.document;
+        newDocumentEntity.type = JiveCoreObjectType.document;
         newDocumentEntity.subject = subject;
         newDocumentEntity.content = new ContentBodyEntity();
         newDocumentEntity.content.text = content;

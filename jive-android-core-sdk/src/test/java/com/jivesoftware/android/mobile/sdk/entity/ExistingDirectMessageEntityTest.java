@@ -50,7 +50,7 @@ public class ExistingDirectMessageEntityTest {
         assertEquals(testObject.parent,"http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012");
 
         assertEquals(testObject.parentPlace.id,"2012");
-        assertEquals(testObject.parentPlace.type,"person");
+        assertEquals(testObject.parentPlace.type.toString(), "person");
         assertEquals(testObject.parentPlace.name,"Heath Borders");
         assertEquals(testObject.parentPlace.uri,"http://apresian-z800.jiveland.com:8080/api/core/v3/people/2012");
         assertEquals(testObject.parentPlace.html,"http://apresian-z800.jiveland.com:8080/people/heath");

@@ -6,7 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirective;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreDirectiveValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntityDescriptor;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreEntryState;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCorePlaceType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationship;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreRelationshipValue;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
@@ -160,21 +160,21 @@ public class JiveCoreRequestOptionsTest {
 
     @Test
     public void setTypeFilter() throws Exception {
-        testObject.setTypeFilter(Arrays.asList(JiveCorePlaceType.blog));
+        testObject.setTypeFilter(Arrays.asList(JiveCoreObjectType.blog));
         String actual = queryParametersAsString();
         assertEquals("filter=type(blog);", actual);
     }
 
     @Test
     public void setTypeFilter_multiple() throws Exception {
-        testObject.setTypeFilter(Arrays.asList(JiveCorePlaceType.blog, JiveCorePlaceType.space));
+        testObject.setTypeFilter(Arrays.asList(JiveCoreObjectType.blog, JiveCoreObjectType.space));
         String actual = queryParametersAsString();
         assertEquals("filter=type(blog,space);", actual);
     }
 
     @Test
     public void setTypeFilter_escaped() throws Exception {
-        testObject.setTypeFilter(Arrays.asList(JiveCoreValueFactory.createPlaceTypeValue("foo,()\\")));
+        testObject.setTypeFilter(Arrays.asList(JiveCoreValueFactory.createObjectTypeValue("foo,()\\")));
         String actual = queryParametersAsString();
         assertEquals("filter=type(foo\\,\\(\\)\\\\);", actual);
     }

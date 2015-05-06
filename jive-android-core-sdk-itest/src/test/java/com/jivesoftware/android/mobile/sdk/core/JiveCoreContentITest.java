@@ -2,13 +2,12 @@ package com.jivesoftware.android.mobile.sdk.core;
 
 import com.google.common.io.ByteSink;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Files;
 import com.jivesoftware.android.mobile.sdk.entity.AttachmentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.parser.HttpResponseParser;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreException;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
@@ -69,7 +68,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content;
@@ -93,14 +92,14 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity1 = new ContentEntity();
-        documentEntity1.type = JiveCoreContentType.document;
+        documentEntity1.type = JiveCoreObjectType.document;
         documentEntity1.subject = subject + " 1";
         documentEntity1.content = new ContentBodyEntity();
         documentEntity1.content.text = content;
         documentEntity1.content.type = contentType;
 
         ContentEntity documentEntity2 = new ContentEntity();
-        documentEntity2.type = JiveCoreContentType.document;
+        documentEntity2.type = JiveCoreObjectType.document;
         documentEntity2.subject = subject + " 2";
         documentEntity2.content = new ContentBodyEntity();
         documentEntity2.content.text = content;
@@ -144,14 +143,14 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity1 = new ContentEntity();
-        documentEntity1.type = JiveCoreContentType.document;
+        documentEntity1.type = JiveCoreObjectType.document;
         documentEntity1.subject = subject + " 1";
         documentEntity1.content = new ContentBodyEntity();
         documentEntity1.content.text = content;
         documentEntity1.content.type = contentType;
 
         ContentEntity documentEntity2 = new ContentEntity();
-        documentEntity2.type = JiveCoreContentType.document;
+        documentEntity2.type = JiveCoreObjectType.document;
         documentEntity2.subject = subject + " 2";
         documentEntity2.content = new ContentBodyEntity();
         documentEntity2.content.text = content;
@@ -203,7 +202,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String uuid = UUID.randomUUID().toString();
 
         ContentEntity newDocumentEntity = new ContentEntity();
-        newDocumentEntity.type = JiveCoreContentType.document;
+        newDocumentEntity.type = JiveCoreObjectType.document;
         newDocumentEntity.subject = uuid;
         newDocumentEntity.content = new ContentBodyEntity();
         newDocumentEntity.content.text = "Hello world!";
@@ -233,7 +232,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String uuid = UUID.randomUUID().toString();
 
         ContentEntity newDocumentEntity = new ContentEntity();
-        newDocumentEntity.type = JiveCoreContentType.document;
+        newDocumentEntity.type = JiveCoreObjectType.document;
         newDocumentEntity.subject = uuid;
         newDocumentEntity.content = new ContentBodyEntity();
         newDocumentEntity.content.text = "Hello world!";
@@ -362,7 +361,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String uuid = UUID.randomUUID().toString();
 
         ContentEntity newDocumentEntity = new ContentEntity();
-        newDocumentEntity.type = JiveCoreContentType.document;
+        newDocumentEntity.type = JiveCoreObjectType.document;
         newDocumentEntity.subject = uuid;
         newDocumentEntity.content = new ContentBodyEntity();
         newDocumentEntity.content.text = "Hello world!";
@@ -394,7 +393,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         String uuid = UUID.randomUUID().toString();
 
         ContentEntity newDocumentEntity = new ContentEntity();
-        newDocumentEntity.type = JiveCoreContentType.document;
+        newDocumentEntity.type = JiveCoreObjectType.document;
         newDocumentEntity.subject = uuid;
         newDocumentEntity.content = new ContentBodyEntity();
         newDocumentEntity.content.text = "Hello world!";
@@ -403,7 +402,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         ContentEntity createdDocumentEntity = jiveCoreAdmin.createContent(newDocumentEntity, Collections.<FileBody>emptyList()).call();
 
         ContentEntity newCommentEntity1 = new ContentEntity();
-        newCommentEntity1.type = JiveCoreContentType.comment;
+        newCommentEntity1.type = JiveCoreObjectType.comment;
         newCommentEntity1.content = new ContentBodyEntity();
         newCommentEntity1.content.text = "Comment1";
         newCommentEntity1.content.type = "text/html";
@@ -411,7 +410,7 @@ public class JiveCoreContentITest extends AbstractDelayedRestITest {
         jiveCoreAdmin.createContent(createdDocumentEntity.resources.get("comments").ref, newCommentEntity1, Collections.<FileBody>emptyList()).call();
 
         ContentEntity newCommentEntity2 = new ContentEntity();
-        newCommentEntity2.type = JiveCoreContentType.comment;
+        newCommentEntity2.type = JiveCoreObjectType.comment;
         newCommentEntity2.content = new ContentBodyEntity();
         newCommentEntity2.content.text = "Comment2";
         newCommentEntity2.content.type = "text/html";

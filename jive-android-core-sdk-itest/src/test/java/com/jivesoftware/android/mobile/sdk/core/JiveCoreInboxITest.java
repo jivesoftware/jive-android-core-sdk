@@ -5,7 +5,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerb;
 import org.apache.http.entity.mime.content.FileBody;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content;
@@ -62,7 +62,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content;
@@ -92,7 +92,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity1 = new ContentEntity();
-        documentEntity1.type = JiveCoreContentType.document;
+        documentEntity1.type = JiveCoreObjectType.document;
         documentEntity1.subject = subject + " 1";
         documentEntity1.content = new ContentBodyEntity();
         documentEntity1.content.text = content;
@@ -104,7 +104,7 @@ public class JiveCoreInboxITest extends AbstractDelayedRestITest {
         String contentEntity1SelfUrl = contentEntity1.resources.get("self").ref;
 
         ContentEntity documentEntity2 = new ContentEntity();
-        documentEntity2.type = JiveCoreContentType.document;
+        documentEntity2.type = JiveCoreObjectType.document;
         documentEntity2.subject = subject + " 2";
         documentEntity2.content = new ContentBodyEntity();
         documentEntity2.content.text = content;

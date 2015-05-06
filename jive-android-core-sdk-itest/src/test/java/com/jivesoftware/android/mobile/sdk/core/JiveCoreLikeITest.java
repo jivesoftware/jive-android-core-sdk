@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EntityUtils;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,7 +38,7 @@ public class JiveCoreLikeITest extends AbstractITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content ;

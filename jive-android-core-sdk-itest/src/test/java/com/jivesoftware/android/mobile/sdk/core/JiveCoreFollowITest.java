@@ -4,7 +4,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamListEntity;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class JiveCoreFollowITest extends AbstractITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content ;
@@ -45,7 +45,7 @@ public class JiveCoreFollowITest extends AbstractITest {
         String contentType = "text/html";
 
         ContentEntity documentEntity = new ContentEntity();
-        documentEntity.type = JiveCoreContentType.document;
+        documentEntity.type = JiveCoreObjectType.document;
         documentEntity.subject = subject;
         documentEntity.content = new ContentBodyEntity();
         documentEntity.content.text = content ;

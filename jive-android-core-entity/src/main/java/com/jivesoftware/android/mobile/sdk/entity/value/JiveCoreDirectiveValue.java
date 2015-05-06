@@ -21,7 +21,7 @@ public interface JiveCoreDirectiveValue {
      * Converter used to deserialize as common type instances when the value matches, falling back
      * to deserializing as an arbitrary value when an unknown value is encountered.
      */
-    public static class Converter extends StdConverter<String, JiveCoreDirectiveValue> {
+    class Converter extends StdConverter<String, JiveCoreDirectiveValue> {
         @Override
         public JiveCoreDirectiveValue convert(String stringValue) {
             return JiveCoreValueFactory.createDirectiveValue(stringValue);

@@ -8,7 +8,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentBodyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.EndpointRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.RequestMethod;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreContentType;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreSort;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreValueFactory;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
@@ -58,8 +58,8 @@ public class JiveCoreRequestFactoryTest {
         options.setUnreadFilter(true);
         options.setAuthorFilter(Collections.singletonList("/the/author"));
         options.setTypeFilter(ImmutableList.of(
-                JiveCoreValueFactory.createPlaceTypeValue("typeUUUU"),
-                JiveCoreValueFactory.createPlaceTypeValue("typeTTTT")));
+                JiveCoreValueFactory.createObjectTypeValue("typeUUUU"),
+                JiveCoreValueFactory.createObjectTypeValue("typeTTTT")));
         options.setDirectives(ImmutableList.of(
                 JiveCoreValueFactory.createDirectiveValue("prime(www)"),
                 JiveCoreValueFactory.createDirectiveValue("subprime(vvvv)")));
@@ -127,7 +127,7 @@ public class JiveCoreRequestFactoryTest {
         entity.content.text = "Some text";
         entity.content.type = "text/plain";
         entity.subject = "Some subject";
-        entity.type = JiveCoreContentType.comment;
+        entity.type = JiveCoreObjectType.comment;
 
         List<FileBody> files = new ArrayList<FileBody>();
         files.add(new FileBody(new File("test-data/test1.txt"), "text/plain"));
@@ -163,7 +163,7 @@ public class JiveCoreRequestFactoryTest {
         entity.content.text = "Some text";
         entity.content.type = "text/plain";
         entity.subject = "Some subject";
-        entity.type = JiveCoreContentType.comment;
+        entity.type = JiveCoreObjectType.comment;
 
         List<FileBody> fileBodies = new ArrayList<FileBody>();
         HttpPost createContentHttpPost = testObject.createContent("/url", entity, fileBodies);

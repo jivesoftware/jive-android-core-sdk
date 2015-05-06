@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 /**
  * Convenience class for representing values not in the common sets.
  */
-class JiveCoreValueImpl implements JiveCoreDirectiveValue, JiveCoreEntryStateValue, JiveCorePlaceTypeValue,
-        JiveCoreContentTypeValue, JiveCoreOutcomeTypeValue, JiveCoreRelationshipValue, JiveCoreSortValue,
+class JiveCoreValueImpl implements JiveCoreDirectiveValue, JiveCoreEntryStateValue,
+        JiveCoreOutcomeTypeValue, JiveCoreRelationshipValue, JiveCoreSortValue,
         JiveCoreStatusValue, JiveCoreVerbValue, JiveCoreProductTypeValue {
 
     @Nonnull

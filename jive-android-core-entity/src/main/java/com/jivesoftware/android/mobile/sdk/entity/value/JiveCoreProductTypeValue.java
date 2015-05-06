@@ -21,7 +21,7 @@ public interface JiveCoreProductTypeValue {
      * Converter used to deserialize as common type instances when the value matches, falling back
      * to deserializing as an arbitrary value when an unknown value is encountered.
      */
-    public static class Converter extends StdConverter<String, JiveCoreProductTypeValue> {
+    class Converter extends StdConverter<String, JiveCoreProductTypeValue> {
         @Override
         public JiveCoreProductTypeValue convert(String stringValue) {
             return JiveCoreValueFactory.createProductTypeValue(stringValue);

@@ -3,7 +3,7 @@ package com.jivesoftware.android.mobile.sdk.entity.matcher;
 import com.jivesoftware.android.mobile.matcher.PropertyMatcher;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ResourceEntity;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreTypeValue;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
 import org.hamcrest.Matcher;
 
 import javax.annotation.Nonnull;
@@ -29,11 +29,11 @@ public class JiveObjectEntityMatchers {
     }
 
     @Nonnull
-    public static <E extends JiveObjectEntity<?>> Matcher<E> objectType(JiveCoreTypeValue type) {
-        return new PropertyMatcher<JiveCoreTypeValue, E>("type", type) {
+    public static <E extends JiveObjectEntity<?>> Matcher<E> objectType(JiveCoreObjectTypeValue type) {
+        return new PropertyMatcher<JiveCoreObjectTypeValue, E>("type", type) {
             @Nullable
             @Override
-            protected JiveCoreTypeValue getPropertyValue(@Nonnull E item) throws Exception {
+            protected JiveCoreObjectTypeValue getPropertyValue(@Nonnull E item) throws Exception {
                 return item.type;
             }
         };
