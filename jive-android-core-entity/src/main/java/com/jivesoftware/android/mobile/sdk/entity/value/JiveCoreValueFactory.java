@@ -33,21 +33,23 @@ public class JiveCoreValueFactory {
      */
     public static void registerJiveObjectTypeValue(JiveCoreObjectTypeValue type) {
         Integer objectType = type.getObjectType();
-        registerObjectTypeMapping(objectType, type);
         registerNameMapping(type);
-        for (Integer objectTypeAlias : type.getObjectTypeAliases()) {
-            registerObjectTypeMapping(objectTypeAlias, type);
-        }
-        if (type.isSearchableType()) {
-            SEARCHABLE_TYPES.add(type);
-        }
-        if (type.isInboxFilterType()) {
-            INBOX_TYPES.add(type);
+        if (!type.isAlias()) {
+            registerObjectTypeMapping(objectType, type);
+            for (Integer objectTypeAlias : type.getObjectTypeAliases()) {
+                registerObjectTypeMapping(objectTypeAlias, type);
+            }
+            if (type.isSearchableType()) {
+                SEARCHABLE_TYPES.add(type);
+            }
+            if (type.isInboxFilterType()) {
+                INBOX_TYPES.add(type);
+            }
         }
     }
 
     private static void registerObjectTypeMapping(@Nullable Integer objectType, JiveCoreObjectTypeValue type) {
-        if (objectType != null && !type.isAlias()) {
+        if (objectType != null) {
             if (OBJECT_TYPES.putIfAbsent(objectType, type) != null) {
                 throw (new IllegalStateException(
                         "Cannot register '" + type + "' since objectType '" + objectType + "' is already registered to: "
