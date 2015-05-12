@@ -1,5 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.parser;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,20 +15,20 @@ import java.io.InputStream;
 public class JiveJsonHttpResponseParser<E> extends InputStreamClosingHttpResponseParser<E> {
     @Nonnull
     private final JiveJson jiveJson;
-    @Nonnull
+    @Nullable
     private final Class<E> entityClass;
-
-    public JiveJsonHttpResponseParser(JiveCoreExceptionFactory jiveCoreExceptionFactory, Class<E> entityClass) {
-        this(jiveCoreExceptionFactory, new JiveJson(), entityClass);
-    }
+    @Nullable
+    private final TypeReference<E> typeReference;
 
     public JiveJsonHttpResponseParser(
             JiveCoreExceptionFactory jiveCoreExceptionFactory,
             JiveJson jiveJson,
-            Class<E> entityClass) {
+            @Nullable Class<E> entityClass,
+            @Nullable TypeReference<E> typeReference) {
         super(jiveCoreExceptionFactory);
         this.jiveJson = jiveJson;
         this.entityClass = entityClass;
+        this.typeReference = typeReference;
     }
 
     @Nullable
@@ -37,7 +38,12 @@ public class JiveJsonHttpResponseParser<E> extends InputStreamClosingHttpRespons
             int statusCode,
             HttpEntity httpEntity,
             InputStream contentInputStream) throws IOException {
-        E entity = jiveJson.fromJson(contentInputStream, entityClass);
+        E entity;
+        if (null != entityClass) {
+            entity = jiveJson.fromJson(contentInputStream, entityClass);
+        } else {
+            entity = jiveJson.fromJson(contentInputStream, typeReference);
+        }
         return entity;
     }
 }

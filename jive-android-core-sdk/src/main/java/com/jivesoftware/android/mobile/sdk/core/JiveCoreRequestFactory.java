@@ -4,6 +4,7 @@ import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
+import com.jivesoftware.android.mobile.sdk.entity.ModerationEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
@@ -64,6 +65,12 @@ public class JiveCoreRequestFactory {
     public HttpGet fetchMeNews() {
         URI fetchMeNewsURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.ME_NEWS_URL);
         return new HttpGet(fetchMeNewsURI);
+    }
+
+    @Nonnull
+    public HttpGet fetchModerationList() {
+        URI fetchModerationListURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.MODERATION_PENDING_URL);
+        return new HttpGet(fetchModerationListURI);
     }
 
     @Nonnull
@@ -337,5 +344,13 @@ public class JiveCoreRequestFactory {
         HttpPost deauthorizeDevicePost = new HttpPost(uri);
 
         return deauthorizeDevicePost;
+    }
+
+    @Nonnull
+    public HttpPut updateModeration(String pathAndQuery, ModerationEntity moderationEntity) {
+        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery);
+        HttpPut put = new HttpPut(uri);
+        put.setEntity(JsonEntity.from(jiveJson, moderationEntity));
+        return put;
     }
 }

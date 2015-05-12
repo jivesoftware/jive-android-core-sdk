@@ -1,5 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.AttendanceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
@@ -14,6 +15,7 @@ import com.jivesoftware.android.mobile.sdk.entity.MemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MemberListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MetadataObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.MetadataPropertyEntity;
+import com.jivesoftware.android.mobile.sdk.entity.ModerationEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewsEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
@@ -156,6 +158,13 @@ public class JiveCore implements Closeable {
     public JiveCoreCallable<NewsEntity> fetchMeNews() {
         HttpGet fetchMeNewsHttpGet = jiveCoreRequestFactory.fetchMeNews();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMeNewsHttpGet, NewsEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList() {
+        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationList();
+        TypeReference<ListEntity<ModerationEntity>> typeReference = new TypeReference<ListEntity<ModerationEntity>>(){};
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, typeReference);
     }
 
     @Nonnull
@@ -376,6 +385,12 @@ public class JiveCore implements Closeable {
     public JiveCoreCallable<ContentEntity> createContent(String pathAndQuery, ContentEntity contentEntity, List<FileBody> fileBodies) {
         HttpPost createContentHttpPost = jiveCoreRequestFactory.createContent(pathAndQuery, contentEntity, fileBodies);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<ModerationEntity> updateModeration(String selfUrl, ModerationEntity moderationEntity) {
+        HttpPut updateModerationPut = jiveCoreRequestFactory.updateModeration(selfUrl, moderationEntity);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateModerationPut, ModerationEntity.class);
     }
 
     @Nonnull

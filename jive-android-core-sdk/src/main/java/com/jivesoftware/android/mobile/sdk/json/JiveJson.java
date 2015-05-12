@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -65,6 +66,11 @@ public class JiveJson {
     public <T> T fromJson(InputStream inputStream, Class<T> clazz) throws IOException {
         JiveJsonInputStream jiveJsonInputStream = new JiveJsonInputStream(inputStream);
         return objectMapper.readValue(jiveJsonInputStream, clazz);
+    }
+
+    public <T> T fromJson(InputStream inputStream, TypeReference<T> typeReference) throws IOException {
+        JiveJsonInputStream jiveJsonInputStream = new JiveJsonInputStream(inputStream);
+        return objectMapper.readValue(jiveJsonInputStream, typeReference);
     }
 
     public <T> T fromJson(Reader reader, Class<T> clazz) throws IOException {

@@ -34,6 +34,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
     member,
     mention,
     message,
+    moderation,
     outcome,
     peopleUpdates,
     person,
@@ -180,6 +181,9 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setSearchableType()
                 .setFollowableType()
                 .setItemReplyType(message)
+                .build());
+        moderation.delegateRef.set(JiveCoreObjectTypeImpl.builder()
+                // TODO smclaughry Anything else needed here?
                 .build());
         outcome.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(2700)

@@ -14,6 +14,7 @@ public class JiveCoreEndpoints {
     public static final String CONTENT_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/contents";
     public static final String PEOPLE_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/people";
     public static final String PLACES_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/places";
+    public static final String MODERATION_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/moderation";
 
     public static final String DIRECT_MESSAGE = JiveCoreConstants.CORE_API_V3_PREFIX + "/dms";
     public static final String SEARCH_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/search";
@@ -26,6 +27,8 @@ public class JiveCoreEndpoints {
 
     public static final String ME_URL = PEOPLE_ROOT + "/@me";
     public static final String ME_NEWS_URL = ME_URL + "/@news";
+
+    public static final String MODERATION_PENDING_URL = MODERATION_ROOT + "/pending";
 
     public static final String MEMBERSHIPS_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/members";
     public static final String PERSON_MEMBERSHIPS_ROOT = MEMBERSHIPS_ROOT + "/people";
