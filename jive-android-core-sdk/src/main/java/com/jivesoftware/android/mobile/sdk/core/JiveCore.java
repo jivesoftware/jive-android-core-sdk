@@ -69,6 +69,8 @@ public class JiveCore implements Closeable {
         // adb shell setprop log.tag.org.apache.http.headers VERBOSE
     }
 
+    private final TypeReference<ListEntity<ModerationEntity>> MODERATION_LIST_TYPE_REF = new TypeReference<ListEntity<ModerationEntity>>(){};
+
     @Nonnull
     public final JiveCoreRequestFactory jiveCoreRequestFactory;
     @Nonnull
@@ -162,9 +164,14 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList() {
-        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationList();
-        TypeReference<ListEntity<ModerationEntity>> typeReference = new TypeReference<ListEntity<ModerationEntity>>(){};
-        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, typeReference);
+        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.createHttpGet(JiveCoreEndpoints.MODERATION_PENDING_URL);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<ListEntity<ModerationEntity>> fetchMoreModerationList(String requestPathAndQuery) {
+        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);
     }
 
     @Nonnull

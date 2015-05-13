@@ -68,12 +68,6 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet fetchModerationList() {
-        URI fetchModerationListURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.MODERATION_PENDING_URL);
-        return new HttpGet(fetchModerationListURI);
-    }
-
-    @Nonnull
     public HttpGet fetchInbox(JiveCoreQueryParameterProvider options) {
         URI inboxURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.INBOX, options);
         return new HttpGet(inboxURI);
