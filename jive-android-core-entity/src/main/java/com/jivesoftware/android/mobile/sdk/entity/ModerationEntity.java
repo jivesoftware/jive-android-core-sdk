@@ -2,13 +2,8 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreOutcomeTypeValue;
-import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreVerbValue;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
@@ -16,7 +11,14 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonSerialize(include= Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ModerationEntity {
-    public String id;
+
+    // TODO see JiveCoreStatus to implement with factory etc
+    public enum ModerationState {
+        approved,
+        rejected
+    }
+
+    public int id;
     public String resolution;
     public Integer abuseCount;
     public ModerationObject object;
