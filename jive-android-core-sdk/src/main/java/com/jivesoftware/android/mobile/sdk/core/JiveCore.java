@@ -395,8 +395,8 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ModerationEntity> updateModeration(String selfUrl, ModerationEntity moderationEntity) {
-        HttpPut updateModerationPut = jiveCoreRequestFactory.updateModeration(selfUrl, moderationEntity);
+    public JiveCoreCallable<ModerationEntity> updateModeration(ModerationEntity moderationEntity) {
+        HttpPut updateModerationPut = jiveCoreRequestFactory.updateModeration(moderationEntity);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateModerationPut, ModerationEntity.class);
     }
 
