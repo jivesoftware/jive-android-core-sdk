@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreModerationStateValue;
 
 import java.util.Date;
 import java.util.Map;
@@ -14,7 +15,7 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 public class ModerationEntity {
 
     public int id;
-    public String resolution;
+    public JiveCoreModerationStateValue resolution;
     public Integer abuseCount;
     public ModerationObject object;
 
