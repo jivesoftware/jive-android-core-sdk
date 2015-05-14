@@ -341,8 +341,9 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPut updateModeration(String pathAndQuery, ModerationEntity moderationEntity) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery);
+    public HttpPut updateModeration(ModerationEntity moderationEntity) {
+        String moderationUrl = String.format("%s/%s", JiveCoreEndpoints.MODERATION_ROOT, moderationEntity.id);
+        URI uri = JiveURIUtil.createURI(baseURL, moderationUrl);
         HttpPut put = new HttpPut(uri);
         put.setEntity(JsonEntity.from(jiveJson, moderationEntity));
         return put;
