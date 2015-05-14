@@ -12,12 +12,6 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ModerationEntity {
 
-    // TODO see JiveCoreStatus to implement with factory etc
-    public enum ModerationState {
-        approved,
-        rejected
-    }
-
     public int id;
     public String resolution;
     public Integer abuseCount;

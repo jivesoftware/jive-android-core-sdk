@@ -105,6 +105,12 @@ public class JiveCoreValueFactory {
     }
 
     @Nonnull
+    public static JiveCoreModerationStateValue createStateValue(String stringValue) {
+        JiveCoreModerationStateValue value = createEnumValueOrNull(JiveCoreModerationState.class, stringValue);
+        return value == null ? new JiveCoreValueImpl(stringValue) : value;
+    }
+
+    @Nonnull
     public static JiveCoreVerbValue createVerbValue(String stringValue) {
         JiveCoreVerb representation = JiveCoreVerb.getByRepresentation(stringValue);
         return representation == null ? new JiveCoreValueImpl(stringValue) : representation;
