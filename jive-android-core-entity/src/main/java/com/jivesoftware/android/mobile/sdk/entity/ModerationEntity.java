@@ -4,6 +4,7 @@ package com.jivesoftware.android.mobile.sdk.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
@@ -36,5 +37,7 @@ public class ModerationEntity {
         public String html;
         public String url;
         public String image;
+        public PersonEntity actor;
+        public Date updated;
     }
 }
