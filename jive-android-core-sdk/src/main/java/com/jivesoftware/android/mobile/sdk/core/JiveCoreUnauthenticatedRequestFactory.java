@@ -14,20 +14,18 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.jivesoftware.android.mobile.sdk.util.JiveURIUtil.createURI;
-
 @ParametersAreNonnullByDefault
 public class JiveCoreUnauthenticatedRequestFactory {
     @Nonnull
     private final String oauthCredentials;
     @Nonnull
-    private final URL baseURL;
+    private final JiveCoreURIFactory uriFactory;
     @Nonnull
     private final String addonUUID;
 
     public JiveCoreUnauthenticatedRequestFactory(URL baseURL, String oauthCredentials, String addonUUID) {
         this.oauthCredentials = oauthCredentials;
-        this.baseURL = baseURL;
+        this.uriFactory = new JiveCoreURIFactory(baseURL);
         this.addonUUID = addonUUID;
     }
 
@@ -50,7 +48,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpGet fetchVersion() {
-        URI fetchVersionURI = createURI(baseURL, "api/version");
+        URI fetchVersionURI = uriFactory.apiVersionUri();
         HttpGet versionHttpGet = new HttpGet(fetchVersionURI);
         HttpParams versionHttpGetHttpParams = versionHttpGet.getParams();
         HttpClientParams.setRedirecting(versionHttpGetHttpParams, false);
@@ -60,7 +58,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpGet fetchPublicMetadataProperties() {
-        URI fetchPublicMetadataPropertiesURI = createURI(baseURL, "api/core/v3/metadata/properties/public");
+        URI fetchPublicMetadataPropertiesURI = uriFactory.metadataPublicPropertiesUri();
         HttpGet publicMetadataPropertiesHttpGet = new HttpGet(fetchPublicMetadataPropertiesURI);
         HttpParams publicMetdataPropertiesHttpGetHttpParams = publicMetadataPropertiesHttpGet.getParams();
         HttpClientParams.setRedirecting(publicMetdataPropertiesHttpGetHttpParams, false);
@@ -70,7 +68,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpPost authorizeDevice(String username, String password) {
-        URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
+        URI uri = uriFactory.oAuth2RequestUri();
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
         authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
@@ -86,7 +84,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpPost refreshToken(String refreshToken) {
-        URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REFRESH_URL);
+        URI uri = uriFactory.oAuth2RefreshUri();
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
         authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
@@ -101,7 +99,7 @@ public class JiveCoreUnauthenticatedRequestFactory {
 
     @Nonnull
     public HttpGet fetchSessionGrant() {
-        URI uri = createURI(baseURL, "/api/addons/" + addonUUID + "/session-grant-allowed");
+        URI uri = uriFactory.sessionGrantUri(addonUUID);
         HttpGet fetchSessionGrantHttpGet = new HttpGet(uri);
         HttpParams fetchSessionGrantHttpGetHttpParams = fetchSessionGrantHttpGet.getParams();
         HttpClientParams.setRedirecting(fetchSessionGrantHttpGetHttpParams, false);

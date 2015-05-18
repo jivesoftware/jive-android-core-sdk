@@ -22,12 +22,12 @@ public class JiveCoreUnauthenticatedITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenVersionIsFetchedThenItIs8c4() throws Exception {
+    public void testWhenVersionIsFetchedThenItIs9c1() throws Exception {
         JiveCoreCallable<VersionEntity> fetchVersionJiveCoreCallable = jiveCoreUnauthenticatedAdmin.fetchVersion();
         VersionEntity versionEntity = fetchVersionJiveCoreCallable.call();
 
         assertEquals(TEST_URL.toExternalForm(), versionEntity.instanceURL);
-        assertEquals("8.0.0.0 8c4", versionEntity.jiveVersion);
+        assertEquals("9.0.0.0 9c1", versionEntity.jiveVersion);
         assertNull(versionEntity.ssoEnabled);
     }
 
