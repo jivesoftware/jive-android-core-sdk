@@ -145,6 +145,11 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreURIFactory getURIFactory() {
+        return jiveCoreRequestFactory.getURIFactory();
+    }
+
+    @Nonnull
     public JiveCoreCallable<MetadataPropertyEntity[]> fetchMetadataProperties() {
         HttpGet get = jiveCoreRequestFactory.fetchMetadataProperties();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(get, MetadataPropertyEntity[].class);
@@ -164,7 +169,7 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList() {
-        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.createHttpGet(JiveCoreEndpoints.MODERATION_PENDING_URL);
+        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationPending();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);
     }
 
@@ -212,7 +217,8 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchAllActivities() {
-        return fetchActivities(JiveCoreEndpoints.ALL_ACTIVITY);
+        HttpGet fetchActivitiesHttpGet = jiveCoreRequestFactory.fetchActivity();
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchActivitiesHttpGet, ActivityListEntity.class);
     }
 
     @Nonnull
@@ -385,7 +391,8 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<ContentEntity> createContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
-        return createContent(JiveCoreEndpoints.CONTENT_ROOT, contentEntity, fileBodies);
+        HttpPost createContentHttpPost = jiveCoreRequestFactory.createContent(contentEntity, fileBodies);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
     }
 
     @Nonnull

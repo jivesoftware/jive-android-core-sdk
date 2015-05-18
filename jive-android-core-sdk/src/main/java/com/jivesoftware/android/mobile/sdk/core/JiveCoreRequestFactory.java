@@ -12,7 +12,6 @@ import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
-import com.jivesoftware.android.mobile.sdk.util.JiveURIUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -32,50 +31,53 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.jivesoftware.android.mobile.sdk.util.JiveURIUtil.createURI;
-
 @ParametersAreNonnullByDefault
 public class JiveCoreRequestFactory {
     @Nonnull
     private final String oauthCredentials;
     @Nonnull
-    private final URL baseURL;
+    private final JiveCoreURIFactory uriFactory;
     @Nonnull
     private final JiveJson jiveJson;
 
     public JiveCoreRequestFactory(String oauthCredentials, URL baseURL, JiveJson jiveJson) {
         this.oauthCredentials = oauthCredentials;
-        this.baseURL = baseURL;
+        this.uriFactory = new JiveCoreURIFactory(baseURL);
         this.jiveJson = jiveJson;
     }
 
     @Nonnull
+    public JiveCoreURIFactory getURIFactory() {
+        return uriFactory;
+    }
+
+    @Nonnull
     public HttpGet fetchMetadataProperties() {
-        URI fetchMetadataPropertiesURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.METADATA_PROPERTIES);
-        return new HttpGet(fetchMetadataPropertiesURI);
+        URI uri = uriFactory.metadataPropertiesUri();
+        return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchMePerson() {
-        URI fetchMePersonURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.ME_URL);
-        return new HttpGet(fetchMePersonURI);
+        URI uri = uriFactory.personSelfUri();
+        return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchMeNews() {
-        URI fetchMeNewsURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.ME_NEWS_URL);
-        return new HttpGet(fetchMeNewsURI);
+        URI uri = uriFactory.createNewsSelfUri();
+        return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchInbox(JiveCoreQueryParameterProvider options) {
-        URI inboxURI = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.INBOX, options);
-        return new HttpGet(inboxURI);
+        URI uri = uriFactory.fetchInboxUri(options);
+        return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpPost executeBatchOperation(BatchRequestEntity[] requestEntities) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreConstants.CORE_API_V3_PREFIX + "/executeBatch");
+        URI uri = uriFactory.batchOperationUri();
         HttpPost post = new HttpPost(uri);
         post.setEntity(JsonEntity.from(jiveJson, requestEntities));
         return post;
@@ -83,79 +85,85 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpGet fetchImage(String pathAndQuery, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
+        URI uri = uriFactory.createURI(pathAndQuery, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet createHttpGet(String requestPathAndQuery) {
-        URI uri = JiveURIUtil.createURI(baseURL, requestPathAndQuery);
+        URI uri = uriFactory.createURI(requestPathAndQuery);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpPost createHttpPost(String requestPathAndQuery) {
-        URI uri = JiveURIUtil.createURI(baseURL, requestPathAndQuery);
+        URI uri = uriFactory.createURI(requestPathAndQuery);
         return new HttpPost(uri);
     }
 
     @Nonnull
     public HttpDelete createHttpDelete(String requestPathAndQuery) {
-        URI uri = JiveURIUtil.createURI(baseURL, requestPathAndQuery);
+        URI uri = uriFactory.createURI(requestPathAndQuery);
         return new HttpDelete(uri);
     }
 
     @Nonnull
     public HttpGet searchContents(JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_CONTENT, options);
+        URI uri = uriFactory.searchContentsUri(options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
+    public HttpGet fetchActivity() {
+        URI uri = uriFactory.activityUri();
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchActivityByPerson(String personUrl, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, personUrl + "/activities", options);
+        URI uri = uriFactory.fetchActivitiesByPersonUri(personUrl, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchContents(JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.CONTENT_ROOT, options);
+        URI uri = uriFactory.fetchContentsUri(options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchPlaces(JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACES_ROOT, options);
+        URI uri = uriFactory.fetchPlacesUri(options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchPeople(@Nonnull JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PEOPLE_ROOT, options);
+        URI uri = uriFactory.fetchPeopleUri(options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet searchPeople(JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PEOPLE, options);
+        URI uri = uriFactory.searchPeopleUri(options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet searchPlaces(JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.SEARCH_PLACES, options);
+        URI uri = uriFactory.searchPlacesUri(options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchMembersByPerson(String personID, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PERSON_MEMBERSHIPS_ROOT + "/" + personID, options);
+        URI uri = uriFactory.fetchMembersByPersonUri(personID, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpPost createMembership(String placeID, NewMemberEntity newMemberEntity) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACE_MEMBERSHIPS_ROOT + "/" + placeID);
+        URI uri = uriFactory.createMembershipUri(placeID);
         HttpPost joinPlacePost = new HttpPost(uri);
         joinPlacePost.setEntity(JsonEntity.from(jiveJson, newMemberEntity));
         return joinPlacePost;
@@ -163,7 +171,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost createPromoteContent(String promoteRequestUrl, VoteEntity voteEntity) {
-        URI uri = JiveURIUtil.createURI(baseURL, promoteRequestUrl);
+        URI uri = uriFactory.createURI(promoteRequestUrl);
         HttpPost post = new HttpPost(uri);
         post.setEntity(JsonEntity.from(jiveJson, voteEntity));
         return post;
@@ -171,21 +179,30 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpGet fetchMembersByPlace(String placeID, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACE_MEMBERSHIPS_ROOT + "/" + placeID, options);
+        URI uri = uriFactory.fetchMembersByPlaceUri(placeID, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchMetadataObject(String metadataObjectName, String locale) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.METADATA_OBJECT_ROOT + "/" + metadataObjectName);
+        URI uri = uriFactory.metadataObjectUri(metadataObjectName);
         HttpGet get = new HttpGet(uri);
         get.setHeader(JiveCoreHeaders.ACCEPT_LANGUAGE, locale);
         return get;
     }
 
     @Nonnull
+    public HttpPost createContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
+        URI uri = uriFactory.createContentUri();
+        HttpPost post = new HttpPost(uri);
+        HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
+        post.setEntity(entity);
+        return post;
+    }
+
+    @Nonnull
     public HttpPost createContent(String pathAndQuery, ContentEntity contentEntity, List<FileBody> fileBodies) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery);
+        URI uri = uriFactory.createURI(pathAndQuery);
         HttpPost post = new HttpPost(uri);
         HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
         post.setEntity(entity);
@@ -194,7 +211,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPut updateContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
-        URI uri = JiveURIUtil.createURI(baseURL, contentEntity.resources.get("self").ref);
+        URI uri = uriFactory.updateContentUri(contentEntity);
         HttpPut put = new HttpPut(uri);
         HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
         put.setEntity(entity);
@@ -223,19 +240,19 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpGet fetchContent(String pathAndQuery, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
+        URI uri = uriFactory.createURI(pathAndQuery, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpGet fetchReplies(String pathAndQuery, JiveCoreQueryParameterProvider options) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery, options);
+        URI uri = uriFactory.createURI(pathAndQuery, options);
         return new HttpGet(uri);
     }
 
     @Nonnull
     public HttpPost uploadImage(FileBody imageFileBody) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.IMAGES_ROOT);
+        URI uri = uriFactory.uploadImageUri();
         HttpPost post = new HttpPost(uri);
 
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -247,7 +264,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost registerForPush(String gcmId, String deviceId) {
-        URI uri = JiveURIUtil.createURI(baseURL, "/api/core/mobile/v1/pushNotification/register");
+        URI uri = uriFactory.registerForPushUri();
         HttpPost post = new HttpPost(uri);
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
@@ -263,7 +280,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost unregisterFromPush(String gcmId, String deviceId) {
-        URI uri = JiveURIUtil.createURI(baseURL, "/api/core/mobile/v1/pushNotification/unregister");
+        URI uri = uriFactory.unregisterForPushUri();
         HttpPost post = new HttpPost(uri);
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
@@ -277,7 +294,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost updateFollowingIn(String pathAndQuery, List<StreamEntity> streamEntities) {
-        URI uri = JiveURIUtil.createURI(baseURL, pathAndQuery);
+        URI uri = uriFactory.createURI(pathAndQuery);
         HttpPost post = new HttpPost(uri);
         if (streamEntities.size() > 0) {
             StreamEntity[] entities = new StreamEntity[streamEntities.size()];
@@ -296,7 +313,7 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost createPlace(PlaceEntity placeEntity) {
-        URI uri = JiveURIUtil.createURI(baseURL, JiveCoreEndpoints.PLACES_ROOT);
+        URI uri = uriFactory.placesUri();
         HttpPost createPlaceHttpPost = new HttpPost(uri);
         createPlaceHttpPost.setEntity(JsonEntity.from(jiveJson, placeEntity));
         return createPlaceHttpPost;
@@ -315,15 +332,14 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost completeMission(String mission) {
-        String path = "api/core/mobile/v1/quest/" + mission;
-        URI uri = JiveURIUtil.createURI(baseURL, path);
+        URI uri = uriFactory.completedMissionUri(mission);
         HttpPost completeMissionHttpPost = new HttpPost(uri);
         return completeMissionHttpPost;
     }
 
     @Nonnull
     public HttpPost authorizeDeviceFromSession() {
-        final URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REQUEST_URL);
+        final URI uri = uriFactory.oAuth2RequestUri();
         HttpPost authorizeDeviceHttpPost = new HttpPost(uri);
         authorizeDeviceHttpPost.setHeader(JiveCoreHeaders.AUTHORIZATION, "Basic " + oauthCredentials);
 
@@ -334,16 +350,21 @@ public class JiveCoreRequestFactory {
 
     @Nonnull
     public HttpPost deauthorizeDevice() {
-        URI uri = createURI(baseURL, JiveCoreEndpoints.OAUTH2_TOKEN_REVOKE_URL);
+        URI uri = uriFactory.oAuth2RevokeUri();
         HttpPost deauthorizeDevicePost = new HttpPost(uri);
 
         return deauthorizeDevicePost;
     }
 
     @Nonnull
+    public HttpGet fetchModerationPending() {
+        URI uri = uriFactory.fetchModerationPending();
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpPut updateModeration(ModerationEntity moderationEntity) {
-        String moderationUrl = String.format("%s/%s", JiveCoreEndpoints.MODERATION_ROOT, moderationEntity.id);
-        URI uri = JiveURIUtil.createURI(baseURL, moderationUrl);
+        URI uri = uriFactory.updateModeration(moderationEntity.id);
         HttpPut put = new HttpPut(uri);
         put.setEntity(JsonEntity.from(jiveJson, moderationEntity));
         return put;

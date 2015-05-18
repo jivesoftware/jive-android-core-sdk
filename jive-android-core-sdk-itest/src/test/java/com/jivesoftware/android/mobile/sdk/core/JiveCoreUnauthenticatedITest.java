@@ -22,7 +22,7 @@ public class JiveCoreUnauthenticatedITest extends AbstractITest {
     }
 
     @Test
-    public void testWhenVersionIsFetchedThenItIs8c4() throws Exception {
+    public void testWhenVersionIsFetchedThenItIs9c1() throws Exception {
         JiveCoreCallable<VersionEntity> fetchVersionJiveCoreCallable = jiveCoreUnauthenticatedAdmin.fetchVersion();
         VersionEntity versionEntity = fetchVersionJiveCoreCallable.call();
 
