@@ -18,9 +18,6 @@ public class ModerationEntity {
     public JiveCoreModerationStateValue resolution;
     public Integer abuseCount;
     public ModerationObject object;
-
-    // TODO smclaughry Finish this when API stabilizes
-
     public Map<String, ResourceEntity> resources;
 
     @JsonSerialize(include= Inclusion.NON_NULL)
