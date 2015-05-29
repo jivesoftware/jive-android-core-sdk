@@ -111,6 +111,12 @@ public class JiveCoreValueFactory {
     }
 
     @Nonnull
+    public static JiveCoreModerationTargetTypeValue createModerationTargetTypeValue(String stringValue) {
+        JiveCoreModerationTargetType value = createEnumValueOrNull(JiveCoreModerationTargetType.class, stringValue);
+        return value == null ? new JiveCoreValueImpl(stringValue) : value;
+    }
+
+    @Nonnull
     public static JiveCoreVerbValue createVerbValue(String stringValue) {
         JiveCoreVerb representation = JiveCoreVerb.getByRepresentation(stringValue);
         return representation == null ? new JiveCoreValueImpl(stringValue) : representation;
