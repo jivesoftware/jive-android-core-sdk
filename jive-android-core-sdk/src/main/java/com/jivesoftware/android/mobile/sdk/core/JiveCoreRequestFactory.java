@@ -19,7 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.message.BasicNameValuePair;
 
 import javax.annotation.Nonnull;
@@ -192,7 +192,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPost createContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public HttpPost createContent(ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         URI uri = uriFactory.createContentUri();
         HttpPost post = new HttpPost(uri);
         HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
@@ -201,7 +201,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPost createContent(String pathAndQuery, ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public HttpPost createContent(String pathAndQuery, ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         URI uri = uriFactory.createURI(pathAndQuery);
         HttpPost post = new HttpPost(uri);
         HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
@@ -210,7 +210,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPut updateContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public HttpPut updateContent(ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         URI uri = uriFactory.updateContentUri(contentEntity);
         HttpPut put = new HttpPut(uri);
         HttpEntity entity = createHttpEntity(contentEntity, fileBodies);
@@ -219,7 +219,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    private HttpEntity createHttpEntity(Object entity, List<FileBody> fileBodies) {
+    private HttpEntity createHttpEntity(Object entity, List<? extends AbstractContentBody> fileBodies) {
         HttpEntity httpEntity;
         if (fileBodies.isEmpty()) {
             httpEntity = JsonEntity.from(jiveJson, entity);
@@ -229,7 +229,7 @@ public class JiveCoreRequestFactory {
             multipartEntity.addPart("json", JsonBody.create(json));
 
             int fileNumber = 1;
-            for (FileBody fileBody : fileBodies) {
+            for (AbstractContentBody fileBody : fileBodies) {
                 multipartEntity.addPart("file" + fileNumber, fileBody);
                 fileNumber++;
             }
@@ -251,7 +251,7 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPost uploadImage(FileBody imageFileBody) {
+    public HttpPost uploadImage(AbstractContentBody imageFileBody) {
         URI uri = uriFactory.uploadImageUri();
         HttpPost post = new HttpPost(uri);
 

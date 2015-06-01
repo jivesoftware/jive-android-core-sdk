@@ -10,6 +10,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.hamcrest.CoreMatchers;
@@ -298,33 +299,38 @@ public class HttpMatchers {
     }
 
     @Nonnull
-    public static Matcher<FileBody> fileBodyFilename(@Nonnull String filename) {
-        return new PropertyMatcher<String, FileBody>("filename", filename) {
+    public static Matcher<AbstractContentBody> fileBodyFilename(@Nonnull String filename) {
+        return new PropertyMatcher<String, AbstractContentBody>("filename", filename) {
             @Nullable
             @Override
-            protected String getPropertyValue(@Nonnull FileBody item) throws Exception {
+            protected String getPropertyValue(@Nonnull AbstractContentBody item) throws Exception {
                 return item.getFilename();
             }
         };
     }
 
     @Nonnull
-    public static Matcher<FileBody> fileBodyFile(@Nonnull File file) {
-        return new PropertyMatcher<File, FileBody>("file", file) {
+    public static Matcher<AbstractContentBody> fileBodyFile(@Nonnull File file) {
+        return new PropertyMatcher<File, AbstractContentBody>("file", file) {
             @Nullable
             @Override
-            protected File getPropertyValue(@Nonnull FileBody item) throws Exception {
-                return item.getFile();
+            protected File getPropertyValue(@Nonnull AbstractContentBody item) throws Exception {
+                if (item instanceof FileBody) {
+                    FileBody fileBody = (FileBody) item;
+                    return fileBody.getFile();
+                } else {
+                    return null;
+                }
             }
         };
     }
 
     @Nonnull
-    public static Matcher<FileBody> fileBodyMimeType(@Nonnull String mimeType) {
-        return new PropertyMatcher<String, FileBody>("mimeType", mimeType) {
+    public static Matcher<AbstractContentBody> fileBodyMimeType(@Nonnull String mimeType) {
+        return new PropertyMatcher<String, AbstractContentBody>("mimeType", mimeType) {
             @Nullable
             @Override
-            protected String getPropertyValue(@Nonnull FileBody item) throws Exception {
+            protected String getPropertyValue(@Nonnull AbstractContentBody item) throws Exception {
                 return item.getMimeType();
             }
         };

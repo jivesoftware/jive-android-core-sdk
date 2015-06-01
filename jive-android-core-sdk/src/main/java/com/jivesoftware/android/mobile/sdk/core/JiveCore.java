@@ -36,6 +36,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.AbstractHttpClient;
 
@@ -390,13 +391,15 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ContentEntity> createContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public JiveCoreCallable<ContentEntity> createContent(
+            ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         HttpPost createContentHttpPost = jiveCoreRequestFactory.createContent(contentEntity, fileBodies);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
     }
 
     @Nonnull
-    public JiveCoreCallable<ContentEntity> createContent(String pathAndQuery, ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public JiveCoreCallable<ContentEntity> createContent(
+            String pathAndQuery, ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         HttpPost createContentHttpPost = jiveCoreRequestFactory.createContent(pathAndQuery, contentEntity, fileBodies);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(createContentHttpPost, ContentEntity.class);
     }
@@ -420,7 +423,8 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ContentEntity> updateContent(ContentEntity contentEntity, List<FileBody> fileBodies) {
+    public JiveCoreCallable<ContentEntity> updateContent(
+            ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         HttpPut updateContentHttpPut = jiveCoreRequestFactory.updateContent(contentEntity, fileBodies);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(updateContentHttpPut, ContentEntity.class);
     }
@@ -438,7 +442,7 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ImageEntity> uploadImage(FileBody imageFileBody) {
+    public JiveCoreCallable<ImageEntity> uploadImage(AbstractContentBody imageFileBody) {
         HttpPost uploadImageHttpPost = jiveCoreRequestFactory.uploadImage(imageFileBody);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(uploadImageHttpPost, ImageEntity.class);
     }
