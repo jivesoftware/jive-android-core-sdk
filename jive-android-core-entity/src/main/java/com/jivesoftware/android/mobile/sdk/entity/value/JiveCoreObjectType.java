@@ -16,6 +16,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
     acclaim,
     announcement,
     app,
+    bulkUpload,
     blog,
     comment,
     connectionUpdates,
@@ -87,6 +88,10 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setObjectType(37)
                 .setPlaceType()
                 .setFollowableType()
+                .build());
+        bulkUpload.delegateRef.set(JiveCoreObjectTypeImpl.builder()
+                .setObjectType(77711763)
+                .setInboxFilterType()
                 .build());
         comment.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(105)
