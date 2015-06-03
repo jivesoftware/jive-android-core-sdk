@@ -20,6 +20,7 @@ import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewsEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PersonListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.PersonRolesEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
@@ -160,6 +161,12 @@ public class JiveCore implements Closeable {
     public JiveCoreCallable<PersonEntity> fetchMePerson() {
         HttpGet fetchMePersonHttpGet = jiveCoreRequestFactory.fetchMePerson();
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchMePersonHttpGet, PersonEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<PersonRolesEntity> fetchPersonRoles(String requestPathAndQuery) {
+        HttpGet httpGet = jiveCoreRequestFactory.fetchPersonRoles(requestPathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(httpGet, PersonRolesEntity.class);
     }
 
     @Nonnull

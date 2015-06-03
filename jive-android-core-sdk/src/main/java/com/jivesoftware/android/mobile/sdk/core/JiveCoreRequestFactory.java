@@ -64,6 +64,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchPersonRoles(String pathAndQuery) {
+        URI uri = uriFactory.createURI(pathAndQuery);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpGet fetchMeNews() {
         URI uri = uriFactory.createNewsSelfUri();
         return new HttpGet(uri);
