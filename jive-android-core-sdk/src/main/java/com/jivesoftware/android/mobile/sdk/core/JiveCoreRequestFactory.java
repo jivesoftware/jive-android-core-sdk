@@ -6,6 +6,7 @@ import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ModerationEntity;
 import com.jivesoftware.android.mobile.sdk.entity.NewMemberEntity;
+import com.jivesoftware.android.mobile.sdk.entity.PersonEntity;
 import com.jivesoftware.android.mobile.sdk.entity.PlaceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.StreamEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
@@ -369,4 +370,13 @@ public class JiveCoreRequestFactory {
         put.setEntity(JsonEntity.from(jiveJson, moderationEntity));
         return put;
     }
+
+    @Nonnull
+    public HttpPut updatePerson(PersonEntity personEntity) {
+        URI uri = uriFactory.personUri(personEntity.id);
+        HttpPut put = new HttpPut(uri);
+        put.setEntity(JsonEntity.from(jiveJson, personEntity));
+        return put;
+    }
+
 }
