@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.entity;
 
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,6 +14,10 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 @JsonSerialize(include= NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
+
+    @JsonProperty("jive")
+    public JiveExtensionEntity jiveExtension;
+
     public String displayName;
     public NameEntity name;
     public String thumbnailUrl;
@@ -21,15 +26,9 @@ public class PersonEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public String status;
     public String location;
 
-    @JsonProperty("jive")
-    public JiveExtensionEntity jiveExtension;
-
     public List<EmailEntity> emails;
-
     public List<PhoneNumberEntity> phoneNumbers;
-
     public List<AddressEntity> addresses;
-
     public List<PhotoEntity> photos;
 
     @JsonSerialize(include= NON_NULL)
@@ -43,7 +42,8 @@ public class PersonEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     @JsonSerialize(include= NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class JiveExtensionEntity {
-        public String userName;
+
+        public String username;
         public Boolean external;
         public Boolean externalContributor;
         public Boolean enabled;
@@ -53,7 +53,6 @@ public class PersonEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
         public String timeZone;
         public String locale;
         public JiveProfileEntryEntity[] profile;
-
         public JiveLevelEntity level;
 
         public static class JiveProfileEntryEntity extends GenericEntity<String> { }
