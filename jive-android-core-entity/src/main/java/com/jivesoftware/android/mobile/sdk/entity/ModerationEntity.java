@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreModerationStateValue;
 
-import java.awt.*;
 import java.util.Date;
 import java.util.Map;
 
