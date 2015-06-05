@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreModerationStateValue;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class ModerationEntity {
     public JiveCoreModerationStateValue resolution;
     public Integer abuseCount;
     public ModerationObject object;
+    public ImageEntity image;
     public Map<String, ResourceEntity> resources;
 
     @JsonSerialize(include= Inclusion.NON_NULL)
@@ -28,7 +30,7 @@ public class ModerationEntity {
         public String objectType;
         public String html;
         public String url;
-        public String image;
+        public ImageEntity image;
         public PersonEntity actor;
         public Date updated;
     }

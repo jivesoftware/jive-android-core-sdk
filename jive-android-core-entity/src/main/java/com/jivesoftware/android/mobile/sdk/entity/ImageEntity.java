@@ -13,6 +13,7 @@ public class ImageEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public String contentType;
     public String name;
     public String ref;
+    public String url;
     public Integer width;
     public Integer height;
 }
