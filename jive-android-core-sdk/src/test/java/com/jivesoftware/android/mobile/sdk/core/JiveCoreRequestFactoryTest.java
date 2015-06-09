@@ -335,7 +335,7 @@ public class JiveCoreRequestFactoryTest {
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("deviceID", "bar"));
         bodyNameValuePairs.add(new BasicNameValuePair("deviceToken", "foo"));
-        bodyNameValuePairs.add(new BasicNameValuePair("deviceType", "4"));
+        bodyNameValuePairs.add(new BasicNameValuePair("deviceType", "6"));
         bodyNameValuePairs.add(new BasicNameValuePair("activated", "true"));
         assertThat(registerForPushHttpPost, allOf(
                 requestUrl("http://jiveland.com/api/core/mobile/v1/pushNotification/register"),
