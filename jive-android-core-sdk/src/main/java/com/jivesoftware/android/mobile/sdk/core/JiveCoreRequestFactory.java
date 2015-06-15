@@ -364,8 +364,8 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpGet fetchModerationPending() {
-        URI uri = uriFactory.fetchModerationPending();
+    public HttpGet fetchModerationPending(JiveCoreRequestOptions options) {
+        URI uri = uriFactory.fetchModerationPending(options);
         return new HttpGet(uri);
     }
 

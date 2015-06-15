@@ -176,8 +176,8 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList() {
-        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationPending();
+    public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList(JiveCoreRequestOptions options) {
+        HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationPending(options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);
     }
 

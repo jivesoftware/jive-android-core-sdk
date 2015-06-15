@@ -253,8 +253,8 @@ public class JiveCoreURIFactory {
     }
 
     @Nonnull
-    public URI fetchModerationPending() {
-        return createURI(MODERATION_ROOT + "/pending");
+    public URI fetchModerationPending(JiveCoreQueryParameterProvider options) {
+        return createURI(MODERATION_ROOT + "/pending", options);
     }
 
     @Nonnull
