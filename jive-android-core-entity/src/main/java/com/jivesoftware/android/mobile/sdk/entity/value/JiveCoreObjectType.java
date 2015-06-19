@@ -43,6 +43,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
     poll,
     post,
     profileUpdates,
+    profileImage,
     project,
     share,
     slide,
@@ -223,6 +224,9 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .build());
         profileUpdates.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(2018307648)
+                .build());
+        profileImage.delegateRef.set(JiveCoreObjectTypeImpl.builder()
+                .setObjectType(501)
                 .build());
         project.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(600)
