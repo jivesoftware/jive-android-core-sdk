@@ -442,6 +442,12 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreCallable<ContentListEntity> fetchContents(String pathAndQuery, JiveCoreQueryParameterProvider options) {
+        HttpGet httpGet = jiveCoreRequestFactory.fetchContent(pathAndQuery, options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(httpGet, ContentListEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ContentEntity> updateContent(
             ContentEntity contentEntity, List<? extends AbstractContentBody> fileBodies) {
         HttpPut updateContentHttpPut = jiveCoreRequestFactory.updateContent(contentEntity, fileBodies);
