@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
 import com.jivesoftware.android.mobile.sdk.entity.AttendanceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
@@ -38,7 +39,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.mime.content.AbstractContentBody;
-import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.AbstractHttpClient;
 
 import javax.annotation.Nonnull;
@@ -185,6 +185,12 @@ public class JiveCore implements Closeable {
     public JiveCoreCallable<ListEntity<ModerationEntity>> fetchMoreModerationList(String requestPathAndQuery) {
         HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<JsonNode> fetchAnalyticsData(String requestPathAndQuery) {
+        HttpGet httpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(httpGet, JsonNode.class);
     }
 
     @Nonnull
