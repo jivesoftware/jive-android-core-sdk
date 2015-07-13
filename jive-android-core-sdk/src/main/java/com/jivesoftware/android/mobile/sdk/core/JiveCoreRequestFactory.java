@@ -1,6 +1,7 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.httpclient.util.JiveEntityUtil;
+import com.jivesoftware.android.mobile.sdk.entity.AnalyticsRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
 import com.jivesoftware.android.mobile.sdk.entity.JiveObjectEntity;
@@ -324,6 +325,28 @@ public class JiveCoreRequestFactory {
         HttpPost createPlaceHttpPost = new HttpPost(uri);
         createPlaceHttpPost.setEntity(JsonEntity.from(jiveJson, placeEntity));
         return createPlaceHttpPost;
+    }
+
+    @Nonnull
+    public HttpPost fetchAnalytics(String requestPathAndQuery, AnalyticsRequestEntity analyticsRequestEntity) {
+        URI uri = uriFactory.createURI(requestPathAndQuery);
+        HttpPost createFetchAnalyticsHttpPost = new HttpPost(uri);
+        
+        /* Need to make list of AnalyticsRequestEntity objects since v1 analytics API expects a list */
+        List<AnalyticsRequestEntity> analyticsRequestEntityList = new ArrayList<AnalyticsRequestEntity>();
+        analyticsRequestEntityList.add(analyticsRequestEntity);
+        String json = jiveJson.toJson(analyticsRequestEntityList);
+
+        JsonEntity jsonEntity = null;
+        try {
+            jsonEntity = new JsonEntity(json);
+
+        } catch (UnsupportedEncodingException e) {
+            throw (new IllegalStateException("Could not convert analytics request json into entity", e));
+        }
+
+        createFetchAnalyticsHttpPost.setEntity(jsonEntity);
+        return createFetchAnalyticsHttpPost;
     }
 
     @Nonnull
