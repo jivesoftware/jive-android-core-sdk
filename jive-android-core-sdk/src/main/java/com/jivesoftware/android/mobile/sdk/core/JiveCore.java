@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jivesoftware.android.mobile.sdk.entity.ActivityListEntity;
+import com.jivesoftware.android.mobile.sdk.entity.AnalyticsRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.AttendanceEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchRequestEntity;
 import com.jivesoftware.android.mobile.sdk.entity.BatchResponseEntity;
@@ -71,7 +72,8 @@ public class JiveCore implements Closeable {
         // adb shell setprop log.tag.org.apache.http.headers VERBOSE
     }
 
-    private final TypeReference<ListEntity<ModerationEntity>> MODERATION_LIST_TYPE_REF = new TypeReference<ListEntity<ModerationEntity>>(){};
+    private final TypeReference<ListEntity<ModerationEntity>> MODERATION_LIST_TYPE_REF = new TypeReference<ListEntity<ModerationEntity>>() {
+    };
 
     @Nonnull
     public final JiveCoreRequestFactory jiveCoreRequestFactory;
@@ -95,9 +97,9 @@ public class JiveCore implements Closeable {
             @Nullable JiveCoreJiveClientProvider jiveClientProvider,
             JiveJson jiveJson) {
         this(new JiveCoreRequestFactory(
-                oauthCredentials,
-                baseURL,
-                jiveJson),
+                        oauthCredentials,
+                        baseURL,
+                        jiveJson),
                 JiveCoreHttpClientAuthUtils.initHttpClientAuth(
                         httpClient,
                         tokenEntityStore,
@@ -188,9 +190,10 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<JsonNode> fetchAnalyticsData(String requestPathAndQuery) {
-        HttpGet httpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
-        return jiveCoreJiveJsonCallableFactory.createGsonCallable(httpGet, JsonNode.class);
+    public JiveCoreCallable<JsonNode> fetchAnalyticsData(String requestPathAndQuery, AnalyticsRequestEntity analyticsRequestEntity) {
+        HttpPost httpPost = jiveCoreRequestFactory.fetchAnalytics(requestPathAndQuery, analyticsRequestEntity);
+
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(httpPost, JsonNode.class);
     }
 
     @Nonnull
