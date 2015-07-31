@@ -152,6 +152,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchPeople(String personUrl, JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.fetchPeople(personUrl, options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpGet searchPeople(JiveCoreQueryParameterProvider options) {
         URI uri = uriFactory.searchPeopleUri(options);
         return new HttpGet(uri);

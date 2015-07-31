@@ -178,6 +178,11 @@ public class JiveCoreURIFactory {
     }
 
     @Nonnull
+    public URI fetchPeople(String peopleUrl, JiveCoreQueryParameterProvider options) {
+        return createURI(peopleUrl, options);
+    }
+
+    @Nonnull
     public URI fetchPeopleUri(JiveCoreQueryParameterProvider options) {
         return createURI(PEOPLE_ROOT, options);
     }
