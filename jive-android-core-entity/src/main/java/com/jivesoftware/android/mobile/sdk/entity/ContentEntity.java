@@ -33,7 +33,6 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     /** For update */
     public Double latitude;
     public Integer likeCount;
-    public Integer helpfulCount;
     /** For update */
     public Double longitude;
     /** For file */
@@ -91,4 +90,14 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public AttendanceEntity attendance;
     public String eventType;
     public String eventAccess;
+
+    /* Helpful/Unhelpful */
+    public Integer helpfulCount;
+    public Integer unhelpfulCount;
+    public Boolean unHelpfulEnabled;
+    public Boolean canMarkHelpful;
+    public Boolean canMarkUnHelpful;
+    public Boolean hasVotedHelpful;
+    public Boolean hasVotedUnHelpful;
+
 }

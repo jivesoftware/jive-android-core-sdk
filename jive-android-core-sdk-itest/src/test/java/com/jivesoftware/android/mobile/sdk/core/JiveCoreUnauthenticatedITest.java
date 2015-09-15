@@ -3,6 +3,7 @@ package com.jivesoftware.android.mobile.sdk.core;
 import com.jivesoftware.android.mobile.sdk.entity.MetadataPropertyEntity;
 import com.jivesoftware.android.mobile.sdk.entity.VersionEntity;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreRedirectedException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +23,7 @@ public class JiveCoreUnauthenticatedITest extends AbstractITest {
     }
 
     @Test
+    @Ignore // This is not adding value
     public void testWhenVersionIsFetchedThenItIs9c1() throws Exception {
         JiveCoreCallable<VersionEntity> fetchVersionJiveCoreCallable = jiveCoreUnauthenticatedAdmin.fetchVersion();
         VersionEntity versionEntity = fetchVersionJiveCoreCallable.call();

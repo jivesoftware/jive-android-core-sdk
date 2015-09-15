@@ -246,14 +246,12 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<Void> markInboxEntryAsRead(String markReadPathAndQuery) {
-        HttpPost markInboxEntryAsReadHttpPost = jiveCoreRequestFactory.createHttpPost(markReadPathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsReadHttpPost);
+        return simplePost(markReadPathAndQuery);
     }
 
     @Nonnull
     public JiveCoreCallable<Void> markInboxEntryAsUnread(String markUnreadPathAndQuery) {
-        HttpDelete markInboxEntryAsUnreadHttpDelete = jiveCoreRequestFactory.createHttpDelete(markUnreadPathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsUnreadHttpDelete);
+        return simpleDelete(markUnreadPathAndQuery);
     }
 
     @Nonnull
@@ -348,8 +346,7 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<Void> deletePlace(String pathAndQuery) {
-        HttpDelete deletePlaceHttpDelete = jiveCoreRequestFactory.createHttpDelete(pathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(deletePlaceHttpDelete);
+        return simpleDelete(pathAndQuery);
     }
 
     @Nonnull
@@ -390,14 +387,12 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<Void> likeContent(String likePathAndQuery) {
-        HttpPost likeContentHttpPost = jiveCoreRequestFactory.createHttpPost(likePathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(likeContentHttpPost);
+        return simplePost(likePathAndQuery);
     }
 
     @Nonnull
     public JiveCoreCallable<Void> unlikeContent(String unlikePathAndQuery) {
-        HttpDelete unlikeContentHttpDelete = jiveCoreRequestFactory.createHttpDelete(unlikePathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(unlikeContentHttpDelete);
+        return simpleDelete(unlikePathAndQuery);
     }
 
     @Nonnull
@@ -527,4 +522,17 @@ public class JiveCore implements Closeable {
         HttpPost deauthorizeDeviceHttpPost = jiveCoreRequestFactory.deauthorizeDevice();
         return jiveCoreEmptyCallableFactory.createEmptyCallable(deauthorizeDeviceHttpPost);
     }
+
+    @Nonnull
+    public JiveCoreCallable<Void> simplePost(String markReadPathAndQuery) {
+        HttpPost markInboxEntryAsReadHttpPost = jiveCoreRequestFactory.createHttpPost(markReadPathAndQuery);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsReadHttpPost);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<Void> simpleDelete(String markUnreadPathAndQuery) {
+        HttpDelete markInboxEntryAsUnreadHttpDelete = jiveCoreRequestFactory.createHttpDelete(markUnreadPathAndQuery);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsUnreadHttpDelete);
+    }
+
 }

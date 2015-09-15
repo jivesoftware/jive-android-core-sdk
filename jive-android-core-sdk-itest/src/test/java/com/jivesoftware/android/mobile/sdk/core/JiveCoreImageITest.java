@@ -10,6 +10,7 @@ import com.jivesoftware.android.mobile.sdk.entity.matcher.ListEntityMatchers;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectType;
 import org.apache.http.entity.mime.content.FileBody;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -72,6 +73,7 @@ public class JiveCoreImageITest extends AbstractITest {
     }
 
     @Test
+    @Ignore // JIVE-61857 - Core is not resizing the image properly
     public void uploadAndFetchImage() throws Exception {
         File sourceImageFile = new File("test-data/el-barto.jpg");
         ByteArrayOutputStream sourceImageFileByteArrayOutputStream = new ByteArrayOutputStream();
