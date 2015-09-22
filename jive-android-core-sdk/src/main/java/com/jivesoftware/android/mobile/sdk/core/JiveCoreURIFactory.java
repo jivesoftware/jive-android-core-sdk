@@ -1,7 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
-import com.jivesoftware.android.mobile.sdk.entity.ModerationEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,6 +23,7 @@ public class JiveCoreURIFactory {
     private static final String ALL_ACTIVITY =  JiveCoreConstants.CORE_API_V3_PREFIX + "/activities";
     private static final String CONTENT_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/contents";
     private static final String PEOPLE_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/people";
+    private static final String RECENT_PEOPLE_ROOT =  ALL_ACTIVITY + "/recent/people";
     private static final String PLACES_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/places";
     private static final String SEARCH_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/search";
     private static final String SEARCH_PEOPLE = SEARCH_ROOT + "/people";
@@ -180,6 +180,11 @@ public class JiveCoreURIFactory {
     @Nonnull
     public URI fetchPeople(String peopleUrl, JiveCoreQueryParameterProvider options) {
         return createURI(peopleUrl, options);
+    }
+
+    @Nonnull
+    public URI fetchRecentPeople(JiveCoreQueryParameterProvider options) {
+        return createURI(RECENT_PEOPLE_ROOT, options);
     }
 
     @Nonnull

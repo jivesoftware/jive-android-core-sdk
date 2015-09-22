@@ -227,6 +227,13 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreCallable<PersonListEntity> fetchRecentPeople(JiveCoreQueryParameterProvider options) {
+        HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.fetchRecentPeople(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+    }
+
+
+    @Nonnull
     public JiveCoreCallable<PersonListEntity> fetchPeople(String pathAndQuery) {
         HttpGet fetchPeopleHttpGet = jiveCoreRequestFactory.createHttpGet(pathAndQuery);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchPeopleHttpGet, PersonListEntity.class);
@@ -293,6 +300,12 @@ public class JiveCore implements Closeable {
     @Nonnull
     public JiveCoreCallable<PersonListEntity> searchPeople(JiveCoreQueryParameterProvider options) {
         HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.searchPeople(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<PersonListEntity> searchRecentPeople(String requestPathAndQuery) {
+        HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
     }
 
