@@ -170,6 +170,18 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchRecentPlaces(JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.fetchRecentPlaces(options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
+    public HttpGet fetchRecentContent(JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.fetchRecentContent(options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpGet searchPlaces(JiveCoreQueryParameterProvider options) {
         URI uri = uriFactory.searchPlacesUri(options);
         return new HttpGet(uri);

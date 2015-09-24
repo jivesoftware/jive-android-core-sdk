@@ -24,6 +24,8 @@ public class JiveCoreURIFactory {
     private static final String CONTENT_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/contents";
     private static final String PEOPLE_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/people";
     private static final String RECENT_PEOPLE_ROOT =  ALL_ACTIVITY + "/recent/people";
+    private static final String RECENT_PLACES_ROOT =  ALL_ACTIVITY + "/recent/places";
+    private static final String RECENT_CONTENT_ROOT =  ALL_ACTIVITY + "/recent/content";
     private static final String PLACES_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/places";
     private static final String SEARCH_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/search";
     private static final String SEARCH_PEOPLE = SEARCH_ROOT + "/people";
@@ -185,6 +187,16 @@ public class JiveCoreURIFactory {
     @Nonnull
     public URI fetchRecentPeople(JiveCoreQueryParameterProvider options) {
         return createURI(RECENT_PEOPLE_ROOT, options);
+    }
+
+    @Nonnull
+    public URI fetchRecentPlaces(JiveCoreQueryParameterProvider options) {
+        return createURI(RECENT_PLACES_ROOT, options);
+    }
+
+    @Nonnull
+    public URI fetchRecentContent(JiveCoreQueryParameterProvider options) {
+        return createURI(RECENT_CONTENT_ROOT, options);
     }
 
     @Nonnull

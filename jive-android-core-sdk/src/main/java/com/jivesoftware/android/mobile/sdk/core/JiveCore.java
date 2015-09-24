@@ -228,10 +228,21 @@ public class JiveCore implements Closeable {
 
     @Nonnull
     public JiveCoreCallable<PersonListEntity> fetchRecentPeople(JiveCoreQueryParameterProvider options) {
-        HttpGet searchPeopleHttpGet = jiveCoreRequestFactory.fetchRecentPeople(options);
-        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchPeopleHttpGet, PersonListEntity.class);
+        HttpGet searchRecentPeopleHttpGet = jiveCoreRequestFactory.fetchRecentPeople(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchRecentPeopleHttpGet, PersonListEntity.class);
     }
 
+    @Nonnull
+    public JiveCoreCallable<PlaceListEntity> fetchRecentPlaces(JiveCoreQueryParameterProvider options) {
+        HttpGet searchRecentPlacesHttpGet = jiveCoreRequestFactory.fetchRecentPlaces(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchRecentPlacesHttpGet, PlaceListEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<ContentListEntity> fetchRecentContent(JiveCoreQueryParameterProvider options) {
+        HttpGet searchRecentContentHttpGet = jiveCoreRequestFactory.fetchRecentContent(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(searchRecentContentHttpGet, ContentListEntity.class);
+    }
 
     @Nonnull
     public JiveCoreCallable<PersonListEntity> fetchPeople(String pathAndQuery) {
