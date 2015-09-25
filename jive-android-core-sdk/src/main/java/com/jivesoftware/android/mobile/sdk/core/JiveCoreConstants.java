@@ -23,7 +23,10 @@ public class JiveCoreConstants {
     public static final String PEOPLE_UPDATES_COLLECTION = "61669422-";
     public static final String PLACE_PAGES_COLLECTION = "-2106121635-";
 
-    public static final Integer ANDROID_DEVICE_TYPE = 6;
+    public static final Integer ANDROID3_DEVICE_TYPE = 4; // From 7.0.1 - Inbox notifications
+    public static final Integer ANDROID4_DEVICE_TYPE = 6; // From 2013.2 - Inbox and moderation notifications
+    public static final Integer ANDROID_DEVICE_TYPE = ANDROID4_DEVICE_TYPE;
+
     public static final String ANALYTICS_APP_ID = "Jive for Android SDK";
     public static final String ANALYTICS_APP_VERSION = "1.0";
     public static final String ANALYTICS_REQUEST_ORIGIN = "Android Native";

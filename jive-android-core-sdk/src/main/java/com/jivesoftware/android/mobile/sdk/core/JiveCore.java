@@ -425,9 +425,24 @@ public class JiveCore implements Closeable {
         return jiveCoreEmptyCallableFactory.createEmptyCallable(promoteContentHttpPost);
     }
 
+    /**
+     * @deprecated use registerForMobile3Push or registerForMobile4Push instead.
+     */
     @Nonnull
+    @Deprecated
     public JiveCoreCallable<Void> registerForPush(String gcmId, String deviceId) {
-        HttpPost registerForPushHttpPost = jiveCoreRequestFactory.registerForPush(gcmId, deviceId);
+        return registerForMobile3Push(gcmId, deviceId);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<Void> registerForMobile3Push(String gcmId, String deviceId) {
+        HttpPost registerForPushHttpPost = jiveCoreRequestFactory.registerForMobile3Push(gcmId, deviceId);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(registerForPushHttpPost);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<Void> registerForMobile4Push(String gcmId, String deviceId) {
+        HttpPost registerForPushHttpPost = jiveCoreRequestFactory.registerForMobile4Push(gcmId, deviceId);
         return jiveCoreEmptyCallableFactory.createEmptyCallable(registerForPushHttpPost);
     }
 

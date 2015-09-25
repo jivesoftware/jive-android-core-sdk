@@ -295,14 +295,23 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
-    public HttpPost registerForPush(String gcmId, String deviceId) {
+    public HttpPost registerForMobile3Push(String gcmId, String deviceId) {
+        return registerForMobilePush(gcmId, deviceId, Integer.toString(JiveCoreConstants.ANDROID3_DEVICE_TYPE));
+    }
+
+    @Nonnull
+    public HttpPost registerForMobile4Push(String gcmId, String deviceId) {
+        return registerForMobilePush(gcmId, deviceId, Integer.toString(JiveCoreConstants.ANDROID4_DEVICE_TYPE));
+    }
+
+    private HttpPost registerForMobilePush(String gcmId, String deviceId, String deviceType) {
         URI uri = uriFactory.registerForPushUri();
         HttpPost post = new HttpPost(uri);
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("deviceID", deviceId));
         bodyNameValuePairs.add(new BasicNameValuePair("deviceToken", gcmId));
-        bodyNameValuePairs.add(new BasicNameValuePair("deviceType", JiveCoreConstants.ANDROID_DEVICE_TYPE.toString()));
+        bodyNameValuePairs.add(new BasicNameValuePair("deviceType", deviceType));
         bodyNameValuePairs.add(new BasicNameValuePair("activated", Boolean.TRUE.toString()));
 
         post.setEntity(JiveEntityUtil.createForm(bodyNameValuePairs));

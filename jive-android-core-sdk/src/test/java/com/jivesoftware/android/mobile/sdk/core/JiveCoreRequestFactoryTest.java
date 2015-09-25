@@ -330,7 +330,7 @@ public class JiveCoreRequestFactoryTest {
 
     @Test
     public void registerForPush() throws IOException {
-        HttpPost registerForPushHttpPost = testObject.registerForPush("foo", "bar");
+        HttpPost registerForPushHttpPost = testObject.registerForMobile4Push("foo", "bar");
 
         ArrayList<BasicNameValuePair> bodyNameValuePairs = new ArrayList<BasicNameValuePair>();
         bodyNameValuePairs.add(new BasicNameValuePair("deviceID", "bar"));
