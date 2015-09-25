@@ -110,6 +110,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpPut createHttpPut(String requestPathAndQuery) {
+        URI uri = uriFactory.createURI(requestPathAndQuery);
+        return new HttpPut(uri);
+    }
+
+    @Nonnull
     public HttpDelete createHttpDelete(String requestPathAndQuery) {
         URI uri = uriFactory.createURI(requestPathAndQuery);
         return new HttpDelete(uri);

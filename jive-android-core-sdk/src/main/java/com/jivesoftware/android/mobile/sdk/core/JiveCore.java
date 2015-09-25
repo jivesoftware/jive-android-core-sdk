@@ -563,15 +563,21 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<Void> simplePost(String markReadPathAndQuery) {
-        HttpPost markInboxEntryAsReadHttpPost = jiveCoreRequestFactory.createHttpPost(markReadPathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsReadHttpPost);
+    public JiveCoreCallable<Void> simplePost(String requestPathAndQuery) {
+        HttpPost httpPost = jiveCoreRequestFactory.createHttpPost(requestPathAndQuery);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(httpPost);
     }
 
     @Nonnull
-    public JiveCoreCallable<Void> simpleDelete(String markUnreadPathAndQuery) {
-        HttpDelete markInboxEntryAsUnreadHttpDelete = jiveCoreRequestFactory.createHttpDelete(markUnreadPathAndQuery);
-        return jiveCoreEmptyCallableFactory.createEmptyCallable(markInboxEntryAsUnreadHttpDelete);
+    public JiveCoreCallable<Void> simplePut(String requestPathAndQuery) {
+        HttpPut httpPut = jiveCoreRequestFactory.createHttpPut(requestPathAndQuery);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(httpPut);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<Void> simpleDelete(String requestPathAndQuery) {
+        HttpDelete httpDelete = jiveCoreRequestFactory.createHttpDelete(requestPathAndQuery);
+        return jiveCoreEmptyCallableFactory.createEmptyCallable(httpDelete);
     }
 
 }
