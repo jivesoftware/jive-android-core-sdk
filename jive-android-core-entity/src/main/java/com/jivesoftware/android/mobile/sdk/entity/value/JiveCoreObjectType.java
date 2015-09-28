@@ -58,6 +58,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
     user,
     video,
     welcome,
+    contentRelationship,
 
     // NOTE: The following are pseudo-types or are types of limited confidence
     QUESTION,
@@ -293,6 +294,9 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
         welcome.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(-734134279)
                 .setInboxFilterType()
+                .build());
+        contentRelationship.delegateRef.set(JiveCoreObjectTypeImpl.builder()
+                .setObjectType(2901)
                 .build());
 
         // NOTE: The following are pseudo-types or are types of limited confidence

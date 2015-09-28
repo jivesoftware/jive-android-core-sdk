@@ -26,6 +26,7 @@ public class ActivityEntity {
     public MediaLinkEntity previewImage;
     public Date published;
     public Date updated;
+    public String type;
 
     @JsonProperty("jive")
     public JiveExtensionEntity jiveExtension;
