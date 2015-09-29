@@ -178,9 +178,9 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
-    public JiveCoreCallable<NewsEntity> fetchTrending(JiveCoreQueryParameterProvider options) {
+    public JiveCoreCallable<ActivityListEntity> fetchTrending(JiveCoreQueryParameterProvider options) {
         HttpGet fetchTrendingNewsHttpGet = jiveCoreRequestFactory.fetchTrending(options);
-        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchTrendingNewsHttpGet, NewsEntity.class);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchTrendingNewsHttpGet, ActivityListEntity.class);
     }
 
     @Nonnull
