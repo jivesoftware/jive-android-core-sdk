@@ -17,6 +17,7 @@ public class JiveCoreValueFactory {
 
     private static final CopyOnWriteArraySet<JiveCoreObjectTypeValue> SEARCHABLE_TYPES = new CopyOnWriteArraySet<JiveCoreObjectTypeValue>();
     private static final CopyOnWriteArraySet<JiveCoreObjectTypeValue> INBOX_TYPES = new CopyOnWriteArraySet<JiveCoreObjectTypeValue>();
+    private static final CopyOnWriteArraySet<JiveCoreObjectTypeValue> TRENDING_TYPES = new CopyOnWriteArraySet<JiveCoreObjectTypeValue>();
     private static final ConcurrentHashMap<Integer, JiveCoreObjectTypeValue> OBJECT_TYPES = new ConcurrentHashMap<Integer, JiveCoreObjectTypeValue>();
     private static final ConcurrentHashMap<String, JiveCoreObjectTypeValue> NAMED_TYPES = new ConcurrentHashMap<String, JiveCoreObjectTypeValue>();
 
@@ -44,6 +45,9 @@ public class JiveCoreValueFactory {
             }
             if (type.isInboxFilterType()) {
                 INBOX_TYPES.add(type);
+            }
+            if (type.isTrendingFilterType()) {
+                TRENDING_TYPES.add(type);
             }
         }
     }
@@ -201,6 +205,16 @@ public class JiveCoreValueFactory {
         return INBOX_TYPES;
     }
 
+    /**
+     * Get all trending/discovery types.
+     *
+     * @return immutable iterable of all trending/discovery types.
+     */
+    @Nonnull
+    public static Iterable<? extends JiveCoreObjectTypeValue> getTrendingTypes() {
+        return TRENDING_TYPES;
+    }
+
     @Nullable
     private static <E extends Enum<E>> E createEnumValueOrNull(Class<E> enumType, String value) {
         try {
@@ -209,5 +223,4 @@ public class JiveCoreValueFactory {
             return null;
         }
     }
-
 }

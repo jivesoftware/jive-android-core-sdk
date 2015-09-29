@@ -51,6 +51,13 @@ public interface JiveCoreObjectTypeValue {
     boolean isInboxFilterType();
 
     /**
+     * Determines if the type can be used as a filter value for the {@code /activity/discover} service endpoint.
+     *
+     * @return {@code true} if it is a inbox filter type, {@code false} otherwise
+     */
+    boolean isTrendingFilterType();
+
+    /**
      * Determines if the type can be used as a filter value for the {@code /search} service endpoint.
      *
      * @return {@code true} if it is a searchable type, {@code false} otherwise

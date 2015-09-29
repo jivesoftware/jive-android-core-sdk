@@ -78,6 +78,12 @@ public class JiveCoreRequestFactory {
     }
 
     @Nonnull
+    public HttpGet fetchTrending(JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.trendingUri(options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
     public HttpGet fetchInbox(JiveCoreQueryParameterProvider options) {
         URI uri = uriFactory.fetchInboxUri(options);
         return new HttpGet(uri);

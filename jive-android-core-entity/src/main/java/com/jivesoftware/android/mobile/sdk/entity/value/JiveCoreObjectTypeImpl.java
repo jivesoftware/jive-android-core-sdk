@@ -18,6 +18,7 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
     private final boolean amContentType;
     private final boolean amPlaceType;
     private final boolean amInboxType;
+    private final boolean amTrendingType;
     private final boolean amSearchableType;
     private final boolean amFollowableType;
     private final JiveCoreObjectTypeValue aliasOf;
@@ -37,6 +38,7 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
         this.amContentType = builder.isContentType();
         this.amPlaceType = builder.isPlaceType();
         this.amInboxType = builder.isInboxFilterType();
+        this.amTrendingType = builder.isTrendingFilterType();
         this.amSearchableType = builder.isSearchableType();
         this.amFollowableType = builder.isFollowable();
         this.objectType = builder.getObjectType();
@@ -96,6 +98,11 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
     }
 
     @Override
+    public boolean isTrendingFilterType() {
+        return amTrendingType;
+    }
+
+    @Override
     public boolean isSearchableType() {
         return amSearchableType;
     }
@@ -144,6 +151,9 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
         Boolean inboxFilterType;
 
         @Nullable
+        Boolean trendingFilterType;
+
+        @Nullable
         Boolean contentType;
 
         @Nullable
@@ -166,6 +176,11 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
 
         public JiveCoreObjectTypeBuilder setInboxFilterType() {
             inboxFilterType = true;
+            return this;
+        }
+
+        public JiveCoreObjectTypeBuilder setTrendingFilterType() {
+            trendingFilterType = true;
             return this;
         }
 
@@ -249,6 +264,16 @@ public class JiveCoreObjectTypeImpl implements JiveCoreObjectTypeValue {
                 return false;
             } else {
                 return inboxFilterType;
+            }
+        }
+
+        boolean isTrendingFilterType() {
+            if (trendingFilterType == null && aliasOf != null) {
+                return aliasOf.isTrendingFilterType();
+            } else if (trendingFilterType == null) {
+                return false;
+            } else {
+                return trendingFilterType;
             }
         }
 

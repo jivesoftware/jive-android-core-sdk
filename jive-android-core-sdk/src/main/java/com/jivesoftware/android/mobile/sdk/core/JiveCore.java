@@ -178,6 +178,12 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreCallable<NewsEntity> fetchTrending(JiveCoreQueryParameterProvider options) {
+        HttpGet fetchTrendingNewsHttpGet = jiveCoreRequestFactory.fetchTrending(options);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchTrendingNewsHttpGet, NewsEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ListEntity<ModerationEntity>> fetchModerationList(JiveCoreRequestOptions options) {
         HttpGet fetchModerationListHttpGet = jiveCoreRequestFactory.fetchModerationPending(options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchModerationListHttpGet, MODERATION_LIST_TYPE_REF);

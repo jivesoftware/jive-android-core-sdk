@@ -51,6 +51,11 @@ class UnregisteredObjectType implements JiveCoreObjectTypeValue {
     }
 
     @Override
+    public boolean isTrendingFilterType() {
+        return false;
+    }
+
+    @Override
     public boolean isSearchableType() {
         return false;
     }

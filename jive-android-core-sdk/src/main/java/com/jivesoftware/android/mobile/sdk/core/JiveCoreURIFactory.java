@@ -26,6 +26,7 @@ public class JiveCoreURIFactory {
     private static final String RECENT_PEOPLE_ROOT =  ALL_ACTIVITY + "/recent/people";
     private static final String RECENT_PLACES_ROOT =  ALL_ACTIVITY + "/recent/places";
     private static final String RECENT_CONTENT_ROOT =  ALL_ACTIVITY + "/recent/content";
+    private static final String TRENDING = ALL_ACTIVITY + "/discovery";
     private static final String PLACES_ROOT = JiveCoreConstants.CORE_API_V3_PREFIX + "/places";
     private static final String SEARCH_ROOT =  JiveCoreConstants.CORE_API_V3_PREFIX + "/search";
     private static final String SEARCH_PEOPLE = SEARCH_ROOT + "/people";
@@ -137,6 +138,11 @@ public class JiveCoreURIFactory {
     @Nonnull
     public URI createNewsSelfUri() {
         return personUri("@me/@news");
+    }
+
+    @Nonnull
+    public URI trendingUri(JiveCoreQueryParameterProvider options) {
+        return createURI(TRENDING, options);
     }
 
     @Nonnull

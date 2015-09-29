@@ -110,6 +110,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setObjectType(1)
                 .setContentType()
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setSearchableType()
                 .setFollowableType()
                 .setItemReplyType(message)
@@ -124,6 +125,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setObjectType(102)
                 .setContentType()
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setSearchableType()
                 .setFollowableType()
                 .setItemReplyType(comment)
@@ -131,6 +133,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
         event.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(96891546)
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setContentType()
                 .setSearchableType()
                 .setFollowableType()
@@ -138,6 +141,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .build());
         extStreamActivity.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setContentType()
                 .setFollowableType()
                 .setItemReplyType(comment)
@@ -163,6 +167,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
         idea.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(3227383)
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setContentType()
                 .setSearchableType()
                 .setFollowableType()
@@ -219,6 +224,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setObjectType(38)
                 .setContentType()
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setSearchableType()
                 .setFollowableType()
                 .setItemReplyType(comment)
@@ -274,6 +280,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .setObjectType(1464927464)
                 .setContentType()
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setFollowableType()
                 .setItemReplyType(comment)
                 .build());
@@ -286,6 +293,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
         video.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(1100)
                 .setInboxFilterType()
+                .setTrendingFilterType()
                 .setContentType()
                 .setSearchableType()
                 .setFollowableType()
@@ -350,6 +358,11 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
     @Override
     public boolean isInboxFilterType() {
         return delegateRef.get().isInboxFilterType();
+    }
+
+    @Override
+    public boolean isTrendingFilterType() {
+        return delegateRef.get().isTrendingFilterType();
     }
 
     @Override
