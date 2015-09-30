@@ -43,7 +43,7 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     /** For ideas */
     public Integer score;
     public String stage;
-    public Integer voteCount;
+    public Integer voteCount; // also used by polls
     public Boolean voted;
     public Boolean promote;
     /** For share, message.
@@ -85,11 +85,20 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
 
     /** For event */
     public String location;
-    public Date startDate;
-    public Date endDate;
+    public Date startDate; // also for polls
+    public Date endDate; // also for polls
     public AttendanceEntity attendance;
     public String eventType;
     public String eventAccess;
+
+    /** For polls */
+    public List<String> options;
+    public List<PollOptionImageEntity> optionsImages;
+    public List<Date> voteDates;
+    public List<String> votes;
+    // voteCount is also for ideas
+    // startDate
+    // endDate
 
     /* Helpful/Unhelpful */
     public Integer helpfulCount;
