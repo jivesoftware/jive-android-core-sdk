@@ -14,6 +14,7 @@ import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -24,14 +25,15 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.message.BasicNameValuePair;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class JiveCoreRequestFactory {
@@ -446,5 +448,25 @@ public class JiveCoreRequestFactory {
         put.setEntity(JsonEntity.from(jiveJson, personEntity));
         return put;
     }
+
+    @Nonnull
+    public HttpGet fetchPollVotes(String pathAndQuery, JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.createURI(pathAndQuery, options);
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
+    public HttpPost createVote(String pathAndQuery, List<String> pollOptions) {
+        HttpPost post = new HttpPost(pathAndQuery);
+        if (pollOptions.size() > 0) {
+            String[] entities = new String[pollOptions.size()];
+            pollOptions.toArray(entities);
+            post.setEntity(JsonEntity.from(jiveJson, entities));
+        } else {
+            post.setEntity(JsonEntity.from(jiveJson, Collections.emptyList()));
+        }
+        return post;
+    }
+
 
 }
