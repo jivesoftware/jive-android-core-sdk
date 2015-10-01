@@ -109,4 +109,11 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public Boolean hasVotedHelpful;
     public Boolean hasVotedUnHelpful;
 
+    /** For video **/
+    public String stillImageURL;
+    public String playerBaseURL;
+    public String externalID;
+    public String authtoken;
+    public Integer width;
+    public Integer height;
 }
