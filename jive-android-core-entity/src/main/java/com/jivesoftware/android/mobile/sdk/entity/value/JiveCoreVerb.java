@@ -25,6 +25,8 @@ public enum JiveCoreVerb implements JiveCoreVerbValue {
 
     joined("jive:joined"),
 
+    helped("jive:helped"),
+
     liked("jive:liked"),
 
     mentioned("jive:mentioned"),

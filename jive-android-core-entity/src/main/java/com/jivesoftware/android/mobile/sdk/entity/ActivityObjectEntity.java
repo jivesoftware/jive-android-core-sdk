@@ -24,6 +24,7 @@ public class ActivityObjectEntity {
     public MediaLinkEntity image;
 
     public JiveExtensionEntity jive;
+    public ActivityObjectPersonEntity author;
 
     @JsonSerialize(include= Inclusion.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
