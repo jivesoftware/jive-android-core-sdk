@@ -3,7 +3,6 @@ package com.jivesoftware.android.mobile.sdk.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
-
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public String binaryURL;
     public ContentBodyEntity content;
     public String contentID;
+    public Integer version;
     /** For file */
     public String contentType;
     public List<ImageEntity> contentImages;
