@@ -140,11 +140,22 @@ public class JiveCoreValueFactory {
         }
 
         JiveCoreObjectTypeValue typeValue = NAMED_TYPES.get(lookup);
-        if (typeValue == null) {
-            return new UnregisteredObjectType(lookup);
-        } else {
+        if (typeValue != null) {
             return typeValue;
         }
+
+        // The API returns the object type integer as a string if it has no textual name for it
+        try {
+            int objectTypeInt = Integer.parseInt(lookup);
+            JiveCoreObjectTypeValue coreObjectTypeValue = OBJECT_TYPES.get(objectTypeInt);
+            if (coreObjectTypeValue != null) {
+                return coreObjectTypeValue;
+            }
+        } catch (NumberFormatException nfx) {
+            // Fall through
+        }
+
+        return new UnregisteredObjectType(lookup);
     }
 
     @Nullable
