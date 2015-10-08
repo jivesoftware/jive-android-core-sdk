@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jivesoftware.android.mobile.sdk.entity.value.JiveCoreObjectTypeValue;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
 
@@ -81,6 +82,7 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public String productName;
     public ObjectEntity object;
     public FavoriteObjectEntity favoriteObject;
+    public Integer favoriteCount;
     public String url;
 
     /** For event */
@@ -112,11 +114,19 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     /* For video */
     public String stillImageURL;
     public String playerBaseURL;
-    public String externalID;
+    public String externalID; // also for external activity
     public String authtoken;
     public Integer width;
     public Integer height;
 
     /* Announcements */
     public String subjectURI;
+
+    /* External activity */
+    public Integer externalStreamID;
+    public Map<String, String> properties;
+    public Map<String, String> productIcons;
+    public String productIcon;
+    public ActorEntity onBehalfOf;
+
 }
