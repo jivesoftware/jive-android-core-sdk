@@ -112,7 +112,10 @@ public class ContentEntity extends JiveObjectEntity<JiveCoreObjectTypeValue> {
     public Boolean hasVotedUnHelpful;
 
     /* For video */
-    public String stillImageURL;
+    public String videoType;
+    public String videoSource;
+    public String stillImageURL; // served locally, sometimes broken if video is embedded type
+    public String videoThumbnail; // for embedded video, served remotely by the embedding service
     public String playerBaseURL;
     public String externalID; // also for external activity
     public String authtoken;
