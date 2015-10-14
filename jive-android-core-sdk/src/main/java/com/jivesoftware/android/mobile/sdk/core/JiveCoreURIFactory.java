@@ -1,11 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.core;
 
 import com.jivesoftware.android.mobile.sdk.entity.ContentEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-
-import javax.annotation.Nonnull;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,6 +8,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 public class JiveCoreURIFactory {
 
@@ -141,6 +140,11 @@ public class JiveCoreURIFactory {
     }
 
     @Nonnull
+    public URI createStreamsSelfUri() {
+        return personUri("@me/streams");
+    }
+
+    @Nonnull
     public URI trendingUri(JiveCoreQueryParameterProvider options) {
         return createURI(TRENDING, options);
     }
@@ -168,6 +172,11 @@ public class JiveCoreURIFactory {
     @Nonnull
     public URI batchOperationUri() {
         return createURI(JiveCoreConstants.CORE_API_V3_PREFIX + "/executeBatch");
+    }
+
+    @Nonnull
+    public URI fetchActivities(String requestPathAndQuery, JiveCoreQueryParameterProvider options) {
+        return createURI(requestPathAndQuery, options);
     }
 
     @Nonnull

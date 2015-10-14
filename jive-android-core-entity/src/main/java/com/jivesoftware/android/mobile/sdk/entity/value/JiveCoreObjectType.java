@@ -1,10 +1,10 @@
 package com.jivesoftware.android.mobile.sdk.entity.value;
 
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Common object type values used to represent content, places, stream entities, and other miscellaneous
@@ -184,6 +184,7 @@ public enum JiveCoreObjectType implements JiveCoreObjectTypeValue {
                 .build());
         mention.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setInboxFilterType()
+                .setObjectType(550)
                 .build());
         message.delegateRef.set(JiveCoreObjectTypeImpl.builder()
                 .setObjectType(2)

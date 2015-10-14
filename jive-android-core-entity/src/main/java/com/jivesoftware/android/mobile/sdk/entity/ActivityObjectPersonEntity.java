@@ -11,5 +11,11 @@ public class ActivityObjectPersonEntity {
     public String id;
     public String displayName;
     public MediaLinkEntity image;
+    public JiveExtensionEntity jive;
 
+    @JsonSerialize(include= Inclusion.NON_NULL)
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class JiveExtensionEntity {
+        public Boolean externalContributor;
+    }
 }

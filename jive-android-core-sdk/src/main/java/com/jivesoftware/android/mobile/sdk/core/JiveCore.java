@@ -34,7 +34,14 @@ import com.jivesoftware.android.mobile.sdk.httpclient.JiveCoreHttpClientAuthUtil
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
 import com.jivesoftware.android.mobile.sdk.parser.JiveCoreExceptionFactory;
 import com.jivesoftware.android.mobile.sdk.util.HttpClientUtil;
-
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -43,16 +50,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.impl.client.AbstractHttpClient;
-
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class JiveCore implements Closeable {
@@ -206,14 +203,32 @@ public class JiveCore implements Closeable {
     }
 
     @Nonnull
+    public JiveCoreCallable<StreamEntity> fetchStream(String streamsPathAndQuery) {
+        HttpGet fetchStreamsHttpGet = jiveCoreRequestFactory.createHttpGet(streamsPathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchStreamsHttpGet, StreamEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<StreamListEntity> fetchStreams(String streamsPathAndQuery) {
         HttpGet fetchStreamsHttpGet = jiveCoreRequestFactory.createHttpGet(streamsPathAndQuery);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchStreamsHttpGet, StreamListEntity.class);
     }
 
     @Nonnull
+    public JiveCoreCallable<StreamListEntity> fetchMeStreams() {
+        HttpGet fetchStreamsHttpGet = jiveCoreRequestFactory.fetchMeStreams();
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchStreamsHttpGet, StreamListEntity.class);
+    }
+
+    @Nonnull
     public JiveCoreCallable<ActivityListEntity> fetchActivities(String requestPathAndQuery) {
         HttpGet fetchActivitiesHttpGet = jiveCoreRequestFactory.createHttpGet(requestPathAndQuery);
+        return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchActivitiesHttpGet, ActivityListEntity.class);
+    }
+
+    @Nonnull
+    public JiveCoreCallable<ActivityListEntity> fetchActivities(String requestPathAndQuery, JiveCoreQueryParameterProvider options) {
+        HttpGet fetchActivitiesHttpGet = jiveCoreRequestFactory.fetchActivity(requestPathAndQuery, options);
         return jiveCoreJiveJsonCallableFactory.createGsonCallable(fetchActivitiesHttpGet, ActivityListEntity.class);
     }
 

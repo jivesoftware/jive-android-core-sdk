@@ -1,13 +1,13 @@
 package com.jivesoftware.android.mobile.sdk.entity.value;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Convenience class for obtaining value instances of specific types from arbitrary strings.
@@ -124,6 +124,12 @@ public class JiveCoreValueFactory {
     public static JiveCoreVerbValue createVerbValue(String stringValue) {
         JiveCoreVerb representation = JiveCoreVerb.getByRepresentation(stringValue);
         return representation == null ? new JiveCoreValueImpl(stringValue) : representation;
+    }
+
+    @Nonnull
+    public static JiveCoreStreamSourceValue createStreamSourceValue(String stringValue) {
+        JiveCoreStreamSourceValue value = createEnumValueOrNull(JiveCoreStreamSource.class, stringValue);
+        return value == null ? new JiveCoreValueImpl(stringValue) : value;
     }
 
     @Nonnull

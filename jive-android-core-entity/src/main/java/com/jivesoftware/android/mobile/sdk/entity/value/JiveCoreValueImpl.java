@@ -1,7 +1,6 @@
 package com.jivesoftware.android.mobile.sdk.entity.value;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-
 import javax.annotation.Nonnull;
 
 /**
@@ -10,7 +9,8 @@ import javax.annotation.Nonnull;
 class JiveCoreValueImpl implements JiveCoreDirectiveValue, JiveCoreEntryStateValue,
         JiveCoreOutcomeTypeValue, JiveCoreRelationshipValue, JiveCoreSortValue,
         JiveCoreStatusValue, JiveCoreVerbValue, JiveCoreProductTypeValue,
-        JiveCoreModerationStateValue, JiveCoreModerationTargetTypeValue {
+        JiveCoreModerationStateValue, JiveCoreModerationTargetTypeValue,
+        JiveCoreStreamSourceValue {
 
     @Nonnull
     private final String representation;

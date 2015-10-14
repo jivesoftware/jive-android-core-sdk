@@ -14,7 +14,14 @@ import com.jivesoftware.android.mobile.sdk.entity.VoteEntity;
 import com.jivesoftware.android.mobile.sdk.http.JsonBody;
 import com.jivesoftware.android.mobile.sdk.http.JsonEntity;
 import com.jivesoftware.android.mobile.sdk.json.JiveJson;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -24,16 +31,6 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.message.BasicNameValuePair;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class JiveCoreRequestFactory {
@@ -76,6 +73,12 @@ public class JiveCoreRequestFactory {
     @Nonnull
     public HttpGet fetchMeNews() {
         URI uri = uriFactory.createNewsSelfUri();
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
+    public HttpGet fetchMeStreams() {
+        URI uri = uriFactory.createStreamsSelfUri();
         return new HttpGet(uri);
     }
 
@@ -138,6 +141,12 @@ public class JiveCoreRequestFactory {
     @Nonnull
     public HttpGet fetchActivity() {
         URI uri = uriFactory.activityUri();
+        return new HttpGet(uri);
+    }
+
+    @Nonnull
+    public HttpGet fetchActivity(String requestPathAndQuery, JiveCoreQueryParameterProvider options) {
+        URI uri = uriFactory.fetchActivities(requestPathAndQuery, options);
         return new HttpGet(uri);
     }
 
