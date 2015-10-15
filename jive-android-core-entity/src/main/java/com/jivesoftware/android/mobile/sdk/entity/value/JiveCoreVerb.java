@@ -21,13 +21,19 @@ public enum JiveCoreVerb implements JiveCoreVerbValue {
 
     commented("jive:commented"),
 
+    completed("jive:completed"),
+
+    connected("jive:connected"),
+
     correct_answer_set("jive:correct_answer_set"),
 
-    joined("jive:joined"),
+    followed("jive:followed"),
 
     helped("jive:helped"),
 
     installed("jive:installed"),
+
+    joined("jive:joined"),
 
     liked("jive:liked"),
 
@@ -45,11 +51,31 @@ public enum JiveCoreVerb implements JiveCoreVerbValue {
 
     promoted("jive:promoted"),
 
+    rated("jive:rated"),
+
+    read("jive:read"),
+
     replied("jive:replied"),
 
     repost("jive:repost"),
 
-    shared("jive:shared");
+    shared("jive:shared"),
+
+    unconnected("jive:unconnected"),
+
+    unfollowed("jive:unfollowed"),
+
+    unjoined("jive:unjoined"),
+
+    unliked("jive:unliked"),
+
+    unread("jive:unread"),
+
+    updatedStatus("jive:updatedStatus"),
+
+    viewed("jive:viewed"),
+
+    voted("jive:voted");
 
 
     private static final Map<String, JiveCoreVerb> BY_REPRESENTATION;
